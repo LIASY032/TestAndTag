@@ -1,10 +1,10 @@
 import React from "react";
 
 import { Form, Button } from "react-bootstrap";
-function Login() {
+function Registration() {
   return (
     <>
-      <h1>Login</h1>
+      <h1>Create new Account</h1>
       <Form
         style={{
           width: "30%",
@@ -14,6 +14,11 @@ function Login() {
           marginRight: "auto",
         }}
       >
+        <Form.Group className="mb-3" controlId="formBasicEmail">
+          <Form.Label>Name</Form.Label>
+          <Form.Control type="text" placeholder="Your Name" />
+        </Form.Group>
+
         <Form.Group className="mb-3" controlId="formBasicEmail">
           <Form.Label>Email address</Form.Label>
           <Form.Control type="email" placeholder="Enter email" />
@@ -26,8 +31,14 @@ function Login() {
           <Form.Label>Password</Form.Label>
           <Form.Control type="password" placeholder="Password" />
         </Form.Group>
-        <Form.Group className="mb-3" controlId="formBasicCheckbox">
-          <Form.Check type="checkbox" label="Check me out" />
+
+        <Form.Group className="mb-3" controlId="formBasicEmail">
+          <Form.Label>Type</Form.Label>
+          <Form.Select aria-label="Default select example">
+            <option>Open this select menu</option>
+            <option value="1">User</option>
+            <option value="2">Tester</option>
+          </Form.Select>
         </Form.Group>
         <Button variant="primary" type="submit">
           Submit
@@ -37,4 +48,4 @@ function Login() {
   );
 }
 
-export default Login;
+export default Registration;

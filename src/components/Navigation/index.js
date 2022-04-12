@@ -4,14 +4,15 @@ import { Navbar, Nav, Container, NavDropdown } from "react-bootstrap";
 import { PersonCircle } from "react-bootstrap-icons";
 function Navigation() {
   return (
-    <Navbar style={{ backgroundColor: "#8f8e8e", color: "white" }} expand="lg">
-      <Container>
-        <Navbar.Brand href="#home">Test And Tag</Navbar.Brand>
+    <Navbar style={{ backgroundColor: "#8f8e8e" }} expand="lg">
+      <Container style={{ color: "white" }}>
+        <Navbar.Brand href="/">Test And Tag</Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto">
-            <Nav.Link href="#home">Home</Nav.Link>
-            <Nav.Link href="#link">Link</Nav.Link>
+            <Nav.Link href="/">Home</Nav.Link>
+            <Nav.Link href="/login">login</Nav.Link>
+            <Nav.Link href="/request">request</Nav.Link>
             <NavDropdown title="Dropdown" id="basic-nav-dropdown">
               <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
               <NavDropdown.Item href="#action/3.2">

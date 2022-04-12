@@ -4,6 +4,7 @@ import Navigation from "./components/Navigation";
 import Login from "./pages/Login";
 import Registration from "./pages/Registration";
 import Forgot from "./pages/Forgot";
+import Request from "./pages/Request";
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Registration />} />
           <Route path="/forgot" element={<Forgot />} />
+          <Route path="/request" element={<Request />} />
         </Routes>
       </Router>
     </div>

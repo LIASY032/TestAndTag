@@ -1,17 +1,19 @@
 import React from "react";
 
 import { Form, Button } from "react-bootstrap";
+import Title from "../../components/Title";
 function Forgot() {
   return (
     <>
-      <h1>Forgot</h1>
+      <Title>Forgot</Title>
       <Form
         style={{
           width: "30%",
           border: "1px solid #8f8e8e",
-          marginTop: "10%",
+          marginTop: "4%",
           marginLeft: "auto",
           marginRight: "auto",
+          padding: "10px",
         }}
       >
         <Form.Group className="mb-3" controlId="formBasicEmail">

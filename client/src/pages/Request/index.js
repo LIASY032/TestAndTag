@@ -1,11 +1,26 @@
 import React from "react";
-import { Form, Button, Col, Row } from "react-bootstrap";
+import { Form, Button, Col, Row, Modal } from "react-bootstrap";
 import Title from "../../components/Title";
 
 function Request() {
+  const [show, setShow] = React.useState(true);
+
+  const handleClose = () => setShow(false);
+
   return (
     <>
       <Title>Which equipments need to be tested</Title>
+      <Modal show={show} onHide={handleClose}>
+        <Modal.Header closeButton>
+          <Modal.Title>Reminder</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>Do you want to request a test?</Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleClose}>
+            Close
+          </Button>
+        </Modal.Footer>
+      </Modal>
       <Form
         style={{
           width: "80%",
@@ -23,7 +38,10 @@ function Request() {
           </Form.Group>
           <Form.Group as={Col} controlId="formGridPassword">
             <Form.Label>Ownership</Form.Label>
-            <Form.Control placeholder="Ownership" />
+            <Form.Select>
+              <option>Personal</option>
+              <option>UniSA</option>
+            </Form.Select>
           </Form.Group>{" "}
           <Form.Group as={Col} controlId="formGridPassword">
             <Form.Label>Name</Form.Label>

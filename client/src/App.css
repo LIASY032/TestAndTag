@@ -1,5 +1,9 @@
+@import url("https://fonts.googleapis.com/css2?family=DM+Sans:wght@500&family=Montserrat:wght@100&family=Nunito:wght@500&display=swap");
+
 .App {
   color: #8f8e8e;
+
+  font-family: "DM Sans", sans-serif;
 }
 
 .App-logo {

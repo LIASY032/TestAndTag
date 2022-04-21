@@ -13,6 +13,7 @@ function App() {
         <Navigation />
 
         <Routes>
+          <Route path="/" element={<Request />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Registration />} />
           <Route path="/forgot" element={<Forgot />} />

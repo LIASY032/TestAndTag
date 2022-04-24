@@ -53,7 +53,7 @@ function SelectItem() {
             </Form>
           </Col>
           <Col>
-            <Button variant="primary" type="submit">
+            <Button type="submit" href="/request">
               New Item
             </Button>
           </Col>

@@ -5,6 +5,7 @@ function Report() {
     <>
       <Form
         style={{
+          width: "30%",
           border: "1px solid #8f8e8e",
           marginTop: "4%",
           marginLeft: "auto",

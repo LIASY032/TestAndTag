@@ -7,6 +7,9 @@ import Forgot from "./pages/Forgot";
 import Request from "./pages/Request";
 import { AuthorisedDashboard, UserDashboard } from "./pages/Dashboard";
 import SelectItem from "./pages/SelectItem";
+import Report from "./pages/Report";
+import ExpireDate from "./pages/ExpireDate";
+import "react-calendar/dist/Calendar.css";
 function App() {
   return (
     <div className="App">
@@ -15,6 +18,9 @@ function App() {
 
         <Routes>
           <Route path="/" element={<SelectItem />} />
+          <Route path="/report" element={<Report />} />
+
+          <Route path="/expire-date" element={<ExpireDate />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Registration />} />
           <Route path="/forgot" element={<Forgot />} />

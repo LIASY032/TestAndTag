@@ -40,8 +40,8 @@ function Details({ children }) {
           <Form.Label>Expire Date</Form.Label>
           <Form.Control value={children.expire_date} />
         </Form.Group>
-        <Button variant="primary" type="submit">
-          Submit
+        <Button type="submit" href="/expire-date">
+          Pass
         </Button>
       </Form>
     </>

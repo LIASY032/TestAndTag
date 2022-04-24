@@ -6,6 +6,7 @@ import Registration from "./pages/Registration";
 import Forgot from "./pages/Forgot";
 import Request from "./pages/Request";
 import { AuthorisedDashboard, UserDashboard } from "./pages/Dashboard";
+import SelectItem from "./pages/SelectItem";
 function App() {
   return (
     <div className="App">
@@ -13,7 +14,7 @@ function App() {
         <Navigation />
 
         <Routes>
-          <Route path="/" element={<Request />} />
+          <Route path="/" element={<SelectItem />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Registration />} />
           <Route path="/forgot" element={<Forgot />} />

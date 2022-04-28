@@ -1,14 +1,17 @@
 import React from "react";
 import { Button } from "react-bootstrap";
 import Calendar from "react-calendar";
+import MyButton from "../../components/MyButton";
 import Title from "../../components/Title";
+import "./style.scss";
 function ExpireDate() {
   const [value, onChange] = React.useState(new Date());
   return (
-    <div>
+    <div style={{ width: "100%", textAlign: "center" }}>
       <Title>Expire Date</Title>
-      <Calendar onChange={onChange} value={value} />
-      <Button> Submit </Button>
+      <Calendar onChange={onChange} value={value} className="my-calendar" />
+
+      <MyButton style={{ width: "15vw", marginTop: "10px" }}>Submit</MyButton>
     </div>
   );
 }

@@ -6,6 +6,10 @@
   font-family: "DM Sans", sans-serif;
 }
 
+.my-background-color {
+  background-color: #8f8e8e;
+}
+
 .btn {
   background-color: #535353;
   margin-left: auto;
@@ -17,4 +21,9 @@
   background-color: #535353;
   opacity: 0.8;
   border-color: #535353;
+}
+
+.row-padding {
+  padding-top: 5px;
+  padding-bottom: 5px;
 }

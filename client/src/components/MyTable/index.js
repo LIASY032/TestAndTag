@@ -16,10 +16,6 @@ function MyTable({ children, header, title }) {
           </tr>
         </thead>
         <tbody>{children}</tbody>
-
-        <tfoot>
-          <td colspan="5" className="tablefoot"></td>
-        </tfoot>
       </table>
     </>
   );

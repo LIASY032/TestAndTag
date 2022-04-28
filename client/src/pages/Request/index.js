@@ -90,6 +90,12 @@ function Request() {
             <Form.Control type="date"></Form.Control>
           </Form.Group>
         </Row>
+        <Row>
+          <Form.Group className="mb-3">
+            <Form.Label>Description</Form.Label>
+            <Form.Control as="textarea" rows={3} />
+          </Form.Group>
+        </Row>
 
         <Row style={{ textAlign: "center" }}>
           <Col>

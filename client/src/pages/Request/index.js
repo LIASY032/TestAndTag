@@ -1,5 +1,14 @@
 import React from "react";
-import { Form, Button, Col, Row, Modal } from "react-bootstrap";
+import {
+  Form,
+  Button,
+  Col,
+  Row,
+  Modal,
+  InputGroup,
+  FormControl,
+} from "react-bootstrap";
+import { CalendarFill, CalendarXFill } from "react-bootstrap-icons";
 import Title from "../../components/Title";
 
 function Request() {
@@ -50,30 +59,43 @@ function Request() {
         </Row>
 
         <Row className="mb-3">
-          <Form.Group as={Col} controlId="formGridCity">
-            <Form.Label>Location</Form.Label>
-            <Form.Control />
-          </Form.Group>
-
+          <Col>
+            <Row>
+              <Form.Group as={Col} controlId="formGridState">
+                <Form.Label>Building</Form.Label>
+                <Form.Select defaultValue="Choose...">
+                  <option>Choose...</option>
+                  <option>...</option>
+                </Form.Select>
+              </Form.Group>
+              <Form.Group as={Col} controlId="formGridState">
+                <Form.Label>Floor</Form.Label>
+                <Form.Select defaultValue="Choose...">
+                  <option>Choose...</option>
+                  <option>...</option>
+                </Form.Select>
+              </Form.Group>
+              <Form.Group as={Col} controlId="formGridState">
+                <Form.Label>Room</Form.Label>
+                <Form.Select defaultValue="Choose...">
+                  <option>Choose...</option>
+                  <option>...</option>
+                </Form.Select>
+              </Form.Group>
+            </Row>
+          </Col>
           <Form.Group as={Col} controlId="formGridState">
             <Form.Label>Purchase Date</Form.Label>
-            <Form.Select defaultValue="Choose...">
-              <option>Choose...</option>
-              <option>...</option>
-            </Form.Select>
+
+            <Form.Control type="date"></Form.Control>
           </Form.Group>
         </Row>
 
-        <Form.Group className="mb-3" id="formGridCheckbox">
-          <Form.Check
-            type="checkbox"
-            label="Does this item have a current electrical testing tag"
-          />
-        </Form.Group>
-
-        <Button variant="primary" type="submit">
-          Submit
-        </Button>
+        <Row style={{ textAlign: "center" }}>
+          <Col>
+            <Button type="submit">Submit</Button>
+          </Col>
+        </Row>
       </Form>
     </>
   );

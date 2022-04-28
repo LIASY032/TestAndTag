@@ -1,7 +1,9 @@
 import React from "react";
 
+import "./style.scss";
 import Title from "../../components/Title";
 import { Button, Col, Container, Row, Table, Form } from "react-bootstrap";
+import MyButton from "../../components/MyButton";
 function SelectItem() {
   return (
     <>
@@ -9,6 +11,7 @@ function SelectItem() {
       <Container className="user-dashboard">
         <Row>
           <Col>
+            <h2>An Existing Item</h2>
             <Form
               style={{
                 border: "1px solid #8f8e8e",
@@ -46,16 +49,20 @@ function SelectItem() {
                   <option>...</option>
                 </Form.Select>
               </Form.Group>
-
-              <Button variant="primary" type="submit">
-                Submit
-              </Button>
+              <Row style={{ textAlign: "center" }}>
+                <Col>
+                  <Button className="select-form-btn" type="submit">
+                    Submit
+                  </Button>
+                </Col>
+              </Row>
             </Form>
           </Col>
-          <Col>
-            <Button type="submit" href="/request">
+          <Col style={{ textAlign: "center" }}>
+            <h2>An New Item</h2>
+            <MyButton href="/request" style={{ marginTop: "35%" }}>
               New Item
-            </Button>
+            </MyButton>
           </Col>
         </Row>
       </Container>

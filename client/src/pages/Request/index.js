@@ -10,12 +10,12 @@ import {
 } from "react-bootstrap";
 import { CalendarFill, CalendarXFill } from "react-bootstrap-icons";
 import Title from "../../components/Title";
-
+import { useSelector } from "react-redux";
 function Request() {
   const [show, setShow] = React.useState(true);
-
+  const locationData = useSelector((state) => state.locations);
   const handleClose = () => setShow(false);
-
+  const [selectLocation, setSelectLocation] = React.useState(0);
   return (
     <>
       <Title>Which equipments need to be tested</Title>
@@ -63,23 +63,63 @@ function Request() {
             <Row>
               <Form.Group as={Col} controlId="formGridState">
                 <Form.Label>Building</Form.Label>
-                <Form.Select defaultValue="Choose...">
-                  <option>Choose...</option>
-                  <option>...</option>
+                <Form.Select
+                  defaultValue="Choose..."
+                  onChange={(e) => {
+                    if (e.target.value != "Choose...") {
+                      setSelectLocation(parseInt(e.target.value));
+                    }
+                  }}
+                >
+                  <option value="Choose...">Choose...</option>
+
+                  {locationData.length > 0 ? (
+                    locationData.map((element, index) => {
+                      return (
+                        <option value={index} key={index}>
+                          {element.building}
+                        </option>
+                      );
+                    })
+                  ) : (
+                    <option>...</option>
+                  )}
                 </Form.Select>
               </Form.Group>
               <Form.Group as={Col} controlId="formGridState">
                 <Form.Label>Floor</Form.Label>
                 <Form.Select defaultValue="Choose...">
-                  <option>Choose...</option>
-                  <option>...</option>
+                  <option value="Choose...">Choose...</option>
+
+                  {locationData.length > 0 ? (
+                    locationData[selectLocation].floor.map((element, index) => {
+                      return (
+                        <option value={index} key={index}>
+                          {element}
+                        </option>
+                      );
+                    })
+                  ) : (
+                    <option>...</option>
+                  )}
                 </Form.Select>
               </Form.Group>
               <Form.Group as={Col} controlId="formGridState">
                 <Form.Label>Room</Form.Label>
                 <Form.Select defaultValue="Choose...">
-                  <option>Choose...</option>
-                  <option>...</option>
+                  <option value="Choose...">Choose...</option>
+
+                  {locationData.length > 0 ? (
+                    locationData[selectLocation].room.map((element, index) => {
+                      return (
+                        <option value={index} key={index}>
+                          {element}
+                        </option>
+                      );
+                    })
+                  ) : (
+                    <option>...</option>
+                  )}
                 </Form.Select>
               </Form.Group>
             </Row>

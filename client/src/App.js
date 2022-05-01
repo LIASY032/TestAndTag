@@ -1,4 +1,5 @@
 import "./App.css";
+import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Navigation from "./components/Navigation";
 import Login from "./pages/Login";
@@ -10,7 +11,15 @@ import SelectItem from "./pages/SelectItem";
 import Report from "./pages/Report";
 import ExpireDate from "./pages/ExpireDate";
 import "react-calendar/dist/Calendar.css";
+import { useDispatch } from "react-redux";
+import { locationInfo } from "./store/actions";
 function App() {
+  const dispatch = useDispatch();
+  React.useEffect(() => {
+    //Once the App running, fetch data
+
+    locationInfo(dispatch);
+  }, []);
   return (
     <div className="App">
       <Router>

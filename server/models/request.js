@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const requestSchema = mongoose.schema({
+const requestSchema = mongoose.Schema({
   authorised_id: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",
@@ -14,7 +14,7 @@ const requestSchema = mongoose.schema({
   date: { type: Date, required: true },
   location_id: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "Location",
+    ref: "ItemLocation",
     required: true,
   },
 });

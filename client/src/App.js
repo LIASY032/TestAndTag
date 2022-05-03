@@ -6,7 +6,7 @@ import Login from "./pages/Login";
 import Registration from "./pages/Registration";
 import Forgot from "./pages/Forgot";
 import Request from "./pages/Request";
-import { AuthorisedDashboard, UserDashboard } from "./pages/Dashboard";
+import Dashboard from "./pages/Dashboard";
 import SelectItem from "./pages/SelectItem";
 import Report from "./pages/Report";
 import ExpireDate from "./pages/ExpireDate";
@@ -34,8 +34,7 @@ function App() {
           <Route path="/register" element={<Registration />} />
           <Route path="/forgot" element={<Forgot />} />
           <Route path="/request" element={<Request />} />
-          <Route path="/user" element={<UserDashboard />} />
-          <Route path="/tester" element={<AuthorisedDashboard />} />
+          <Route path="/tester" element={<Dashboard />} />
         </Routes>
       </Router>
     </div>

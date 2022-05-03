@@ -1,8 +1,10 @@
 import React from "react";
 import { Form, Button } from "react-bootstrap";
+import Title from "../../components/Title";
 function Report() {
   return (
     <>
+      <Title>Report</Title>
       <Form
         style={{
           width: "30%",
@@ -21,15 +23,8 @@ function Report() {
           <Form.Label>Reason</Form.Label>
           <Form.Control />
         </Form.Group>
-        <Form.Group>
-          <Form.Label>Date</Form.Label>
 
-          <Form.Control />
-        </Form.Group>
-
-        <Button variant="primary" type="submit">
-          Submit
-        </Button>
+        <Button>Submit</Button>
       </Form>
     </>
   );

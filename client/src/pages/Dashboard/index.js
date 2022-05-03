@@ -45,6 +45,9 @@ function Dashboard() {
   return (
     <>
       <Title>Authorised Person</Title>
+      <MyButton btn="purple-btn" style={{ width: "300px" }} href="/rest-date">
+        Not Available Date
+      </MyButton>
       <Container className="user-dashboard">
         <MyTable header={header} title="TO DO">
           {detail.map((item, index) => (

@@ -3,6 +3,7 @@ $red: #e74c3c;
 $yellow: #f1c40f;
 $blue: #3498db;
 $green: #2ecc71;
+$purple: #8e44ad;
 .btn-basic {
   box-sizing: border-box;
   appearance: none;
@@ -135,5 +136,37 @@ $green: #2ecc71;
   transition: box-shadow 300ms ease-in-out, color 300ms ease-in-out;
   &:hover {
     box-shadow: 0 0 40px 40px $red inset;
+  }
+}
+
+.purple-btn {
+  border-color: $purple;
+  // border: 0;
+  border-radius: 0;
+  color: $purple;
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+  transition: color 150ms ease-in-out;
+
+  &:after {
+    content: "";
+    position: absolute;
+    display: block;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 100%;
+    background: $purple;
+    z-index: -1;
+    transition: width 150ms ease-in-out;
+  }
+
+  &:hover {
+    color: #fff;
+    &:after {
+      width: 110%;
+    }
   }
 }

@@ -1,16 +1,7 @@
 import React from "react";
 
 import Title from "../../components/Title";
-import {
-  Button,
-  Col,
-  Container,
-  Row,
-  Table,
-  Modal,
-  Form,
-} from "react-bootstrap";
-import Details from "../../components/Details";
+import { Col, Container, Row, Modal, Form } from "react-bootstrap";
 import MyTable from "../../components/MyTable";
 import MyButton from "../../components/MyButton";
 function Dashboard() {

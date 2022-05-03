@@ -2,7 +2,12 @@ import React from "react";
 import Title from "../../components/Title";
 
 import { Form, Button } from "react-bootstrap";
+import { login } from "../../store/actions";
+import { useDispatch } from "react-redux";
 function Login() {
+  const dispatch = useDispatch();
+  const emailRef = React.useRef();
+  const passwordRef = React.useRef();
   return (
     <>
       <Title>Login</Title>
@@ -18,15 +23,33 @@ function Login() {
       >
         <Form.Group className="mb-3" controlId="formBasicEmail">
           <Form.Label>Email address</Form.Label>
-          <Form.Control type="email" placeholder="Enter email" />
+          <Form.Control ref={emailRef} type="email" placeholder="Enter email" />
         </Form.Group>
 
         <Form.Group className="mb-3" controlId="formBasicPassword">
           <Form.Label>Password</Form.Label>
-          <Form.Control type="password" placeholder="Password" />
+          <Form.Control
+            ref={passwordRef}
+            type="password"
+            placeholder="Enter password"
+          />
         </Form.Group>
 
-        <Button variant="primary" type="submit">
+        <Button
+          onClick={() => {
+            if (
+              login(
+                {
+                  email: emailRef.current.value,
+                  password: passwordRef.current.value,
+                },
+                dispatch
+              )
+            ) {
+              window.location.href = "/tester";
+            }
+          }}
+        >
           Submit
         </Button>
       </Form>

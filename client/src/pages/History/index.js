@@ -1,21 +1,16 @@
 import React from "react";
-
-import "./style.scss";
 import Title from "../../components/Title";
 import { Button, Col, Container, Row, Form } from "react-bootstrap";
-import MyButton from "../../components/MyButton";
 import { useSelector } from "react-redux";
-function SelectItem() {
+function History() {
   const locationData = useSelector((state) => state.locations);
   const [selectLocation, setSelectLocation] = React.useState(0);
-
   return (
     <>
-      <Title>Select Item</Title>
+      <Title>History</Title>
       <Container className="user-dashboard">
         <Row>
           <Col>
-            <h2>An Existing Item</h2>
             <Form
               style={{
                 border: "1px solid #8f8e8e",
@@ -103,16 +98,11 @@ function SelectItem() {
               </Row>
             </Form>
           </Col>
-          <Col style={{ textAlign: "center" }}>
-            <h2>An New Item</h2>
-            <MyButton href="/request" style={{ marginTop: "35%" }}>
-              New Item
-            </MyButton>
-          </Col>
+          <Col style={{ textAlign: "center" }}></Col>
         </Row>
       </Container>
     </>
   );
 }
 
-export default SelectItem;
+export default History;

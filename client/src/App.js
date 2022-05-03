@@ -13,6 +13,7 @@ import ExpireDate from "./pages/ExpireDate";
 import "react-calendar/dist/Calendar.css";
 import { useDispatch } from "react-redux";
 import { locationInfo } from "./store/actions";
+import History from "./pages/History";
 function App() {
   const dispatch = useDispatch();
   React.useEffect(() => {
@@ -29,6 +30,7 @@ function App() {
           <Route path="/" element={<SelectItem />} />
           <Route path="/report" element={<Report />} />
 
+          <Route path="/history" element={<History />} />
           <Route path="/expire-date" element={<ExpireDate />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Registration />} />

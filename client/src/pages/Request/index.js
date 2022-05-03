@@ -21,7 +21,7 @@ function Request() {
   const descriptionRef = React.useRef();
   return (
     <>
-      {/* <Title>Which equipments need to be tested</Title>
+      <Title>Which equipments need to be tested</Title>
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
           <Modal.Title>Reminder</Modal.Title>
@@ -32,7 +32,7 @@ function Request() {
             Close
           </Button>
         </Modal.Footer>
-      </Modal> */}
+      </Modal>
       <Form
         style={{
           width: "80%",
@@ -160,13 +160,6 @@ function Request() {
                         if (floorRef.current.value != "Choose...") {
                           if (roomRef.current.value != "Choose...") {
                             if (purchased_dateRef.current.value) {
-                              console.log(
-                                "===================================="
-                              );
-                              console.log("sad");
-                              console.log(
-                                "===================================="
-                              );
                               await addNewItem({
                                 email: emailRef.current.value,
                                 ownership: ownershipRef.current.value,

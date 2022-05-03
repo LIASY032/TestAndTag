@@ -84,8 +84,11 @@ function Dashboard() {
           show={modalShow}
           aria-labelledby="contained-modal-title-vcenter"
         >
-          <Modal.Header closeButton className="my-background-color">
-            <Modal.Title id="contained-modal-title-vcenter">
+          <Modal.Header closeButton style={{ backgroundColor: "#333" }}>
+            <Modal.Title
+              id="contained-modal-title-vcenter"
+              style={{ color: "#fff" }}
+            >
               ID: {detail[select].id}
             </Modal.Title>
           </Modal.Header>
@@ -168,7 +171,7 @@ function Dashboard() {
               </Row>
             </Container>
           </Modal.Body>
-          <Modal.Footer className="my-background-color">
+          <Modal.Footer style={{ backgroundColor: "#333" }}>
             <MyButton btn="yellow-btn" href="/expire-date">
               Pass
             </MyButton>

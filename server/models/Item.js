@@ -2,6 +2,7 @@ const mongoose = require("mongoose");
 
 const itemSchema = mongoose.Schema({
   name: { type: String, required: true },
+  email: { type: String, required: true },
   ownership: { type: String, required: true },
   purchased_date: { type: Date, required: true },
   description: { type: String, required: false },

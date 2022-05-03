@@ -11,6 +11,7 @@ router.get("/", async function (req, res) {
 });
 
 router.post("/add_new_item", async function (req, res) {
+  console.log(req.body);
   let newItem = await Item(
     _.pick(req.body, [
       "name",
@@ -20,6 +21,7 @@ router.post("/add_new_item", async function (req, res) {
       "building",
       "floor",
       "room",
+      "email",
     ])
   );
   await newItem.save();

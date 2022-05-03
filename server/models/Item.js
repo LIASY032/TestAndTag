@@ -1,15 +1,13 @@
 const mongoose = require("mongoose");
 
 const itemSchema = mongoose.Schema({
+  name: { type: String, required: true },
   ownership: { type: String, required: true },
-  report_id: { type: Number, required: true },
   purchased_date: { type: Date, required: true },
   description: { type: String, required: false },
-  location_id: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "ItemLocation",
-    required: true,
-  },
+  building: { type: String, required: true },
+  floor: { type: Number, required: true },
+  room: { type: Number, required: true },
 });
 
 const Item = mongoose.model("Item", itemSchema);

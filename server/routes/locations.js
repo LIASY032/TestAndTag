@@ -10,7 +10,7 @@ router.get("/", async function (req, res) {
 
 router.post("/", async function (req, res) {
   let newLocation = new Location(
-    _.pick(req.body, ["building", "floor", "room"])
+    _.pick(req.body, ["building", "floor", "room", "items"])
   );
   await newLocation.save();
   res.send("Success");

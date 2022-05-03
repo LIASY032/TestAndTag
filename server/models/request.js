@@ -12,11 +12,6 @@ const requestSchema = mongoose.Schema({
     ref: "Item",
   },
   date: { type: Date, required: true },
-  location_id: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "ItemLocation",
-    required: true,
-  },
 });
 
 const Request = mongoose.model("Request", requestSchema);

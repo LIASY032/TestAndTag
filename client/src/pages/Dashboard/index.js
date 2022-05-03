@@ -1,6 +1,6 @@
 import React from "react";
 
-import Title from "../../../components/Title";
+import Title from "../../components/Title";
 import {
   Button,
   Col,
@@ -10,9 +10,9 @@ import {
   Modal,
   Form,
 } from "react-bootstrap";
-import Details from "../../../components/Details";
-import MyTable from "../../../components/MyTable";
-import MyButton from "../../../components/MyButton";
+import Details from "../../components/Details";
+import MyTable from "../../components/MyTable";
+import MyButton from "../../components/MyButton";
 function Dashboard() {
   const [select, setSelect] = React.useState(0);
   const [modalShow, setModalShow] = React.useState(false);

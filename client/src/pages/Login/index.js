@@ -47,7 +47,7 @@ function Login() {
             );
 
             if (success) {
-              window.location.href = "/tester";
+              //window.location.href = "/tester";
             }
           }}
         >

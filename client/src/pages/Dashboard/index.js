@@ -7,6 +7,30 @@ import MyButton from "../../components/MyButton";
 function Dashboard() {
   const [select, setSelect] = React.useState(0);
   const [modalShow, setModalShow] = React.useState(false);
+  const emailRef = React.useRef();
+  const ownershipRef = React.useRef();
+  const nameRef = React.useRef();
+
+  const buildingRef = React.useRef();
+  const floorRef = React.useRef();
+  const roomRef = React.useRef();
+  const purchased_dateRef = React.useRef();
+  const descriptionRef = React.useRef();
+
+  let firstTime = true;
+  React.useEffect(() => {
+    if (!firstTime) {
+      emailRef.current.value = detail[select].email;
+      ownershipRef.current.value = detail[select].ownership;
+      nameRef.current.value = detail[select].name;
+    }
+    firstTime = false;
+    // buildingRef.current.value = detail[select].building;
+    // floorRef.current.value = detail[select].floor;
+    // roomRef.current.value = detail[select].room;
+    // purchased_dateRef.current.value = detail[select].purchased_date;
+    // descriptionRef.current.value = detail[select].description;
+  }, [select]);
   const header = [
     "Id",
     "Ownership",
@@ -91,7 +115,7 @@ function Dashboard() {
               <Row className="row-padding">
                 <Col md={4}>Email: </Col>
                 <Col md={8}>
-                  <Form.Control value={detail[select].email}></Form.Control>
+                  <Form.Control ref={emailRef}></Form.Control>
                 </Col>
               </Row>
               <Row className="row-padding">
@@ -110,14 +134,14 @@ function Dashboard() {
                   Name:
                 </Col>
                 <Col xs={12} md={8}>
-                  <Form.Control value={detail[select].name} />
+                  <Form.Control ref={nameRef} />
                 </Col>
               </Row>
 
               <Row className="row-padding">
                 <Form.Group as={Col}>
                   <Form.Label>Building</Form.Label>
-                  <Form.Select defaultValue="Choose...">
+                  <Form.Select>
                     <option>Choose...</option>
                     <option>...</option>
                   </Form.Select>

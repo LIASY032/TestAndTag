@@ -8,6 +8,7 @@ function Login() {
   const dispatch = useDispatch();
   const emailRef = React.useRef();
   const passwordRef = React.useRef();
+
   return (
     <>
       <Title>Login</Title>
@@ -36,16 +37,16 @@ function Login() {
         </Form.Group>
 
         <Button
-          onClick={() => {
-            if (
-              login(
-                {
-                  email: emailRef.current.value,
-                  password: passwordRef.current.value,
-                },
-                dispatch
-              )
-            ) {
+          onClick={async () => {
+            const success = await login(
+              {
+                email: emailRef.current.value,
+                password: passwordRef.current.value,
+              },
+              dispatch
+            );
+
+            if (success) {
               window.location.href = "/tester";
             }
           }}

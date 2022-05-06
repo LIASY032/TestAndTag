@@ -5,6 +5,7 @@ export async function userLogin({ email, password }) {
       password,
     });
     const data = await response.data;
+    localStorage.setItem("user", JSON.stringify(data));
     return data;
   } catch (e) {}
 }
@@ -17,6 +18,8 @@ export async function userRegister({ name, email, password }) {
       password,
     });
     const data = await response.data;
+
+    localStorage.setItem("user", JSON.stringify(data));
     return data;
   } catch (e) {}
 }

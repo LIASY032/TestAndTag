@@ -1,8 +1,8 @@
 const mongoose = require("mongoose");
 
 const itemSchema = mongoose.Schema({
-  date: { type: Date, required: true },
-  staff: {
+  date: { type: Date, required: true, unique: true },
+  staffs: {
     type: [
       {
         tester: {

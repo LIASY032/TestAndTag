@@ -7,7 +7,9 @@ export async function userLogin({ email, password }) {
     const data = await response.data;
     localStorage.setItem("user", JSON.stringify(data));
     return data;
-  } catch (e) {}
+  } catch (e) {
+    console.log(e.response.data);
+  }
 }
 
 export async function userRegister({ name, email, password }) {
@@ -22,4 +24,17 @@ export async function userRegister({ name, email, password }) {
     localStorage.setItem("user", JSON.stringify(data));
     return data;
   } catch (e) {}
+}
+
+export async function notAvailable(value) {
+  try {
+    console.log(value);
+    const response = await axios.put("/users/not-available", {
+      notAvailable: value,
+    });
+    const data = await response.data;
+    return data;
+  } catch (e) {
+    console.log(e.response.data);
+  }
 }

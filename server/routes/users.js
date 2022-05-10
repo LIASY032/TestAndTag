@@ -2,13 +2,44 @@ const express = require("express");
 const router = express.Router();
 const _ = require("lodash");
 const { User } = require("../models/user");
+const { NotAvailable } = require("../models/notAvailable");
 const jwt = require("jsonwebtoken");
 const config = require("config");
 const bcrypt = require("bcrypt");
+const { auth } = require("../middleware/auth");
 
-router.get("/", async function (req, res) {
+router.get("/", auth, async function (req, res) {
+  const user = await User.findById(req.user._id);
+
   const users = await User.find();
   res.send(users);
+});
+
+router.put("/not-available", auth, async function (req, res) {
+  const id = req.user.id;
+  let notAvailable = await NotAvailable.findOne({
+    date: req.body.notAvailable,
+  });
+
+  if (!notAvailable) {
+    notAvailable = new NotAvailable({
+      date: req.body.notAvailable,
+      staffs: [{ tester: id }],
+    });
+  } else {
+    const staffs = notAvailable.staffs;
+    let exist = false;
+    staffs.forEach(function (staff) {
+      if (staff.tester == id) {
+        exist = true;
+      }
+    });
+    if (!exist) {
+      notAvailable.staffs.push({ tester: id });
+    }
+  }
+  await notAvailable.save();
+  res.send("success");
 });
 
 router.post("/", async function (req, res) {
@@ -51,4 +82,5 @@ router.put("/:email", async function (req, res) {
     }
   );
 });
+
 module.exports = router;

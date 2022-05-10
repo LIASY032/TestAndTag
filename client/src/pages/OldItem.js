@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import "../style/oldItem.css";
+import "./oldItem.css";
 import itemPic from "../static/images/new-item.jpg";
 
 const picURL = itemPic;

@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import "../style/signIn.css"
+import "./signIn.css"
 
 class SignIn extends Component {
     handleSignInClick() {

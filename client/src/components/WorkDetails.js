@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import "../style/workDetails.css";
+import "./workDetails.css";
 import { Modal } from "bootstrap";
 import { ModalBody, ModalDialog, ModalFooter, ModalHeader, ModalTitle } from "react-bootstrap";
 

@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from "react";
 import {Table} from "react-bootstrap";
-import "../style/workList.css"
+import "./workList.css"
 import WorkDetails from "../components/WorkDetails";
 
 class WorkList extends Component {

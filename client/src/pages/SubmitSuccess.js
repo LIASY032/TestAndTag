@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import "../style/submitSuccess.css"
+import "./submitSuccess.css"
 
 class SubmitSuccess extends Component {
     render() {

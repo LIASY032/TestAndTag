@@ -1,5 +1,5 @@
 import React, {Component, Fragment} from "react";
-import "../style/menu.css"
+import "./menu.css"
 
 class Menu extends Component {
     constructor(props) {

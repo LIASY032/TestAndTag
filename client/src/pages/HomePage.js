@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import "../style/home.css";
+import "./home.css";
 class HomePage extends Component {
     handleBtnClick () {
         window.location.href = "/new";

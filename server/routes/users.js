@@ -39,7 +39,7 @@ router.put("/not-available", auth, async function (req, res) {
     }
   }
   await notAvailable.save();
-  res.send("success!");
+  res.send("success");
 });
 
 router.post("/", async function (req, res) {

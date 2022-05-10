@@ -1,0 +1,16 @@
+.success-container {
+    margin: 50px auto 0 auto;
+    width: 60%;
+    text-align: center;
+}
+
+.success-title {
+    font-weight: bold;
+    font-size: 25px;
+}
+
+.success-tip {
+    margin-top: 20px;
+    font-size: 18px;
+
+}

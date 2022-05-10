@@ -1,0 +1,16 @@
+.menu{
+    height: 60px;
+    padding: 0 70px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: #000000;
+    font-size: 14px;
+    border-bottom: #b5b5b5 1px solid;
+}
+
+.menu-title {
+}
+
+.menu-sign-in {
+}

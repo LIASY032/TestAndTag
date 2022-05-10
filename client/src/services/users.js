@@ -28,10 +28,19 @@ export async function userRegister({ name, email, password }) {
 
 export async function notAvailable(value) {
   try {
-    console.log(value);
     const response = await axios.put("/users/not-available", {
       notAvailable: value,
     });
+    const data = await response.data;
+    return data;
+  } catch (e) {
+    console.log(e.response.data);
+  }
+}
+
+export async function getTodo() {
+  try {
+    const response = await axios.get("/users/todo");
     const data = await response.data;
     return data;
   } catch (e) {

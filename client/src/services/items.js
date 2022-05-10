@@ -23,6 +23,6 @@ export const addNewItem = async ({
     });
     return response.data;
   } catch (err) {
-    console.log(err);
+    console.log(err.response.data);
   }
 };

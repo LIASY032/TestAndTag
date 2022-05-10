@@ -4,14 +4,13 @@ const _ = require("lodash");
 const { Item } = require("../models/Item");
 const { Request } = require("../models/request");
 const { User } = require("../models/user");
-
+const { NotAvailable } = require("../models/notAvailable");
 router.get("/", async function (req, res) {
   const item = await Item.find();
   res.send(item);
 });
 
 router.post("/add_new_item", async function (req, res) {
-  console.log(req.body);
   let newItem = await Item(
     _.pick(req.body, [
       "name",
@@ -26,10 +25,38 @@ router.post("/add_new_item", async function (req, res) {
   );
   await newItem.save();
 
-  const users = await User.find();
+  // assign tasks
+  let users = await User.find();
 
+  const todayDate = new Date();
+  todayDate.setHours(0, 0, 0, 0);
+  todayDate.setDate(todayDate.getDate() + 1);
+  let notAvailable = await NotAvailable.findOne({ date: todayDate });
+
+  if (notAvailable) {
+    const staffs = notAvailable.staffs;
+    users = users.filter((user) => {
+      let exist = false;
+      // check wether the user exist in staffs list
+      staffs.forEach((staff) => {
+        if (user._id == staff.tester) {
+          exist = true;
+        }
+      });
+      if (!exist) {
+        return user;
+      }
+    });
+  }
+
+  // TODO: need to improve this random select function
+  const selected = Math.floor(Math.random() * users.length);
+
+  if (selected >= users.length) {
+    selected = selected - 1;
+  }
   const newRequest = new Request({
-    authorised_id: users[0]._id,
+    authorised_id: users[selected]._id,
     item_id: newItem._id,
     date: new Date(),
   });

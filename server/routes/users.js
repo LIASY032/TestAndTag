@@ -3,6 +3,7 @@ const router = express.Router();
 const _ = require("lodash");
 const { User } = require("../models/user");
 const { NotAvailable } = require("../models/notAvailable");
+const { Request } = require("../models/request");
 const jwt = require("jsonwebtoken");
 const config = require("config");
 const bcrypt = require("bcrypt");
@@ -15,15 +16,23 @@ router.get("/", auth, async function (req, res) {
   res.send(users);
 });
 
+router.get("/todo", auth, async function (req, res) {
+  const userID = req.user.id;
+  const request = await Request.find({ authorised_id: userID });
+  console.log(request);
+  res.send(request);
+});
+
 router.put("/not-available", auth, async function (req, res) {
   const id = req.user.id;
+  const date = req.body.notAvailable;
   let notAvailable = await NotAvailable.findOne({
-    date: req.body.notAvailable,
+    date,
   });
 
   if (!notAvailable) {
     notAvailable = new NotAvailable({
-      date: req.body.notAvailable,
+      date,
       staffs: [{ tester: id }],
     });
   } else {

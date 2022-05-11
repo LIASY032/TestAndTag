@@ -1,5 +1,6 @@
 import { userLogin } from "../../services";
 import { LOGIN } from "../constants";
+import { getTasks } from "./taskAction";
 export const login = async (user, dispatch) => {
   const data = await userLogin(user);
 
@@ -14,6 +15,8 @@ export const login = async (user, dispatch) => {
       type: LOGIN,
       payload: data,
     });
+
+    getTasks(dispatch);
     return true;
   } else {
     dispatch({

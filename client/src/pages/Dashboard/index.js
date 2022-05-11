@@ -6,6 +6,7 @@ import MyTable from "../../components/MyTable";
 import MyButton from "../../components/MyButton";
 
 import { useSelector } from "react-redux";
+
 function Dashboard() {
   const userData = useSelector((state) => state.user);
   const [select, setSelect] = React.useState(0);
@@ -44,30 +45,7 @@ function Dashboard() {
     "Previous Tested Date",
     "Control",
   ];
-  const detail = [
-    {
-      id: "1",
-      ownership: "Personal",
-      description: "",
-      expire_date: "13/4/2022",
-      previous_test_date: "03/02/2021",
-      purchased_date: "01/01/2021",
-      location: "P Building, Floor 1, Room 2",
-      name: "Fan",
-      email: "fan@example",
-    },
-    {
-      id: "2",
-      ownership: "UniSA",
-      description: "",
-      expire_date: "13/4/2022",
-      previous_test_date: "1/1/2021",
-      purchased_date: "1/1/2020",
-      name: "Liang",
-      location: "F Building, Floor 2, Room 2",
-      email: "liang@example",
-    },
-  ];
+  const detail = useSelector((state) => state.tasks);
 
   if (userData.name) {
     return (
@@ -85,7 +63,7 @@ function Dashboard() {
                   setSelect(index);
                 }}
               >
-                <td>{item.id}</td>
+                <td>{index}</td>
                 <td>{item.ownership}</td>
                 <td>{item.purchased_date}</td>
                 <td>{item.location}</td>
@@ -111,7 +89,7 @@ function Dashboard() {
                 id="contained-modal-title-vcenter"
                 style={{ color: "#fff" }}
               >
-                ID: {detail[select].id}
+                ID: {detail[select].name}
               </Modal.Title>
             </Modal.Header>
             <Modal.Body className="show-grid">

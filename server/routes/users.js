@@ -4,6 +4,7 @@ const _ = require("lodash");
 const { User } = require("../models/user");
 const { NotAvailable } = require("../models/notAvailable");
 const { Request } = require("../models/request");
+const { Item } = require("../models/Item");
 const jwt = require("jsonwebtoken");
 const config = require("config");
 const bcrypt = require("bcrypt");
@@ -18,9 +19,23 @@ router.get("/", auth, async function (req, res) {
 
 router.get("/todo", auth, async function (req, res) {
   const userID = req.user.id;
-  const request = await Request.find({ authorised_id: userID });
-  console.log(request);
-  res.send(request);
+  // TODO:
+  // const requests = await Request.find({ authorised_id: userID , is_finished: false});
+
+  const requests = await Request.find({ authorised_id: userID });
+  const items = await Item.find();
+  const todoList = [];
+
+  for (const item of items) {
+    for (const request of requests) {
+      if (request.item_id == item._id) {
+        todoList.push(item);
+        console.log(item);
+      }
+    }
+  }
+  console.log(todoList);
+  res.send(todoList);
 });
 
 router.put("/not-available", auth, async function (req, res) {

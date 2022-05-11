@@ -5,7 +5,6 @@ export async function userLogin({ email, password }) {
       password,
     });
     const data = await response.data;
-    localStorage.setItem("user", JSON.stringify(data));
     return data;
   } catch (e) {
     console.log(e.response.data);

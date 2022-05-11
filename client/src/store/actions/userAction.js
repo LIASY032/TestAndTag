@@ -9,6 +9,7 @@ export const login = async (user, dispatch) => {
     data !== "" &&
     data !== "undefined"
   ) {
+    localStorage.setItem("user", JSON.stringify(data));
     dispatch({
       type: LOGIN,
       payload: data,

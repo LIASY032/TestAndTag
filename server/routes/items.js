@@ -23,6 +23,7 @@ router.post("/add_new_item", async function (req, res) {
       "email",
     ])
   );
+
   await newItem.save();
 
   // assign tasks

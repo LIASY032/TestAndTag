@@ -9,6 +9,7 @@ const itemSchema = mongoose.Schema({
   building: { type: String, required: true },
   floor: { type: Number, required: true },
   room: { type: Number, required: true },
+  previous_test_date: { type: Date, required: false },
 });
 
 const Item = mongoose.model("Item", itemSchema);

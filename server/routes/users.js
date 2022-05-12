@@ -34,7 +34,6 @@ router.get("/todo", auth, async function (req, res) {
       }
     }
   }
-  console.log(todoList);
   res.send(todoList);
 });
 

@@ -11,30 +11,16 @@ function Dashboard() {
   const userData = useSelector((state) => state.user);
   const [select, setSelect] = React.useState(0);
   const [modalShow, setModalShow] = React.useState(false);
-  const emailRef = React.useRef();
-  const ownershipRef = React.useRef();
-  const nameRef = React.useRef();
 
-  const buildingRef = React.useRef();
-  const floorRef = React.useRef();
-  const roomRef = React.useRef();
-  const purchased_dateRef = React.useRef();
-  const descriptionRef = React.useRef();
+  const [email, setEmail] = React.useState();
+  const [ownership, setOwnership] = React.useState();
+  const [name, setName] = React.useState();
+  const [building, setBuilding] = React.useState();
+  const [floor, setFloor] = React.useState();
+  const [room, setRoom] = React.useState();
+  const [purchased_date, setPurchasedDate] = React.useState();
+  const [description, setDescription] = React.useState();
 
-  let firstTime = true;
-  React.useEffect(() => {
-    if (!firstTime) {
-      emailRef.current.value = detail[select].email;
-      ownershipRef.current.value = detail[select].ownership;
-      nameRef.current.value = detail[select].name;
-    }
-    firstTime = false;
-    // buildingRef.current.value = detail[select].building;
-    // floorRef.current.value = detail[select].floor;
-    // roomRef.current.value = detail[select].room;
-    // purchased_dateRef.current.value = detail[select].purchased_date;
-    // descriptionRef.current.value = detail[select].description;
-  }, [select]);
   const header = [
     "Id",
     "Ownership",
@@ -66,13 +52,29 @@ function Dashboard() {
                 <td>{index}</td>
                 <td>{item.ownership}</td>
                 <td>{item.purchased_date}</td>
-                <td>{item.location}</td>
+                <td>{`${item.building} ${item.floor} ${item.room}`}</td>
                 <td>{item.name}</td>
                 <td>{item.email}</td>
 
                 <td>{item.previous_test_date}</td>
                 <td>
-                  <MyButton btn="red-btn" onClick={() => setModalShow(true)}>
+                  <MyButton
+                    btn="red-btn"
+                    onClick={() => {
+                      setModalShow(true);
+
+                      setEmail(detail[select].email);
+                      setOwnership(detail[select].ownership);
+                      setPurchasedDate(
+                        detail[select].purchased_date.split("T")[0]
+                      );
+                      setName(detail[select].name);
+                      setBuilding(detail[select].building);
+                      setRoom(detail[select].room);
+                      setFloor(detail[select].floor);
+                      setDescription(detail[select].description);
+                    }}
+                  >
                     view
                   </MyButton>
                 </td>
@@ -97,7 +99,10 @@ function Dashboard() {
                 <Row className="row-padding">
                   <Col md={4}>Email: </Col>
                   <Col md={8}>
-                    <Form.Control ref={emailRef}></Form.Control>
+                    <Form.Control
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                    />
                   </Col>
                 </Row>
                 <Row className="row-padding">
@@ -105,7 +110,10 @@ function Dashboard() {
                     Ownership:
                   </Col>
                   <Col xs={12} md={8}>
-                    <Form.Select defaultValue={detail[select].ownership}>
+                    <Form.Select
+                      defaultValue={ownership}
+                      onChange={(e) => setOwnership(e.target.value)}
+                    >
                       <option value="Personal">Personal</option>
                       <option value="UniSA">UniSA</option>
                     </Form.Select>
@@ -116,28 +124,31 @@ function Dashboard() {
                     Name:
                   </Col>
                   <Col xs={12} md={8}>
-                    <Form.Control ref={nameRef} />
+                    <Form.Control
+                      value={name}
+                      onChange={(e) => setName(e.target.value)}
+                    />
                   </Col>
                 </Row>
 
                 <Row className="row-padding">
                   <Form.Group as={Col}>
                     <Form.Label>Building</Form.Label>
-                    <Form.Select>
+                    <Form.Select defaultValue={building}>
                       <option>Choose...</option>
                       <option>...</option>
                     </Form.Select>
                   </Form.Group>
                   <Form.Group as={Col}>
                     <Form.Label>Floor</Form.Label>
-                    <Form.Select defaultValue="Choose...">
+                    <Form.Select defaultValue={floor}>
                       <option>Choose...</option>
                       <option>...</option>
                     </Form.Select>
                   </Form.Group>
                   <Form.Group as={Col}>
                     <Form.Label>Room</Form.Label>
-                    <Form.Select defaultValue="Choose...">
+                    <Form.Select defaultValue={room}>
                       <option>Choose...</option>
                       <option>...</option>
                     </Form.Select>
@@ -149,7 +160,11 @@ function Dashboard() {
                     Purchased Date:
                   </Col>
                   <Col md={8}>
-                    <Form.Control type="date"></Form.Control>
+                    <Form.Control
+                      type="date"
+                      value={purchased_date}
+                      onChange={(e) => setPurchasedDate(e.target.value)}
+                    ></Form.Control>
                   </Col>
                 </Row>
                 <Row className="row-padding">
@@ -165,7 +180,8 @@ function Dashboard() {
                     <Form.Control
                       as="textarea"
                       rows={3}
-                      value={detail[select].description}
+                      value={description}
+                      onChange={(e) => setDescription(e.target.value)}
                     />
                   </Form.Group>
                 </Row>

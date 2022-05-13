@@ -9,6 +9,8 @@ import { useSelector } from "react-redux";
 
 function Dashboard() {
   const userData = useSelector((state) => state.user);
+
+  const locationData = useSelector((state) => state.locations);
   const [select, setSelect] = React.useState(0);
   const [modalShow, setModalShow] = React.useState(false);
 
@@ -21,6 +23,7 @@ function Dashboard() {
   const [purchased_date, setPurchasedDate] = React.useState();
   const [description, setDescription] = React.useState();
 
+  const [selectLocation, setSelectLocation] = React.useState(0);
   const header = [
     "Id",
     "Ownership",
@@ -51,8 +54,8 @@ function Dashboard() {
               >
                 <td>{index}</td>
                 <td>{item.ownership}</td>
-                <td>{item.purchased_date}</td>
-                <td>{`${item.building} ${item.floor} ${item.room}`}</td>
+                <td>{item.purchased_date.split("T")[0]}</td>
+                <td>{`building: ${item.building} floor: ${item.floor} room: ${item.room}`}</td>
                 <td>{item.name}</td>
                 <td>{item.email}</td>
 
@@ -134,23 +137,71 @@ function Dashboard() {
                 <Row className="row-padding">
                   <Form.Group as={Col}>
                     <Form.Label>Building</Form.Label>
-                    <Form.Select defaultValue={building}>
-                      <option>Choose...</option>
-                      <option>...</option>
+
+                    <Form.Select
+                      onChange={(e) => {
+                        const v = e.target.value.split(",");
+                        setBuilding(v[0]);
+                        setSelectLocation(parseInt(v[1]));
+                      }}
+                    >
+                      {locationData.length > 0 ? (
+                        locationData.map((element, index) => {
+                          return (
+                            <option
+                              value={`${element.building},${index}`}
+                              key={index}
+                              isSelected={element.building === building}
+                            >
+                              {element.building}
+                            </option>
+                          );
+                        })
+                      ) : (
+                        <option>...</option>
+                      )}
                     </Form.Select>
                   </Form.Group>
                   <Form.Group as={Col}>
                     <Form.Label>Floor</Form.Label>
-                    <Form.Select defaultValue={floor}>
-                      <option>Choose...</option>
-                      <option>...</option>
+                    <Form.Select
+                      defaultValue={floor}
+                      onChange={(e) => setFloor(e.target.value)}
+                    >
+                      {locationData.length > 0 ? (
+                        locationData[selectLocation].floor.map(
+                          (element, index) => {
+                            return (
+                              <option value={element} key={index}>
+                                {element}
+                              </option>
+                            );
+                          }
+                        )
+                      ) : (
+                        <option>...</option>
+                      )}
                     </Form.Select>
                   </Form.Group>
                   <Form.Group as={Col}>
                     <Form.Label>Room</Form.Label>
-                    <Form.Select defaultValue={room}>
-                      <option>Choose...</option>
-                      <option>...</option>
+                    <Form.Select
+                      defaultValue={room}
+                      onChange={(e) => setRoom(e.target.value)}
+                    >
+                      {locationData.length > 0 ? (
+                        locationData[selectLocation].room.map(
+                          (element, index) => {
+                            return (
+                              <option value={element} key={index}>
+                                {element}
+                              </option>
+                            );
+                          }
+                        )
+                      ) : (
+                        <option>...</option>
+                      )}
                     </Form.Select>
                   </Form.Group>
                 </Row>

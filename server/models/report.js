@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const reportSchema = mongoose.schema({
+const reportSchema = mongoose.Schema({
   condition: { type: String, required: true },
   reason: { type: String, required: false },
   date: { type: Date, required: true },

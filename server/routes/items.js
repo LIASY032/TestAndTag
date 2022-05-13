@@ -5,6 +5,7 @@ const { Item } = require("../models/Item");
 const { Request } = require("../models/request");
 const { User } = require("../models/user");
 const { NotAvailable } = require("../models/notAvailable");
+const { Location } = require("../models/location");
 router.get("/", async function (req, res) {
   const item = await Item.find();
   res.send(item);
@@ -23,6 +24,9 @@ router.post("/add_new_item", async function (req, res) {
       "email",
     ])
   );
+  const location = await Location.findOne({ building: req.body.building });
+  location.items.push({ name: newItem.name, item_id: newItem._id });
+  await location.save();
 
   await newItem.save();
 

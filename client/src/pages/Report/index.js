@@ -1,7 +1,7 @@
 import React from "react";
 import { Form, Button } from "react-bootstrap";
 import Title from "../../components/Title";
-function Report() {
+function Report({ item_id, request_id }) {
   return (
     <>
       <Title>Report</Title>
@@ -15,10 +15,6 @@ function Report() {
           padding: "10px",
         }}
       >
-        <Form.Group>
-          <Form.Label>Condition</Form.Label>
-          <Form.Control />
-        </Form.Group>
         <Form.Group>
           <Form.Label>Reason</Form.Label>
           <Form.Control />

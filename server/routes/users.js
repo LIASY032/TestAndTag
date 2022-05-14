@@ -28,9 +28,9 @@ router.get("/todo", auth, async function (req, res) {
 
   for (const item of items) {
     for (const request of requests) {
-      if (request.item_id.equals(item._id)) {
+      if (request.item_id.equals(item._id) && !request.is_finished) {
+        item.request = request._id;
         todoList.push(item);
-        console.log(item);
       }
     }
   }

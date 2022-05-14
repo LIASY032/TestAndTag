@@ -10,6 +10,7 @@ const itemSchema = mongoose.Schema({
   floor: { type: Number, required: true },
   room: { type: Number, required: true },
   previous_test_date: { type: Date, required: false },
+  next_test_date: { type: Date, required: false },
 });
 
 const Item = mongoose.model("Item", itemSchema);

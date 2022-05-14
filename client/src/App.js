@@ -17,6 +17,8 @@ import History from "./pages/History";
 import NotAvailableDate from "./pages/NotAvailableDate";
 function App() {
   const dispatch = useDispatch();
+  const [requestId, setRequestId] = React.useState();
+  const [itemId, setItemId] = React.useState();
   React.useEffect(() => {
     //Once the App running, fetch data
 
@@ -29,15 +31,26 @@ function App() {
 
         <Routes>
           <Route path="/" element={<SelectItem />} />
-          <Route path="/report" element={<Report />} />
+          <Route
+            path="/report"
+            element={<Report item_id={itemId} request_id={requestId} />}
+          />
 
           <Route path="/history" element={<History />} />
-          <Route path="/expire-date" element={<ExpireDate />} />
+          <Route
+            path="/expire-date"
+            element={<ExpireDate item_id={itemId} request_id={requestId} />}
+          />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Registration />} />
           <Route path="/forgot" element={<Forgot />} />
           <Route path="/request" element={<Request />} />
-          <Route path="/tester" element={<Dashboard />} />
+          <Route
+            path="/tester"
+            element={
+              <Dashboard setItemId={setItemId} setRequestId={setRequestId} />
+            }
+          />
           <Route path="/rest-date" element={<NotAvailableDate />} />
         </Routes>
       </Router>

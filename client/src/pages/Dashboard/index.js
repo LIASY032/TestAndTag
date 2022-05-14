@@ -66,16 +66,14 @@ function Dashboard() {
                     onClick={() => {
                       setModalShow(true);
 
-                      setEmail(detail[select].email);
-                      setOwnership(detail[select].ownership);
-                      setPurchasedDate(
-                        detail[select].purchased_date.split("T")[0]
-                      );
-                      setName(detail[select].name);
-                      setBuilding(detail[select].building);
-                      setRoom(detail[select].room);
-                      setFloor(detail[select].floor);
-                      setDescription(detail[select].description);
+                      setEmail(item.email);
+                      setOwnership(item.ownership);
+                      setPurchasedDate(item.purchased_date.split("T")[0]);
+                      setName(item.name);
+                      setBuilding(item.building);
+                      setRoom(item.room);
+                      setFloor(item.floor);
+                      setDescription(item.description);
                     }}
                   >
                     view
@@ -151,7 +149,6 @@ function Dashboard() {
                             <option
                               value={`${element.building},${index}`}
                               key={index}
-                              isSelected={element.building === building}
                             >
                               {element.building}
                             </option>

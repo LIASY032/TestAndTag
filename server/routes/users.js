@@ -75,7 +75,10 @@ router.post("/", async function (req, res) {
 
   user.password = await bcrypt.hash(user.password, salt);
   await user.save();
-  const token = jwt.sign({ id: user._id }, config.get("key"));
+  const token = jwt.sign(
+    { id: user._id, email: user.email },
+    config.get("key")
+  );
   res.cookie("x-auth-token", token, {
     secure: process.env.NODE_ENV !== "development",
     httpOnly: true,

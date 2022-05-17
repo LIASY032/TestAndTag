@@ -4,9 +4,8 @@ import MyButton from "../../components/MyButton";
 import Title from "../../components/Title";
 import { report } from "../../services";
 import "./style.scss";
-function ExpireDate({ item_id, request_id }) {
+function ExpireDate() {
   const [value, onChange] = React.useState(new Date());
-  console.log(item_id);
   return (
     <div style={{ width: "100%", textAlign: "center" }}>
       <Title>Expire Date</Title>
@@ -15,11 +14,15 @@ function ExpireDate({ item_id, request_id }) {
       <MyButton
         style={{ width: "15vw", marginTop: "10px" }}
         onClick={async () => {
+          const tasks = JSON.parse(localStorage.getItem("tasks"));
+          const item = tasks.lists[tasks.selected];
+          const date = new Date();
+
           await report({
-            item_id,
-            request_id,
+            item_id: item._id,
+            request_id: item.request,
             condition: "pass",
-            next_test_date: value.toString().split("T")[0],
+            next_test_date: value.toISOString().split("T")[0],
           });
         }}
       >

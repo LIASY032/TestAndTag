@@ -19,7 +19,7 @@ router.put("/:condition/:itemId/:requestId", auth, async function (req, res) {
   const report = new Report({
     condition: req.params.condition,
     reason: req.body.reason,
-    itemId: req.params.itemId,
+    item_id: req.params.itemId,
     date: new Date(),
     authorised_id: req.user.id,
   });

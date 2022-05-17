@@ -29,8 +29,19 @@ router.get("/todo", auth, async function (req, res) {
   for (const item of items) {
     for (const request of requests) {
       if (request.item_id.equals(item._id) && !request.is_finished) {
-        item.request = request._id;
-        todoList.push(item);
+        let value = {
+          _id: item._id,
+          name: item.name,
+          email: item.email,
+          ownership: item.ownership,
+          purchased_date: item.purchased_date,
+          description: item.description,
+          building: item.building,
+          floor: item.floor,
+          room: item.room,
+          request: request._id,
+        };
+        todoList.push(value);
       }
     }
   }

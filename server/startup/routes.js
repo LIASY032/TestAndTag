@@ -8,7 +8,7 @@ module.exports = function (app) {
   app.use(express.json());
   app.use("/api/locations", locations);
 
-  app.use("/reports", reports);
+  app.use("/api/reports", reports);
 
   app.use("/api/users", users);
   app.use("/api/items", items);

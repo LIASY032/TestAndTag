@@ -1,7 +1,7 @@
 import React from "react";
 import { Form, Button } from "react-bootstrap";
 import Title from "../../components/Title";
-function Report({ item_id, request_id }) {
+function Report() {
   return (
     <>
       <Title>Report</Title>

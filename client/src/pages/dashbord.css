@@ -1,0 +1,26 @@
+.task-content {
+    width: 80%;
+    margin: 300px auto 200px auto;
+    display: flex;
+    justify-content: space-around;
+}
+
+.task-item {
+    text-align: center;
+    color: #2ecc71;
+    font-weight: bold;
+}
+
+.task-item-title {
+    font-size: 30px;
+}
+
+.task-item-details {
+    font-size: 24px;
+}
+
+.work-calendar {
+    text-align: center;
+    color: #2ecc71;
+    font-size: 24px;
+}

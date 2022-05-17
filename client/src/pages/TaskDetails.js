@@ -51,6 +51,7 @@ class TaskDetails extends Component {
 
                 <div className="details-title">TAG INFORMATION</div>
                 <div className="item-title">Expiration Date</div>
+                <div className="item-title">Tag Result</div>
                 <div className="item-title">Tag Description</div>
                 <textarea rows="4" className="tag-textarea"></textarea>
                 <div className="btn-container">

@@ -3,7 +3,9 @@ import "./signIn.css"
 
 class SignIn extends Component {
     handleSignInClick() {
-        window.location.href = "/work_list";
+        // to do - sign in
+
+        window.location.href = "/dashboard";
     }
 
     render() {

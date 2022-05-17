@@ -1,5 +1,5 @@
 import { getTodo } from "../../services";
-import { TASKS } from "../constants";
+import { TASKS, TASK_MODIFIED, TASK_SELECTED } from "../constants";
 export const getTasks = async (dispatch) => {
   const data = await getTodo();
 
@@ -9,7 +9,10 @@ export const getTasks = async (dispatch) => {
     data !== "" &&
     data !== "undefined"
   ) {
-    localStorage.setItem("tasks", JSON.stringify(data));
+    localStorage.setItem(
+      "tasks",
+      `{ "lists": ${JSON.stringify(data)}, "selected": 0 }`
+    );
     dispatch({
       type: TASKS,
       payload: data,
@@ -22,4 +25,18 @@ export const getTasks = async (dispatch) => {
     });
     return false;
   }
+};
+
+export const taskModified = async (num, task, dispatch) => {
+  dispatch({
+    type: TASK_MODIFIED,
+    payload: { num, task },
+  });
+};
+
+export const taskSelected = async (num, dispatch) => {
+  dispatch({
+    type: TASK_SELECTED,
+    payload: num,
+  });
 };

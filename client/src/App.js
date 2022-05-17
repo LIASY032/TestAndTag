@@ -24,6 +24,7 @@ function App() {
 
     locationInfo(dispatch);
   }, []);
+
   return (
     <div className="App">
       <Router>

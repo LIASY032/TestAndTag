@@ -4,3 +4,5 @@ export const LOGIN = "LOGIN";
 export const TASKS = "TASKS";
 export const PASS = "PASS";
 export const FAIL = "FAIL";
+export const TASK_SELECTED = "TASK_SELECTED";
+export const TASK_MODIFIED = "TASK_MODIFIED";

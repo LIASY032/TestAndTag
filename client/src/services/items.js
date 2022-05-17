@@ -26,3 +26,12 @@ export const addNewItem = async ({
     console.log(err.response.data);
   }
 };
+
+export const updateItem = async (item) => {
+  try {
+    const response = await axios.put(`/items/${item._id}`, item);
+    return response.data;
+  } catch (err) {
+    console.log(err.response.data);
+  }
+};

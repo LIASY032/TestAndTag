@@ -7,6 +7,7 @@ import MyButton from "../../components/MyButton";
 
 import { useSelector, useDispatch } from "react-redux";
 import { taskModified, taskSelected } from "../../store/actions";
+import { updateItem } from "../../services";
 
 function Dashboard() {
   const dispatch = useDispatch();
@@ -91,7 +92,8 @@ function Dashboard() {
                   <Col md={4}>Email: </Col>
                   <Col md={8}>
                     <Form.Control
-                      value={detail[select].email}
+                      type="email"
+                      defaultValue={detail[select].email}
                       onChange={(e) => {
                         detail[select].email = e.target.value;
                         taskModified(select, detail[select], dispatch);
@@ -222,7 +224,7 @@ function Dashboard() {
                     <Form.Control
                       as="textarea"
                       rows={3}
-                      value={detail[select].description}
+                      defaultValue={detail[select].description}
                       onChange={(e) => {
                         detail[select].description = e.target.value;
                         taskModified(select, detail[select], dispatch);
@@ -233,7 +235,14 @@ function Dashboard() {
               </Container>
             </Modal.Body>
             <Modal.Footer style={{ backgroundColor: "#333" }}>
-              <MyButton btn="yellow-btn" href="/expire-date">
+              <MyButton
+                btn="yellow-btn"
+                href="/expire-date"
+                onClick={async (e) => {
+                  console.log(detail[select]);
+                  await updateItem(detail[select]);
+                }}
+              >
                 Pass
               </MyButton>
               <MyButton btn="red-btn" href="/report">

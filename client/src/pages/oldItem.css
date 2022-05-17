@@ -27,6 +27,7 @@
 }
 
 .item-order {
+    background-color: red;
     margin-top: 30px;
     display: flex;
     flex-direction: row;

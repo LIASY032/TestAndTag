@@ -1,6 +1,7 @@
 import React, {Component} from "react";
 import "./oldItem.css";
 import itemPic from "../static/images/new-item.jpg";
+import {Button, TextField} from "@mui/material";
 
 const picURL = itemPic;
 class OldItem extends Component {
@@ -15,8 +16,9 @@ class OldItem extends Component {
                     <div className="old-item-title">Request an Existing Equipment Test</div>
                     <div className="old-item-tips" onClick={this.handleTipClick}>Testing a New Equipment? Click Here</div>
                     <div className="item-order">
-                        <input className="order-input" placeholder={"Your Service Order No."}/>
-                        <div className="order-btn">QUERY</div>
+                        {/*<input className="order-input" placeholder={"Your Service Order No."}/>*/}
+                        <TextField label="Your Service Order NO." variant="standard" />
+                        <Button variant="contained" color="success">QUERY</Button>
                     </div>
                 </div>
             </div>

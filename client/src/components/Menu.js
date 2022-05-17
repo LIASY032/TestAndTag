@@ -1,13 +1,11 @@
-import React, {Component, Fragment} from "react";
+import React, {Component} from "react";
+
 import "./menu.css"
+import {Button} from "@mui/material";
 
 class Menu extends Component {
     constructor(props) {
         super(props);
-        this.state = {
-            tips: this.props.content ? "Welcome, Staff" : "SIGN IN",
-            isSignIn: this.props.content ?? false
-        }
         this.handleSignInClick = this.handleSignInClick.bind(this);
     }
     handleTitleClick () {
@@ -15,19 +13,15 @@ class Menu extends Component {
     }
 
     handleSignInClick() {
-        if (!this.state.isSignIn) {
-            window.location.href = "/sign_in";
-        }
+        window.location.href = "/sign_in";
     }
 
     render() {
         return (
-            <Fragment>
-                <div className="menu">
-                    <div className="menu-title" onClick={this.handleTitleClick}>Test & Tag</div>
-                    <div className="menu-sign-in" onClick={this.handleSignInClick}>{this.state.tips}</div>
-                </div>
-            </Fragment>
+            <div className="menu">
+                <div className="menu-title" onClick={this.handleTitleClick}>Test & Tag</div>
+                <Button variant="text" color="success" onClick={this.handleSignInClick}>Sign In</Button>
+            </div>
         );
     }
 }

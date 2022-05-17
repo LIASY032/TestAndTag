@@ -27,9 +27,6 @@ class Dashboard extends Component {
                         <div className="task-item-details">3</div>
                     </div>
                 </div>
-                <div className="work-calendar" onClick={this.handleCalendarClick}>
-                    Work Calendar
-                </div>
             </Fragment>
             )
     }

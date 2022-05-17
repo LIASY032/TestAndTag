@@ -11,12 +11,26 @@ import SubmitSuccess from "./pages/SubmitSuccess";
 import WorkList from "./pages/WorkList";
 import Statics from "./pages/Statics";
 import TaskDetails from "./pages/TaskDetails";
+import MenuLogin from "./components/MenuLogin";
 
 class Home extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            isLogin: true,
+            name: "Alice"
+        }
+    }
     render() {
+        let menu;
+        if (this.state.isLogin) {
+            menu = <MenuLogin name={this.state.name}/>
+        } else {
+            menu = <Menu/>
+        }
         return (
             <Router>
-                <Menu />
+                {menu}
                 <Routes>
                     <Route path="/" element={<HomePage />} />
                     <Route path="/sign_in" element={<SignIn />} />

@@ -1,15 +1,33 @@
 import React, {Component} from "react";
 import "./createItem.css";
 import itemPic from "../static/images/new-item.jpg";
+import {DatePicker} from "@mui/x-date-pickers";
+import {AdapterDateFns} from "@mui/x-date-pickers/AdapterDateFns";
+import {LocalizationProvider} from "@mui/x-date-pickers/LocalizationProvider";
+import {TextField} from "@mui/material";
 
 const picURL = itemPic;
 class CreateItem extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            purchaseDate: new Date()
+        }
+        this.handlePurchaseDateChange = this.handlePurchaseDateChange.bind(this);
+    }
+
     handleTipClick() {
         window.location.href = "/old";
     }
 
     handleBtnClick() {
         window.location.href = "/submit_success";
+    }
+
+    handlePurchaseDateChange() {
+        this.setState({
+            purchaseDate: 0
+        })
     }
 
     render() {
@@ -24,7 +42,16 @@ class CreateItem extends Component {
                     <div className="item-title">Ownership</div>
                     <select className="item-normal" />
                     <div className="item-title">Purchase Date</div>
-                    <select className="item-normal" /> // todo
+                    {/*<LocalizationProvider dateAdapter={AdapterDateFns}>*/}
+                    {/*    <DatePicker*/}
+                    {/*/!*        label="test"*!/*/}
+                    {/*/!*        date={this.state.purchaseDate}*!/*/}
+                    {/*        onChange={this.handlePurchaseDateChange}*/}
+                    {/*        renderInput={(params) => <TextField {...params} />}*/}
+                    {/*/!*        // value={}*!/*/}
+                    {/*    />*/}
+                    {/*</LocalizationProvider>*/}
+
                     <div className="item-title">Address ( Building / Floor / Room )</div>
                     <input className="item-normal" />
                     <div className="item-title">Testing Tag</div>

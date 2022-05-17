@@ -5,23 +5,16 @@ import { Col, Container, Row, Modal, Form, Alert } from "react-bootstrap";
 import MyTable from "../../components/MyTable";
 import MyButton from "../../components/MyButton";
 
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { taskModified, taskSelected } from "../../store/actions";
 
 function Dashboard() {
+  const dispatch = useDispatch();
   const userData = useSelector((state) => state.user);
 
   const locationData = useSelector((state) => state.locations);
   const [select, setSelect] = React.useState(0);
   const [modalShow, setModalShow] = React.useState(false);
-
-  const [email, setEmail] = React.useState();
-  const [ownership, setOwnership] = React.useState();
-  const [name, setName] = React.useState();
-  const [building, setBuilding] = React.useState();
-  const [floor, setFloor] = React.useState();
-  const [room, setRoom] = React.useState();
-  const [purchased_date, setPurchasedDate] = React.useState();
-  const [description, setDescription] = React.useState();
 
   const [selectLocation, setSelectLocation] = React.useState(0);
   const header = [
@@ -34,7 +27,7 @@ function Dashboard() {
     "Previous Tested Date",
     "Control",
   ];
-  const detail = useSelector((state) => state.tasks);
+  const detail = useSelector((state) => state.tasks.lists);
 
   if (userData.name) {
     return (
@@ -45,42 +38,39 @@ function Dashboard() {
         </MyButton>
         <Container className="user-dashboard">
           <MyTable header={header} title="TO DO">
-            {detail.map((item, index) => (
-              <tr
-                key={index}
-                onClick={() => {
-                  setSelect(index);
-                }}
-              >
-                <td>{index}</td>
-                <td>{item.ownership}</td>
-                <td>{item.purchased_date.split("T")[0]}</td>
-                <td>{`building: ${item.building} floor: ${item.floor} room: ${item.room}`}</td>
-                <td>{item.name}</td>
-                <td>{item.email}</td>
+            {detail &&
+              detail.map((item, index) => (
+                <tr key={index}>
+                  <td>{index}</td>
+                  <td>{item.ownership}</td>
+                  <td>{item.purchased_date.split("T")[0]}</td>
+                  <td>{`building: ${item.building} floor: ${item.floor} room: ${item.room}`}</td>
+                  <td>{item.name}</td>
+                  <td>{item.email}</td>
 
-                <td>{item.previous_test_date}</td>
-                <td>
-                  <MyButton
-                    btn="red-btn"
-                    onClick={() => {
-                      setModalShow(true);
+                  <td>{item.previous_test_date}</td>
+                  <td>
+                    <MyButton
+                      btn="red-btn"
+                      onClick={() => {
+                        setModalShow(true);
+                        setSelect(index);
+                        taskSelected(index, dispatch);
 
-                      setEmail(item.email);
-                      setOwnership(item.ownership);
-                      setPurchasedDate(item.purchased_date.split("T")[0]);
-                      setName(item.name);
-                      setBuilding(item.building);
-                      setRoom(item.room);
-                      setFloor(item.floor);
-                      setDescription(item.description);
-                    }}
-                  >
-                    view
-                  </MyButton>
-                </td>
-              </tr>
-            ))}
+                        let count = 0;
+                        for (const location of locationData) {
+                          if (location.building === item.building) {
+                            setSelectLocation(count);
+                          }
+                          count += 1;
+                        }
+                      }}
+                    >
+                      view
+                    </MyButton>
+                  </td>
+                </tr>
+              ))}
           </MyTable>
           <Modal
             onHide={() => setModalShow(false)}
@@ -92,7 +82,7 @@ function Dashboard() {
                 id="contained-modal-title-vcenter"
                 style={{ color: "#fff" }}
               >
-                ID: {detail[select].name}
+                Name: {detail[select].name}
               </Modal.Title>
             </Modal.Header>
             <Modal.Body className="show-grid">
@@ -101,8 +91,11 @@ function Dashboard() {
                   <Col md={4}>Email: </Col>
                   <Col md={8}>
                     <Form.Control
-                      value={email}
-                      onChange={(e) => setEmail(e.target.value)}
+                      value={detail[select].email}
+                      onChange={(e) => {
+                        detail[select].email = e.target.value;
+                        taskModified(select, detail[select], dispatch);
+                      }}
                     />
                   </Col>
                 </Row>
@@ -112,8 +105,11 @@ function Dashboard() {
                   </Col>
                   <Col xs={12} md={8}>
                     <Form.Select
-                      defaultValue={ownership}
-                      onChange={(e) => setOwnership(e.target.value)}
+                      defaultValue={detail[select].ownership}
+                      onChange={(e) => {
+                        detail[select].ownership = e.target.value;
+                        taskModified(select, detail[select], dispatch);
+                      }}
                     >
                       <option value="Personal">Personal</option>
                       <option value="UniSA">UniSA</option>
@@ -121,35 +117,27 @@ function Dashboard() {
                   </Col>
                 </Row>
                 <Row className="row-padding">
-                  <Col xs={6} md={4}>
-                    Name:
-                  </Col>
-                  <Col xs={12} md={8}>
-                    <Form.Control
-                      value={name}
-                      onChange={(e) => setName(e.target.value)}
-                    />
-                  </Col>
-                </Row>
-
-                <Row className="row-padding">
                   <Form.Group as={Col}>
                     <Form.Label>Building</Form.Label>
 
                     <Form.Select
                       onChange={(e) => {
-                        const v = e.target.value.split(",");
-                        setBuilding(v[0]);
-                        setSelectLocation(parseInt(v[1]));
+                        let count = 0;
+                        for (const location of locationData) {
+                          if (location.building === e.target.value) {
+                            setSelectLocation(count);
+                          }
+                          count += 1;
+                        }
+                        detail[select].building = e.target.value;
+                        taskModified(select, detail[select], dispatch);
                       }}
+                      defaultValue={detail[select].building}
                     >
                       {locationData.length > 0 ? (
                         locationData.map((element, index) => {
                           return (
-                            <option
-                              value={`${element.building},${index}`}
-                              key={index}
-                            >
+                            <option value={element.building} key={index}>
                               {element.building}
                             </option>
                           );
@@ -162,8 +150,11 @@ function Dashboard() {
                   <Form.Group as={Col}>
                     <Form.Label>Floor</Form.Label>
                     <Form.Select
-                      defaultValue={floor}
-                      onChange={(e) => setFloor(e.target.value)}
+                      defaultValue={detail[select].floor}
+                      onChange={(e) => {
+                        detail[select].floor = e.target.value;
+                        taskModified(select, detail[select], dispatch);
+                      }}
                     >
                       {locationData.length > 0 ? (
                         locationData[selectLocation].floor.map(
@@ -183,8 +174,11 @@ function Dashboard() {
                   <Form.Group as={Col}>
                     <Form.Label>Room</Form.Label>
                     <Form.Select
-                      defaultValue={room}
-                      onChange={(e) => setRoom(e.target.value)}
+                      defaultValue={detail[select].room}
+                      onChange={(e) => {
+                        detail[select].room = e.target.value;
+                        taskModified(select, detail[select], dispatch);
+                      }}
                     >
                       {locationData.length > 0 ? (
                         locationData[selectLocation].room.map(
@@ -210,15 +204,15 @@ function Dashboard() {
                   <Col md={8}>
                     <Form.Control
                       type="date"
-                      value={purchased_date}
-                      onChange={(e) => setPurchasedDate(e.target.value)}
+                      value={detail[select].purchased_date.split("T")[0]}
+                      disabled
                     ></Form.Control>
                   </Col>
                 </Row>
                 <Row className="row-padding">
                   <Col md={4}>Previous Tested Date:</Col>
                   <Col md={8}>
-                    <Form.Control type="date"></Form.Control>
+                    <Form.Control type="date" disabled></Form.Control>
                   </Col>
                 </Row>
 
@@ -228,8 +222,11 @@ function Dashboard() {
                     <Form.Control
                       as="textarea"
                       rows={3}
-                      value={description}
-                      onChange={(e) => setDescription(e.target.value)}
+                      value={detail[select].description}
+                      onChange={(e) => {
+                        detail[select].description = e.target.value;
+                        taskModified(select, detail[select], dispatch);
+                      }}
                     />
                   </Form.Group>
                 </Row>

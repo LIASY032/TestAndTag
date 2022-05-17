@@ -1,5 +1,6 @@
 import React, {Component, Fragment} from "react";
 import {Table} from "react-bootstrap";
+import {Button} from "@mui/material";
 
 class Statics extends Component {
     constructor(props) {
@@ -59,7 +60,7 @@ class Statics extends Component {
             <Fragment>
                 <div className="work-list-header">
                     <div className="work-list-title">Expiring Tasks</div>
-                    <div className="work-list-tips" onClick={this.handleWorkListClick}>Back To Task List</div>
+                    <Button className="work-list-tips" onClick={this.handleWorkListClick}>Back To Task List</Button>
                 </div>
                 <Table className="work-list-table">
                     <thead className="table-header">

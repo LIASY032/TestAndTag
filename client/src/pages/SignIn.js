@@ -2,11 +2,16 @@ import React, {Component} from "react";
 import "./signIn.css"
 
 class SignIn extends Component {
-    handleSignInClick() {
-        // to do - sign in
-
-        window.location.href = "/dashboard";
+    constructor(props) {
+        super(props);
+        // this.handleSignInClick = this.handleSignInClick.bind(this);
     }
+    // handleSignInClick() {
+    //     // to do - sign in
+    //
+    //     window.location.href = "/dashboard";
+    //     this.props.changeIsLogin(true);
+    // }
 
     render() {
         return (
@@ -17,7 +22,7 @@ class SignIn extends Component {
                 <input />
                 <div className="sign-in-item">Password</div>
                 <input type="password" />
-                <div className="sign-in-btn" onClick={this.handleSignInClick}>SIGN IN</div>
+                <div className="sign-in-btn" onClick={() => this.props.changeIsLogin(true)}>SIGN IN</div>
             </div>
         );
     }

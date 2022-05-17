@@ -14,10 +14,14 @@ class OldItem extends Component {
                 <img className="old-item-pic" src={picURL} />
                 <div className="old-item-form">
                     <div className="old-item-title">Request an Existing Equipment Test</div>
-                    <div className="old-item-tips" onClick={this.handleTipClick}>Testing a New Equipment? Click Here</div>
+                    <div className="old-item-tips">
+                        <Button onClick={this.handleTipClick}>Testing a New Equipment? Click Here</Button>
+                    </div>
                     <div className="item-order">
                         {/*<input className="order-input" placeholder={"Your Service Order No."}/>*/}
-                        <TextField label="Your Service Order NO." variant="standard" />
+                        <div className="order-input">
+                            <TextField fullWidth size="small" label="Your Service Order NO." variant="standard"/>
+                        </div>
                         <Button variant="contained" color="success">QUERY</Button>
                     </div>
                 </div>

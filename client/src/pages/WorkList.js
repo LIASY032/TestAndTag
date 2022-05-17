@@ -1,6 +1,7 @@
 import React, { Component, Fragment } from "react";
 import {Table} from "react-bootstrap";
 import "./workList.css"
+import {Button} from "@mui/material";
 
 class WorkList extends Component {
     constructor(props) {
@@ -63,7 +64,7 @@ class WorkList extends Component {
             <Fragment>
                 <div className="work-list-header">
                     <div className="work-list-title">Tasks List</div>
-                    <div className="work-list-tips" onClick={this.handleStaticsClick}>Expiring Task? Click Here</div>
+                    <Button className="work-list-tips" onClick={this.handleStaticsClick}>Expiring Task? Click Here</Button>
                 </div>
                 <Table className="work-list-table">
                     <thead className="table-header">

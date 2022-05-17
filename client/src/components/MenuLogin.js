@@ -34,10 +34,9 @@ class MenuLogin extends Component {
         })
     }
 
-    handleLogoutClick() {
-        console.log("click: logout" );
-
-    }
+    // handleLogoutClick() {
+    //
+    // }
 
     handleDashboardClick() {
         window.location.href = "/dashboard";
@@ -54,6 +53,7 @@ class MenuLogin extends Component {
                     <div className="menu-title" onClick={this.handleTitleClick}>Test & Tag</div>
                     <div className="user-info">
                             <Button
+                                color="success"
                                 id="user-button"
                                 aria-controls={this.state.open ? 'basic-menu' : undefined}
                                 aria-haspopup="true"
@@ -73,7 +73,7 @@ class MenuLogin extends Component {
                             >
                                 <MenuItem onClick={this.handleDashboardClick}>Dashboard</MenuItem>
                                 <MenuItem onClick={this.handleCalendarClick}>Workday Calendar</MenuItem>
-                                <MenuItem onClick={this.handleLogoutClick}>Logout</MenuItem>
+                                <MenuItem onClick={() => this.props.changeIsLogin(false)}>Logout</MenuItem>
                             </Menu>
                     </div>
 

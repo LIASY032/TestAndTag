@@ -4,7 +4,7 @@ import itemPic from "../static/images/new-item.jpg";
 import {DatePicker} from "@mui/x-date-pickers";
 import {AdapterDateFns} from "@mui/x-date-pickers/AdapterDateFns";
 import {LocalizationProvider} from "@mui/x-date-pickers/LocalizationProvider";
-import {TextField} from "@mui/material";
+import {Button, TextField} from "@mui/material";
 
 const picURL = itemPic;
 class CreateItem extends Component {
@@ -36,7 +36,9 @@ class CreateItem extends Component {
                 <img className="new-item-pic" src={picURL} />
                 <div className="new-item-form">
                     <div className="new-item-title">Request a Test from Test & Tag</div>
-                    <div className="new-item-tips" onClick={this.handleTipClick}>Testing an Existing Equipment? Click Here</div>
+                    <div className="new-item-tips">
+                        <Button onClick={this.handleTipClick}>Testing an Existing Equipment? Click Here</Button>
+                    </div>
                     <div className="item-title">Your Equipment</div>
                     <input className="item-normal" />
                     <div className="item-title">Ownership</div>
@@ -63,7 +65,7 @@ class CreateItem extends Component {
                     <input className="item-normal" />
                     <div className="item-title">Message</div>
                     <textarea rows="4" className="item-textarea"></textarea>
-                    <div className="item-btn" onClick={this.handleBtnClick}>SUBMIT</div>
+                    <Button variant="contained" color="success" className="item-btn" onClick={this.handleBtnClick}>SUBMIT</Button>
 
 
                 </div>

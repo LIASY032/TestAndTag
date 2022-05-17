@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import "./TaskDetails.css";
+import {Button} from "@mui/material";
 
 class TaskDetails extends Component {
     constructor(props) {
@@ -38,9 +39,9 @@ class TaskDetails extends Component {
     render() {
         return (
             <div className="task-details-container">
-                <div className="details-back-list" onClick={this.handleBackClick}>
+                <Button className="details-back-list" onClick={this.handleBackClick}>
                     Back to List
-                </div>
+                </Button>
 
                 <div className="details-title">TASK INFORMATION</div>
 
@@ -55,8 +56,8 @@ class TaskDetails extends Component {
                 <div className="item-title">Tag Description</div>
                 <textarea rows="4" className="tag-textarea"></textarea>
                 <div className="btn-container">
-                    <div className="details-btn btn-tag">TAG</div>
-                    <div className="details-btn btn-back" onClick={this.handleBackClick}>BACK</div>
+                    <Button variant="contained" color="success" className="details-btn btn-tag">TAG</Button>
+                    <Button variant="contained" className="details-btn btn-back" onClick={this.handleBackClick}>BACK</Button>
                 </div>
             </div>
         );

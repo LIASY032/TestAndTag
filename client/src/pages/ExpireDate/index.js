@@ -4,7 +4,10 @@ import MyButton from "../../components/MyButton";
 import Title from "../../components/Title";
 import { report } from "../../services";
 import "./style.scss";
+import { useDispatch } from "react-redux";
+import { getTasks } from "../../store/actions";
 function ExpireDate() {
+  const dispatch = useDispatch();
   const [value, onChange] = React.useState(new Date());
   return (
     <div style={{ width: "100%", textAlign: "center" }}>
@@ -16,7 +19,6 @@ function ExpireDate() {
         onClick={async () => {
           const tasks = JSON.parse(localStorage.getItem("tasks"));
           const item = tasks.lists[tasks.selected];
-          const date = new Date();
 
           await report({
             item_id: item._id,
@@ -24,6 +26,9 @@ function ExpireDate() {
             condition: "pass",
             next_test_date: value.toISOString().split("T")[0],
           });
+
+          await getTasks(dispatch);
+          window.location.href = "/tester";
         }}
       >
         Submit

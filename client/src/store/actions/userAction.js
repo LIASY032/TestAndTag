@@ -16,7 +16,7 @@ export const login = async (user, dispatch) => {
       payload: data,
     });
 
-    getTasks(dispatch);
+    await getTasks(dispatch);
     return true;
   } else {
     dispatch({

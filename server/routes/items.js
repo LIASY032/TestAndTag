@@ -25,10 +25,6 @@ router.post("/add_new_item", async function (req, res) {
       "email",
     ])
   );
-  const location = await Location.findOne({ building: req.body.building });
-
-  location.items.push({ name: newItem.name, item_id: newItem._id });
-  await location.save();
 
   await newItem.save();
 

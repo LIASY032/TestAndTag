@@ -4,7 +4,9 @@ const router = express.Router();
 const { Item } = require("../models/Item");
 const { auth } = require("../middleware/auth");
 const { Report } = require("../models/report");
-const { Request } = require("../models/request");
+const { Request } = require("../modaels/request");
+
+const { Location } = require("../models/location");
 router.put("/:condition/:itemId/:requestId", auth, async function (req, res) {
   const item = await Item.findById(req.params.itemId);
   item.previous_test_date = new Date();
@@ -12,6 +14,11 @@ router.put("/:condition/:itemId/:requestId", auth, async function (req, res) {
   if (req.body.next_test_date) {
     item.next_test_date = req.body.next_test_date;
   }
+
+  const location = await Location.findOne({ building: item.building });
+
+  location.items.push({ name: item.name, item_id: item._id });
+  await location.save();
 
   request.is_finished = true;
   await request.save();

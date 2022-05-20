@@ -90,8 +90,19 @@ function SelectItem() {
               <Form.Group>
                 <Form.Label>Item</Form.Label>
                 <Form.Select defaultValue="Choose...">
-                  <option>Choose...</option>
-                  <option>...</option>
+                  <option value="Choose...">Choose...</option>
+
+                  {locationData.length > 0 ? (
+                    locationData[selectLocation].items.map((element, index) => {
+                      return (
+                        <option value={index} key={index}>
+                          {element.name}
+                        </option>
+                      );
+                    })
+                  ) : (
+                    <option>...</option>
+                  )}
                 </Form.Select>
               </Form.Group>
               <Row style={{ textAlign: "center" }}>

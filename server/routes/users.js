@@ -49,8 +49,16 @@ router.get("/todo", auth, async function (req, res) {
 
 router.get("/do_task/:requestId", auth, async function (req, res) {
   const request = await Request.findById(req.params.requestId);
-  request.authorised_id.push({ id: req.user.id });
-  await request.save();
+  let check = false;
+  for (const i of request.staffs) {
+    if ((i.id == req.user, id)) {
+      check = true;
+    }
+  }
+  if (!check) {
+    request.staffs.push({ id: req.user.id });
+    await request.save();
+  }
   res.send("success");
 });
 

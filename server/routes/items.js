@@ -48,21 +48,4 @@ router.put("/:itemId", auth, async function (req, res) {
   res.send("success");
 });
 
-// router.post("/", async function (req, res) {
-//   let newItem = await Item(
-//     _.pick(req.body, [
-//       "name",
-//       "ownership",
-//       "purchased_date",
-//       "description",
-//       "building",
-//       "floor",
-//       "room",
-//     ])
-//   );
-
-//   await newItem.save();
-//   res.send(newItem);
-// });
-
 module.exports = router;

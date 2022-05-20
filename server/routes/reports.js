@@ -21,7 +21,7 @@ router.put("/:condition/:itemId/:requestId", auth, async function (req, res) {
     reason: req.body.reason,
     item_id: req.params.itemId,
     date: new Date(),
-    authorised_id: req.user.id,
+    request: req.params.requestId,
   });
   await report.save();
   res.send(report);

@@ -7,7 +7,7 @@ import MyButton from "../../components/MyButton";
 
 import { useSelector, useDispatch } from "react-redux";
 import { taskModified, taskSelected } from "../../store/actions";
-import { updateItem } from "../../services";
+import { doThis, updateItem } from "../../services";
 
 function Dashboard() {
   const dispatch = useDispatch();
@@ -34,9 +34,6 @@ function Dashboard() {
     return (
       <>
         <Title>Authorised Person</Title>
-        <MyButton btn="purple-btn" style={{ width: "300px" }} href="/rest-date">
-          Not Available Date
-        </MyButton>
         <Container className="user-dashboard">
           <MyTable header={header} title="TO DO">
             {detail &&
@@ -68,6 +65,17 @@ function Dashboard() {
                       }}
                     >
                       view
+                    </MyButton>
+
+                    <MyButton
+                      btn="purple-btn"
+                      onClick={async () => {
+                        await doThis(item.request);
+                        console.log(item.request);
+                      }}
+                    >
+                      {" "}
+                      Do this
                     </MyButton>
                   </td>
                 </tr>

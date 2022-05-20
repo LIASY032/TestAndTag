@@ -25,21 +25,18 @@ export async function userRegister({ name, email, password }) {
   } catch (e) {}
 }
 
-export async function notAvailable(value) {
+export async function getTodo() {
   try {
-    const response = await axios.put("/users/not-available", {
-      notAvailable: value,
-    });
+    const response = await axios.get("/users/todo");
     const data = await response.data;
     return data;
   } catch (e) {
     console.log(e.response.data);
   }
 }
-
-export async function getTodo() {
+export async function doThis(id) {
   try {
-    const response = await axios.get("/users/todo");
+    const response = await axios.get(`/users/do_task/${id}`);
     const data = await response.data;
     return data;
   } catch (e) {

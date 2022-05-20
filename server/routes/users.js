@@ -22,13 +22,13 @@ router.get("/todo", auth, async function (req, res) {
   // TODO:
   // const requests = await Request.find({ authorised_id: userID , is_finished: false});
 
-  const requests = await Request.find({ authorised_id: userID });
+  const requests = await Request.find({ is_finished: false });
   const items = await Item.find();
   const todoList = [];
 
   for (const item of items) {
     for (const request of requests) {
-      if (request.item_id.equals(item._id) && !request.is_finished) {
+      if (request.item_id.equals(item._id)) {
         let value = {
           _id: item._id,
           name: item.name,
@@ -46,6 +46,13 @@ router.get("/todo", auth, async function (req, res) {
     }
   }
   res.send(todoList);
+});
+
+router.get("/do_task/:requestId", auth, async function (req, res) {
+  const request = await Request.findById(req.params.requestId);
+  request.authorised_id.push({ id: req.user.id });
+  await request.save();
+  res.send("success");
 });
 
 router.put("/not-available", auth, async function (req, res) {

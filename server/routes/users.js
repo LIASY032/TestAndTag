@@ -2,7 +2,6 @@ const express = require("express");
 const router = express.Router();
 const _ = require("lodash");
 const { User } = require("../models/user");
-const { NotAvailable } = require("../models/notAvailable");
 const { Request } = require("../models/request");
 const { Item } = require("../models/Item");
 const jwt = require("jsonwebtoken");
@@ -52,34 +51,6 @@ router.get("/do_task/:requestId", auth, async function (req, res) {
   const request = await Request.findById(req.params.requestId);
   request.authorised_id.push({ id: req.user.id });
   await request.save();
-  res.send("success");
-});
-
-router.put("/not-available", auth, async function (req, res) {
-  const id = req.user.id;
-  const date = req.body.notAvailable;
-  let notAvailable = await NotAvailable.findOne({
-    date,
-  });
-
-  if (!notAvailable) {
-    notAvailable = new NotAvailable({
-      date,
-      staffs: [{ tester: id }],
-    });
-  } else {
-    const staffs = notAvailable.staffs;
-    let exist = false;
-    staffs.forEach(function (staff) {
-      if (staff.tester == id) {
-        exist = true;
-      }
-    });
-    if (!exist) {
-      notAvailable.staffs.push({ tester: id });
-    }
-  }
-  await notAvailable.save();
   res.send("success");
 });
 

@@ -1,7 +1,12 @@
 import React from "react";
 import { Form, Button } from "react-bootstrap";
 import Title from "../../components/Title";
+import { useDispatch } from "react-redux";
+import { getTasks } from "../../store/actions";
+import { report } from "../../services";
 function Report() {
+  const dispatch = useDispatch();
+  const reason = React.useRef();
   return (
     <>
       <Title>Report</Title>
@@ -16,15 +21,27 @@ function Report() {
         }}
       >
         <Form.Group>
-          <Form.Label>Condition</Form.Label>
-          <Form.Control />
-        </Form.Group>
-        <Form.Group>
           <Form.Label>Reason</Form.Label>
-          <Form.Control />
+          <Form.Control ref={reason} />
         </Form.Group>
 
-        <Button>Submit</Button>
+        <Button
+          onClick={async () => {
+            const tasks = JSON.parse(localStorage.getItem("tasks"));
+            const item = tasks.lists[tasks.selected];
+
+            await report({
+              item_id: item._id,
+              request_id: item.request,
+              condition: "fail",
+              reason: reason.current.value,
+            });
+            await getTasks(dispatch);
+            window.location.href = "/tester";
+          }}
+        >
+          Submit
+        </Button>
       </Form>
     </>
   );

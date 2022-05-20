@@ -3,6 +3,8 @@ const router = express.Router();
 const _ = require("lodash");
 const { User } = require("../models/user");
 const { NotAvailable } = require("../models/notAvailable");
+const { Request } = require("../models/request");
+const { Item } = require("../models/Item");
 const jwt = require("jsonwebtoken");
 const config = require("config");
 const bcrypt = require("bcrypt");
@@ -15,15 +17,47 @@ router.get("/", auth, async function (req, res) {
   res.send(users);
 });
 
+router.get("/todo", auth, async function (req, res) {
+  const userID = req.user.id;
+  // TODO:
+  // const requests = await Request.find({ authorised_id: userID , is_finished: false});
+
+  const requests = await Request.find({ authorised_id: userID });
+  const items = await Item.find();
+  const todoList = [];
+
+  for (const item of items) {
+    for (const request of requests) {
+      if (request.item_id.equals(item._id) && !request.is_finished) {
+        let value = {
+          _id: item._id,
+          name: item.name,
+          email: item.email,
+          ownership: item.ownership,
+          purchased_date: item.purchased_date,
+          description: item.description,
+          building: item.building,
+          floor: item.floor,
+          room: item.room,
+          request: request._id,
+        };
+        todoList.push(value);
+      }
+    }
+  }
+  res.send(todoList);
+});
+
 router.put("/not-available", auth, async function (req, res) {
   const id = req.user.id;
+  const date = req.body.notAvailable;
   let notAvailable = await NotAvailable.findOne({
-    date: req.body.notAvailable,
+    date,
   });
 
   if (!notAvailable) {
     notAvailable = new NotAvailable({
-      date: req.body.notAvailable,
+      date,
       staffs: [{ tester: id }],
     });
   } else {
@@ -52,7 +86,10 @@ router.post("/", async function (req, res) {
 
   user.password = await bcrypt.hash(user.password, salt);
   await user.save();
-  const token = jwt.sign({ id: user._id }, config.get("key"));
+  const token = jwt.sign(
+    { id: user._id, email: user.email },
+    config.get("key")
+  );
   res.cookie("x-auth-token", token, {
     secure: process.env.NODE_ENV !== "development",
     httpOnly: true,

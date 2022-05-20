@@ -17,11 +17,13 @@ import History from "./pages/History";
 import NotAvailableDate from "./pages/NotAvailableDate";
 function App() {
   const dispatch = useDispatch();
+
   React.useEffect(() => {
     //Once the App running, fetch data
 
     locationInfo(dispatch);
   }, []);
+
   return (
     <div className="App">
       <Router>

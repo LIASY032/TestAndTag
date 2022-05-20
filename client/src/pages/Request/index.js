@@ -106,7 +106,7 @@ function Request() {
                   {locationData.length > 0 ? (
                     locationData[selectLocation].floor.map((element, index) => {
                       return (
-                        <option value={index} key={index}>
+                        <option value={element} key={index}>
                           {element}
                         </option>
                       );

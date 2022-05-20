@@ -12,6 +12,7 @@ const requestSchema = mongoose.Schema({
     ref: "Item",
   },
   date: { type: Date, required: true },
+  is_finished: { type: Boolean, required: true, default: false },
 });
 
 const Request = mongoose.model("Request", requestSchema);

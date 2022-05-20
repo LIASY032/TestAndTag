@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 
 const locationSchema = mongoose.Schema({
-  building: { type: String, required: true },
+  building: { type: String, required: true, unique: true },
   floor: { type: [{ type: Number }], required: true, default: [] },
   room: { type: [{ type: Number }], required: true, default: [] },
   items: {

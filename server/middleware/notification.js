@@ -1,0 +1,30 @@
+const jwt = require("jsonwebtoken");
+const config = require("config");
+
+const { Item } = require("../models/Item");
+const { User } = require("../models/user");
+const sendEmail = require("../service/email");
+async function notification(req, res, next) {
+  const today = new Date();
+  const date = today.toISOString().split("T")[0];
+  const items = await Item.find();
+  for (const item of items) {
+    const test_date = item.next_test_date;
+    if (test_date) {
+      if (test_date.next_test_date.split("T")[0] === date) {
+        const users = await User.find();
+        // notify all users
+        for (const user of users) {
+          sendEmail(
+            user.email,
+            `An Item (${item.name}) needs to be tested in building ${item.building} floor ${item.floor} room ${item.room} `
+          );
+        }
+      }
+    }
+  }
+
+  next();
+}
+
+module.exports = notification;

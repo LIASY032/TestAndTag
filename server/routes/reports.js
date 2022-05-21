@@ -4,9 +4,11 @@ const router = express.Router();
 const { Item } = require("../models/Item");
 const { auth } = require("../middleware/auth");
 const { Report } = require("../models/report");
-const { Request } = require("../modaels/request");
+const { Request } = require("../models/request");
 
 const { Location } = require("../models/location");
+
+// finish a task
 router.put("/:condition/:itemId/:requestId", auth, async function (req, res) {
   const item = await Item.findById(req.params.itemId);
   item.previous_test_date = new Date();

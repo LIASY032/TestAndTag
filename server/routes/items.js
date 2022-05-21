@@ -12,6 +12,13 @@ router.get("/", async function (req, res) {
   res.send(item);
 });
 
+router.get("/test_old_item/:id", async function (req, res) {
+  // TODO: improve this
+  const request = new Request({ item_id: req.params.id, date: new Date() });
+  await request.save();
+  res.send("success");
+});
+
 router.post("/add_new_item", async function (req, res) {
   let newItem = await Item(
     _.pick(req.body, [
@@ -27,6 +34,9 @@ router.post("/add_new_item", async function (req, res) {
   );
 
   await newItem.save();
+
+  const request = new Request({ item_id: newItem.id, date: new Date() });
+  await request.save();
 
   res.send("success");
 });

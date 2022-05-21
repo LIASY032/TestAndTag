@@ -9,18 +9,16 @@ const config = require("config");
 const bcrypt = require("bcrypt");
 const { auth } = require("../middleware/auth");
 
+// TODO: remove
 router.get("/", auth, async function (req, res) {
   const user = await User.findById(req.user._id);
 
   const users = await User.find();
   res.send(users);
 });
-
+// get a task list
 router.get("/todo", auth, async function (req, res) {
   const userID = req.user.id;
-  // TODO:
-  // const requests = await Request.find({ authorised_id: userID , is_finished: false});
-
   const requests = await Request.find({ is_finished: false });
   const items = await Item.find();
   const todoList = [];
@@ -39,6 +37,7 @@ router.get("/todo", auth, async function (req, res) {
           floor: item.floor,
           room: item.room,
           request: request._id,
+          previous_test_date: item.previous_test_date,
         };
         todoList.push(value);
       }
@@ -47,6 +46,7 @@ router.get("/todo", auth, async function (req, res) {
   res.send(todoList);
 });
 
+// user want to do a task
 router.get("/do_task/:requestId", auth, async function (req, res) {
   const request = await Request.findById(req.params.requestId);
   let check = false;
@@ -62,6 +62,7 @@ router.get("/do_task/:requestId", auth, async function (req, res) {
   res.send("success");
 });
 
+// user's registration
 router.post("/", async function (req, res) {
   let user = await User.findOne({ email: req.body.email });
 
@@ -83,6 +84,7 @@ router.post("/", async function (req, res) {
   res.send({ email: user.email, name: user.name });
 });
 
+//user login
 router.put("/:email", async function (req, res) {
   let user = await User.findOne({ email: req.params.email });
 

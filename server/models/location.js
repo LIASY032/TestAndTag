@@ -12,6 +12,7 @@ const locationSchema = mongoose.Schema({
           type: mongoose.Schema.Types.ObjectId,
           required: true,
           ref: "Item",
+          unique: true,
         },
       },
     ],

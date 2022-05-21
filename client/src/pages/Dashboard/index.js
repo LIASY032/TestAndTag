@@ -46,7 +46,10 @@ function Dashboard() {
                   <td>{item.name}</td>
                   <td>{item.email}</td>
 
-                  <td>{item.previous_test_date}</td>
+                  <td>
+                    {item.previous_test_date &&
+                      item.previous_test_date.split("T")[0]}
+                  </td>
                   <td>
                     <MyButton
                       btn="red-btn"
@@ -71,7 +74,6 @@ function Dashboard() {
                       btn="purple-btn"
                       onClick={async () => {
                         await doThis(item.request);
-                        console.log(item.request);
                       }}
                     >
                       {" "}

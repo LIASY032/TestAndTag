@@ -5,9 +5,12 @@ import Title from "../../components/Title";
 import { Button, Col, Container, Row, Form } from "react-bootstrap";
 import MyButton from "../../components/MyButton";
 import { useSelector } from "react-redux";
+import { testOldItem } from "../../services";
 function SelectItem() {
   const locationData = useSelector((state) => state.locations);
   const [selectLocation, setSelectLocation] = React.useState(0);
+
+  const [itemId, setItemId] = React.useState();
 
   return (
     <>
@@ -89,13 +92,20 @@ function SelectItem() {
               </Form.Group>
               <Form.Group>
                 <Form.Label>Item</Form.Label>
-                <Form.Select defaultValue="Choose...">
+                <Form.Select
+                  defaultValue="Choose..."
+                  onChange={(e) => {
+                    if (e.target.value !== "Choose...") {
+                      setItemId(e.target.value);
+                    }
+                  }}
+                >
                   <option value="Choose...">Choose...</option>
 
                   {locationData.length > 0 ? (
                     locationData[selectLocation].items.map((element, index) => {
                       return (
-                        <option value={index} key={index}>
+                        <option value={element.item_id} key={index}>
                           {element.name}
                         </option>
                       );
@@ -107,7 +117,14 @@ function SelectItem() {
               </Form.Group>
               <Row style={{ textAlign: "center" }}>
                 <Col>
-                  <Button className="select-form-btn" type="submit">
+                  <Button
+                    className="select-form-btn"
+                    onClick={async () => {
+                      if (itemId) {
+                        await testOldItem(itemId);
+                      }
+                    }}
+                  >
                     Submit
                   </Button>
                 </Col>

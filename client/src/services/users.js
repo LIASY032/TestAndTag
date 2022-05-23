@@ -43,3 +43,27 @@ export async function doThis(id) {
     console.log(e.response.data);
   }
 }
+
+export async function deleteAStaff(id) {
+  try {
+    const response = await axios.delete(
+      `/users/delete_staff_in_task_list/${id}`
+    );
+    const data = await response.data;
+    return data;
+  } catch (e) {
+    console.log(e.response.data);
+    return e.response.data;
+  }
+}
+
+export async function checkAStaff(id) {
+  try {
+    const response = await axios.get(`/users/check_in_task_list/${id}`);
+    const data = await response.data;
+    return data;
+  } catch (e) {
+    console.log(e.response.data);
+    return e.response.data;
+  }
+}

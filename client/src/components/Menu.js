@@ -19,8 +19,21 @@ class Menu extends Component {
     render() {
         return (
             <div className="menu">
-                <div className="menu-title" onClick={this.handleTitleClick}>Test & Tag</div>
-                <Button variant="text" color="success" onClick={this.handleSignInClick}>Sign In</Button>
+                <Button
+                    variant="text"
+                    size="large"
+                    sx={{
+                        color: '#000000',
+                    }}
+                    onClick={this.handleTitleClick}
+                >Test & Tag</Button>
+                <Button
+                    variant="text"
+                    sx={{
+                        color: '#000000'
+                    }}
+                    onClick={this.handleSignInClick}
+                >Sign In</Button>
             </div>
         );
     }

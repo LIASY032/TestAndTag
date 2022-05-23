@@ -1,19 +1,31 @@
-import React, {Component} from "react";
+import React, {Component, Fragment} from "react";
 import "./createItem.css";
 import itemPic from "../static/images/new-item.jpg";
 import {DatePicker} from "@mui/x-date-pickers";
 import {AdapterDateFns} from "@mui/x-date-pickers/AdapterDateFns";
 import {LocalizationProvider} from "@mui/x-date-pickers/LocalizationProvider";
-import {Button, TextField} from "@mui/material";
+import {
+    Button,
+    FormControl,
+    FormControlLabel, FormGroup,
+    FormLabel,
+    Input, Radio,
+    RadioGroup, TextareaAutosize, TextField
+} from "@mui/material";
 
 const picURL = itemPic;
 class CreateItem extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            purchaseDate: new Date()
+            name: '',
+            email: '',
+            address: '',
+            ownership: '',
+            date: null,
+            description: ''
         }
-        this.handlePurchaseDateChange = this.handlePurchaseDateChange.bind(this);
+        this.handleItemChange = this.handleItemChange.bind(this);
     }
 
     handleTipClick() {
@@ -24,9 +36,11 @@ class CreateItem extends Component {
         window.location.href = "/submit_success";
     }
 
-    handlePurchaseDateChange() {
+    handleItemChange(event) {
+        const target = event.target;
+        const name = target.name;
         this.setState({
-            purchaseDate: 0
+            [name]: target.value
         })
     }
 
@@ -39,37 +53,71 @@ class CreateItem extends Component {
                     <div className="new-item-tips">
                         <Button onClick={this.handleTipClick}>Testing an Existing Equipment? Click Here</Button>
                     </div>
-                    <div className="item-title">Your Equipment</div>
-                    <input className="item-normal" />
-                    <div className="item-title">Ownership</div>
-                    <select className="item-normal" />
-                    <div className="item-title">Purchase Date</div>
-                    {/*<LocalizationProvider dateAdapter={AdapterDateFns}>*/}
-                    {/*    <DatePicker*/}
-                    {/*/!*        label="test"*!/*/}
-                    {/*/!*        date={this.state.purchaseDate}*!/*/}
-                    {/*        onChange={this.handlePurchaseDateChange}*/}
-                    {/*        renderInput={(params) => <TextField {...params} />}*/}
-                    {/*/!*        // value={}*!/*/}
-                    {/*    />*/}
-                    {/*</LocalizationProvider>*/}
+                    <FormGroup>
+                        <FormLabel>Your Name</FormLabel>
+                        <Input
+                            name="name"
+                            value={this.state.name}
+                            onChange={this.handleItemChange}
+                        />
 
-                    <div className="item-title">Address ( Building / Floor / Room )</div>
-                    <input className="item-normal" />
-                    <div className="item-title">Testing Tag</div>
+                        <FormLabel sx={{marginTop: '10px'}}>Email Address</FormLabel>
+                        <Input
+                            name="email"
+                            value={this.state.email}
+                            onChange={this.handleItemChange}
+                        />
 
+                        <FormLabel sx={{marginTop: '10px'}}>Address ( Building / Floor / Room )</FormLabel>
+                        <Input
+                            name="address"
+                            value={this.state.address}
+                            onChange={this.handleItemChange}
+                        />
 
-                    <div className="item-title">Your Name</div>
-                    <input className="item-normal" />
-                    <div className="item-title">Email Address</div>
-                    <input className="item-normal" />
-                    <div className="item-title">Message</div>
-                    <textarea rows="4" className="item-textarea"></textarea>
-                    <Button variant="contained" color="success" className="item-btn" onClick={this.handleBtnClick}>SUBMIT</Button>
+                        <FormLabel sx={{marginTop: '10px'}}>Ownership</FormLabel>
+                        <RadioGroup
+                            row
+                            name="ownership"
+                            value={this.state.ownership}
+                            onChange={this.handleItemChange}
+                        >
+                            <FormControlLabel value="personal" control={<Radio size="small" />} label="Personal" />
+                            <FormControlLabel value="UniSA" control={<Radio size="small" />} label="UniSA" />
+                        </RadioGroup>
 
+                        <FormLabel sx={{marginTop: '10px'}}>Purchase Date</FormLabel>
+                        <LocalizationProvider dateAdapter={AdapterDateFns}>
+                            <DatePicker
+                                onChange={(newDate) => {
+                                    this.setState({
+                                        date: newDate
+                                    });
+                                }}
+                                value={this.state.date}
+                                renderInput={(params) => <TextField {...params} />}
+                                lable="Purchase Date"
+                            />
+                        </LocalizationProvider>
 
+                        <FormLabel sx={{marginTop: '10px'}}>Description</FormLabel>
+                        <TextareaAutosize
+                            minRows={5}
+                            name="description"
+                            value={this.state.description}
+                            onChange={this.handleItemChange}
+                        />
+
+                        <Button
+                            variant="contained"
+                            sx={{
+                                marginTop: '20px'
+                            }}
+                            color="success"
+                            onClick={this.handleBtnClick}
+                        >SUBMIT</Button>
+                    </FormGroup>
                 </div>
-
             </div>
 
         );

@@ -62,6 +62,37 @@ router.get("/do_task/:requestId", auth, async function (req, res) {
   res.send("success");
 });
 
+router.get("/check_in_task_list/:requestId", auth, async function (req, res) {
+  const request = await Request.findById(req.params.requestId);
+  let check = false;
+  for (const i of request.staffs) {
+    if (i.id == req.user.id) {
+      check = true;
+    }
+  }
+  if (check) {
+    res.send("success");
+  } else {
+    res.status(401).send("You haven't selected this task");
+  }
+});
+
+router.delete(
+  "/delete_staff_in_task_list/:requestId",
+  auth,
+  async function (req, res) {
+    const request = await Request.findById(req.params.requestId);
+    let count = 0;
+    for (const i of request.staffs) {
+      if (i.id == req.user.id) {
+        request.staffs.remove(i);
+        await request.save();
+      }
+    }
+    res.send("success");
+  }
+);
+
 // user's registration
 router.post("/", async function (req, res) {
   let user = await User.findOne({ email: req.body.email });

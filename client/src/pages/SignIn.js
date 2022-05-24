@@ -1,53 +1,41 @@
-import React, {Component} from "react";
+import React from "react";
 import "./signIn.css"
-import {Button, FormGroup, FormLabel, Input} from "@mui/material";
+import {Button, FormControlLabel, FormGroup, FormLabel, Input, Radio} from "@mui/material";
 
-class SignIn extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            account: '',
-            password: ''
-        }
-        this.handleItemChange = this.handleItemChange.bind(this);
-        this.handleBtnClick = this.handleBtnClick.bind(this);
-    }
+function SignIn() {
+    const accountRef = React.useRef();
+    const passwordRef = React.useRef();
+    return (
+        <div className="sign-in-container">
+            <div className="sign-in-title">Sign In</div>
+            <div className="sign-in-tips">Staff Only - Sign into your administration staff account</div>
+            <FormGroup sx={{marginTop: '20px', padding: '30px 30px', border: '1px solid'}}>
+                <FormLabel>Email Address</FormLabel>
+                <FormControlLabel
+                    ref={accountRef}
+                    control={<Input fullWidth type="email" />}></FormControlLabel>
+                <FormLabel sx={{marginTop: '30px'}}>Password</FormLabel>
+                <FormControlLabel
+                    ref={passwordRef}
+                    control={<Input fullWidth type="password" />}></FormControlLabel>
+                <Button
+                    variant="contained"
+                    sx={{
+                        marginTop: '20px'
+                    }}
+                    color="success"
+                    onClick={async () => {
+                        // todo: sign in
 
-    handleItemChange(event) {
-        const target = event.target;
-        const name = target.name;
-        this.setState({
-            [name]: target.value
-        })
-    }
+                        if (true) {
+                            window.location.href = "/dashboard";
+                        }
 
-    handleBtnClick() {
-        // to do - sign in
-        window.location.href = "/dashboard";
-    }
-
-    render() {
-        return (
-            <div className="sign-in-container">
-                <div className="sign-in-title">Sign In</div>
-                <div className="sign-in-tips">Staff Only - Sign into your administration staff account</div>
-                <FormGroup>
-                    <FormLabel>Email Address</FormLabel>
-                    <Input name="account" value={this.state.account} onChange={this.handleItemChange} />
-                    <FormLabel>Password</FormLabel>
-                    <Input type="password" name="password" value={this.state.password} onChange={this.handleItemChange} />
-                    <Button
-                        variant="contained"
-                        sx={{
-                            marginTop: '20px'
-                        }}
-                        color="success"
-                        onClick={this.handleBtnClick}
-                    >SIGN IN</Button>
-                </FormGroup>
-            </div>
-        );
-    }
+                    }}
+                >SIGN IN</Button>
+            </FormGroup>
+        </div>
+    );
 }
 
 export default SignIn;

@@ -224,7 +224,14 @@ function Dashboard() {
                 <Row className="row-padding">
                   <Col md={4}>Previous Tested Date:</Col>
                   <Col md={8}>
-                    <Form.Control type="date" disabled></Form.Control>
+                    <Form.Control
+                      type="date"
+                      disabled
+                      defaultValue={
+                        detail[select].previous_test_date &&
+                        detail[select].previous_test_date.split("T")[0]
+                      }
+                    ></Form.Control>
                   </Col>
                 </Row>
 
@@ -249,7 +256,6 @@ function Dashboard() {
                 btn="yellow-btn"
                 href="/expire-date"
                 onClick={async (e) => {
-                  console.log(detail[select]);
                   await updateItem(detail[select]);
                 }}
               >

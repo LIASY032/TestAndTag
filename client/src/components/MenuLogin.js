@@ -1,6 +1,7 @@
 import React, {Component, Fragment} from "react";
 import "./menu.css"
-import {Button, FormControl, InputLabel, Menu, MenuItem, Select} from "@mui/material";
+import {Button, Menu, MenuItem} from "@mui/material";
+import AddModeratorIcon from "@mui/icons-material/AddModerator";
 
 class MenuLogin extends Component {
     constructor(props) {
@@ -50,7 +51,16 @@ class MenuLogin extends Component {
         return (
             <Fragment>
                 <div className="menu">
-                    <div className="menu-title" onClick={this.handleTitleClick}>Test & Tag</div>
+                    {/*<div className="menu-title" onClick={this.handleTitleClick}>Test & Tag</div>*/}
+                    <Button
+                        variant="text"
+                        size="large"
+                        sx={{
+                            color: '#000000',
+                        }}
+                        onClick={this.handleTitleClick}
+                        startIcon={<AddModeratorIcon />}
+                    >Test & Tag</Button>
                     <div className="user-info">
                             <Button
                                 color="success"

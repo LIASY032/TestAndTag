@@ -49,7 +49,7 @@ class Home extends Component {
                     <Route path="/submit_success" element={<SubmitSuccess />} />
                     <Route path="/work_list" element={<WorkList />} />
                     <Route path="/work_details" element={<TaskDetails />} />
-                    <Route path="/pool_list" element={<TaskPool />} />
+                    <Route path="/task_pool" element={<TaskPool />} />
                     <Route path="/statics" element={<Statics />} />
                 </Routes>
             </Router>

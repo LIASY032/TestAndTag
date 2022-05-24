@@ -1,6 +1,5 @@
 import React, { Component, Fragment } from "react";
 import {Table} from "react-bootstrap";
-import "./workList.css"
 import {
     Button,
     Paper,
@@ -69,7 +68,7 @@ class WorkList extends Component {
 
     render() {
         return (
-            <div className="pool-content">
+            <div>
                 <Button
                     size="small"
                     onClick={this.handleBackClick}

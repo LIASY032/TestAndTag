@@ -1,8 +1,8 @@
-import React, { Component, Fragment } from "react";
-import "./taskPool.css";
+import React, { Component } from "react";
 import DetailsIcon from '@mui/icons-material/Details';
+import AddModeratorIcon from '@mui/icons-material/AddModerator';
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
-
+import TaskDetailsDialog from '../components/TaskDetailsDialog';
 import {
     Button, Paper,
     Table,
@@ -12,14 +12,18 @@ import {
     TableFooter,
     TableHead,
     TablePagination,
-    TableRow
+    TableRow, Tooltip
 } from "@mui/material";
+import TaskTagDialog from "../components/TaskTagDialog";
 
 class TaskPool extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            headers: ['Ownership', 'Purchased Date', 'Address', 'Name', 'Email', 'Operation'],
+            page: 0,
+            detailsDialogShow: false,
+            tagDialogShow: true,
+            headers: ['Ownership', 'Purchased Date', 'Address', 'Name', 'Email', 'Test'],
             taskList: [
                 { id: 1, ownership: 'UniSA', purchasedDate: '2022-05-10', address: 'ptest', name: 'Jon', email: 35 },
                 { id: 2, ownership: 'Personal', purchasedDate: '2022-05-09', address: 'ptest', name: 'Alice', email:  42 },
@@ -31,23 +35,47 @@ class TaskPool extends Component {
                 { id: 8, ownership: 'Personal', purchasedDate: '2022-05-04', address: 'ptest', name: 'Betty', email:  36 },
                 { id: 9, ownership: 'UniSA', purchasedDate: '2022-05-02', address: 'ptest', name: 'ellen', email:  65 },
                 { id: 10, ownership: 'UniSA', purchasedDate: '2022-05-01', address: 'ptest', name: 'ellen', email:  'frt5@gmail.com' },
-            ]
+            ],
+            info: [ {id: 1, ownership: 'UniSA', purchasedDate: '2022-05-10', address: 'ptest', name: 'Jon', email: 35 }]
         }
+        this.changeDetailsDialogShow = this.changeDetailsDialogShow.bind(this);
+        this.handleDetailsClick = this.handleDetailsClick.bind(this);
+        this.handleChangePage = this.handleChangePage.bind(this);
     }
 
     handleBackClick() {
         window.location.href = "/dashboard";
     }
 
+    changeDetailsDialogShow(flag) {
+        this.setState({
+            detailsDialogShow: flag
+        })
+    }
+
+    handleDetailsClick(id) {
+        this.setState({
+            detailsDialogShow: true
+        })
+        this.setState({
+            info: this.state.taskList[id]
+        })
+    }
+
+    handleChangePage(event, newPage) {
+        this.setState({
+            page: newPage
+        });
+    };
+
     render() {
         return (
-            <div className="pool-content">
+            <div className="table-content">
                 <Button
                     size="small"
                     onClick={this.handleBackClick}
                     startIcon={<ArrowBackIosNewIcon />}
                 >Back to Dashboard</Button>
-
                 <TableContainer component={Paper}>
                     <Table>
                         <TableHead>
@@ -58,16 +86,21 @@ class TaskPool extends Component {
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {this.state.taskList.map((task) => {
+                            {this.state.taskList.map((task, index) => {
                                 return (
-                                    <TableRow key={task.id}>
+                                    <TableRow key={index}>
                                         <TableCell>{task.ownership}</TableCell>
                                         <TableCell>{task.purchasedDate}</TableCell>
                                         <TableCell>{task.address}</TableCell>
                                         <TableCell>{task.name}</TableCell>
                                         <TableCell>{task.email}</TableCell>
                                         <TableCell>
-                                            <DetailsIcon></DetailsIcon>
+                                            <Tooltip title="View the Details">
+                                                <DetailsIcon></DetailsIcon>
+                                            </Tooltip>
+                                            <Tooltip title="Click to Tag">
+                                                <AddModeratorIcon></AddModeratorIcon>
+                                            </Tooltip>
                                         </TableCell>
                                     </TableRow>
                                 )
@@ -76,18 +109,18 @@ class TaskPool extends Component {
                         <TableFooter>
                             <TableRow>
                                 <TablePagination
-                                    rowsPerPageOptions={false}
+                                    rowsPerPageOptions={[]}
                                     // colSpan={12}
                                     count={this.state.taskList.length}
                                     rowsPerPage={10}
-                                    page={1}
+                                    page={this.state.page}
                                     // SelectProps={{
                                     //     inputProps: {
                                     //         'aria-label': 'rows per page',
                                     //     },
                                     //     native: true,
                                     // }}
-                                    // onPageChange={handleChangePage}
+                                    onPageChange={this.handleChangePage}
                                     // onRowsPerPageChange={handleChangeRowsPerPage}
                                     // ActionsComponent={TablePaginationActions}
                                 />
@@ -95,6 +128,12 @@ class TaskPool extends Component {
                         </TableFooter>
                     </Table>
                 </TableContainer>
+
+                <TaskDetailsDialog changeDetailsDialogShow={this.changeDetailsDialogShow} open={this.state.detailsDialogShow}></TaskDetailsDialog>
+                <TaskTagDialog
+                    open={this.state.tagDialogShow}
+                    info={this.state.info}
+                ></TaskTagDialog>
             </div>
         );
     }

@@ -95,7 +95,7 @@ class CreateItem extends Component {
                                 }}
                                 value={this.state.date}
                                 renderInput={(params) => <TextField {...params} />}
-                                lable="Purchase Date"
+                                // lable="Purchase Date"
                             />
                         </LocalizationProvider>
 

@@ -23,6 +23,7 @@ class SignIn extends Component {
 
     handleBtnClick() {
         // to do - sign in
+        this.props.changeIsLogin(true);
         window.location.href = "/dashboard";
     }
 

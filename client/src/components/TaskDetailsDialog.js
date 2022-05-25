@@ -14,39 +14,46 @@ class TaskDetailsDialog extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            open: this.props.open
+            info: [],
+            open: false,
         }
-        this.handleCloseClick = this.handleCloseClick.bind(this);
+        this.handleClose = this.handleClose.bind(this);
     }
 
-    handleCloseClick() {
-        this.setState({
-            open: false
-        })
-        this.props.changeDetailsDialogShow(false);
+    static getDerivedStateFromProps(newProps) {
+        return {
+            open: newProps.open,
+            info: newProps.info,
+            descriptionHidden: (newProps.info.description && newProps.info.description != '')  ? false :true
+        }
+    }
+
+    handleClose() {
+        this.props.closeDetailsDialog();
     }
 
     render() {
         return (
-            <Dialog open={this.state.open} onClose={this.handleCloseClick}>
+            <Dialog open={this.state.open} onClose={this.handleClose}>
                 <DialogTitle>Details</DialogTitle>
                 <DialogContent>
                     <FormGroup>
-                        <FormLabel>Ownership</FormLabel>
+                        <FormLabel>Ownership: {this.state.info.ownership}</FormLabel>
 
+                        <FormLabel>Purchased Date: {this.state.info.purchasedDate}</FormLabel>
 
-                        <FormLabel>Purchased Date</FormLabel>
+                        <FormLabel>Address: {this.state.info.address}</FormLabel>
 
-                        <FormLabel>Address</FormLabel>
+                        <FormLabel>Name: {this.state.info.name}</FormLabel>
 
-                        <FormLabel>Name</FormLabel>
+                        <FormLabel>Email: {this.state.info.email}</FormLabel>
 
-                        <FormLabel>Email</FormLabel>
+                        <FormLabel hidden={this.state.descriptionHidden}>Description: {this.state.info.description}</FormLabel>
                     </FormGroup>
                 </DialogContent>
                 <DialogActions>
                     <Button
-                        onClick={this.handleCloseClick}
+                        onClick={this.handleClose}
                     >Cancel</Button>
                 </DialogActions>
             </Dialog>

@@ -17,7 +17,7 @@ class Home extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            isLogin: "",
+            isLogin: false,
             name: "Alice"
         }
         this.changeIsLogin = this.changeIsLogin.bind(this);

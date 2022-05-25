@@ -43,10 +43,6 @@ class MenuLogin extends Component {
         window.location.href = "/dashboard";
     }
 
-    handleCalendarClick() {
-        window.location.href = "/work_calendar";
-    }
-
     render() {
         return (
             <Fragment>
@@ -82,7 +78,6 @@ class MenuLogin extends Component {
                                 }}
                             >
                                 <MenuItem onClick={this.handleDashboardClick}>Dashboard</MenuItem>
-                                <MenuItem onClick={this.handleCalendarClick}>Workday Calendar</MenuItem>
                                 <MenuItem onClick={() => this.props.changeIsLogin(false)}>Logout</MenuItem>
                             </Menu>
                     </div>

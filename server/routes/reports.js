@@ -19,10 +19,19 @@ router.put("/:condition/:itemId/:requestId", auth, async function (req, res) {
   }
 
   const location = await Location.findOne({ building: item.building });
-
-  location.items.push({ name: item.name, item_id: item._id });
+  let exist = false;
+  for (const i of location.items) {
+    if (i.item_id == item._id) exist = true;
+  }
+  if (!exist) {
+    location.items.push({
+      name: item.name,
+      item_id: item._id,
+      floor: item.floor,
+      room: item.room,
+    });
+  }
   await location.save();
-
   request.is_finished = true;
   await request.save();
   await item.save();

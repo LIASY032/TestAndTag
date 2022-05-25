@@ -14,6 +14,8 @@ const locationSchema = mongoose.Schema({
           ref: "Item",
           unique: true,
         },
+        floor: { type: Number, required: true },
+        room: { type: Number, required: true },
       },
     ],
     required: true,

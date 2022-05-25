@@ -3,6 +3,7 @@ const config = require("config");
 
 const { Item } = require("../models/Item");
 const { User } = require("../models/user");
+const { Request } = require("../models/request");
 const sendEmail = require("../service/email");
 async function notification(req, res, next) {
   const today = new Date();
@@ -21,9 +22,12 @@ async function notification(req, res, next) {
             `An Item (${item.name}) needs to be tested in building ${item.building} floor ${item.floor} room ${item.room} `
           );
         }
+        item.has_reminded = true;
+        item.next_test_date = "0000-00-00";
+        const request = new Request({ item_id: item._id, date: new Date() });
+        await request.save();
+        await item.save();
       }
-      item.has_reminded = true;
-      await item.save();
     }
   }
 

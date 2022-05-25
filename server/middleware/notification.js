@@ -10,8 +10,9 @@ async function notification(req, res, next) {
   const items = await Item.find();
   for (const item of items) {
     const test_date = item.next_test_date;
-    if (test_date) {
-      if (test_date.next_test_date.split("T")[0] === date) {
+
+    if (test_date && !item.has_reminded) {
+      if (test_date.toISOString().split("T")[0] === date) {
         const users = await User.find();
         // notify all users
         for (const user of users) {
@@ -21,6 +22,8 @@ async function notification(req, res, next) {
           );
         }
       }
+      item.has_reminded = true;
+      await item.save();
     }
   }
 

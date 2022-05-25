@@ -11,6 +11,7 @@ const itemSchema = mongoose.Schema({
   room: { type: Number, required: true },
   previous_test_date: { type: Date, required: false },
   next_test_date: { type: Date, required: false },
+  has_reminded: { type: Boolean, required: true, default: false },
 });
 
 const Item = mongoose.model("Item", itemSchema);

@@ -12,6 +12,7 @@ const { Location } = require("../models/location");
 router.put("/:condition/:itemId/:requestId", auth, async function (req, res) {
   const item = await Item.findById(req.params.itemId);
   item.previous_test_date = new Date();
+  item.has_reminded = false;
   const request = await Request.findById(req.params.requestId);
   if (req.body.next_test_date) {
     item.next_test_date = req.body.next_test_date;

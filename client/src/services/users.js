@@ -60,10 +60,9 @@ export async function deleteAStaff(id) {
 export async function checkAStaff(id) {
   try {
     const response = await axios.get(`/users/check_in_task_list/${id}`);
-    const data = await response.data;
-    return data;
+    return true;
   } catch (e) {
     console.log(e.response.data);
-    return e.response.data;
+    return false;
   }
 }

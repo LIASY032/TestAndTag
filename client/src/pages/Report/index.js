@@ -2,10 +2,8 @@ import React from "react";
 import { Form, Button } from "react-bootstrap";
 import Title from "../../components/Title";
 import { useDispatch } from "react-redux";
-import { getTasks } from "../../store/actions";
 import { report } from "../../services";
 function Report() {
-  const dispatch = useDispatch();
   const reason = React.useRef();
   return (
     <>
@@ -36,7 +34,6 @@ function Report() {
               condition: "fail",
               reason: reason.current.value,
             });
-            await getTasks(dispatch);
             window.location.href = "/tester";
           }}
         >

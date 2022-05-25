@@ -11,7 +11,21 @@ function SelectItem() {
   const [selectLocation, setSelectLocation] = React.useState(0);
 
   const [itemId, setItemId] = React.useState();
+  const floorRef = React.useRef();
+  const roomRef = React.useRef();
 
+  const [list, setList] = React.useState([]);
+  function handleSelectItems() {
+    const items = [];
+    for (const item of locationData[selectLocation].items) {
+      if (item.floor == floorRef.current.value) {
+        if (item.room == roomRef.current.value) {
+          items.push(item);
+        }
+      }
+    }
+    setList(items);
+  }
   return (
     <>
       <Title>Select Item</Title>
@@ -36,6 +50,7 @@ function SelectItem() {
                   onChange={(e) => {
                     if (e.target.value != "Choose...") {
                       setSelectLocation(parseInt(e.target.value));
+                      handleSelectItems();
                     }
                   }}
                 >
@@ -56,13 +71,17 @@ function SelectItem() {
               </Form.Group>
               <Form.Group>
                 <Form.Label>Floor</Form.Label>
-                <Form.Select defaultValue="Choose...">
+                <Form.Select
+                  defaultValue="Choose..."
+                  ref={floorRef}
+                  onChange={handleSelectItems}
+                >
                   <option value="Choose...">Choose...</option>
 
                   {locationData.length > 0 ? (
                     locationData[selectLocation].floor.map((element, index) => {
                       return (
-                        <option value={index} key={index}>
+                        <option value={element} key={index}>
                           {element}
                         </option>
                       );
@@ -74,13 +93,17 @@ function SelectItem() {
               </Form.Group>
               <Form.Group>
                 <Form.Label>Room</Form.Label>
-                <Form.Select defaultValue="Choose...">
+                <Form.Select
+                  defaultValue="Choose..."
+                  ref={roomRef}
+                  onChange={handleSelectItems}
+                >
                   <option value="Choose...">Choose...</option>
 
                   {locationData.length > 0 ? (
                     locationData[selectLocation].room.map((element, index) => {
                       return (
-                        <option value={index} key={index}>
+                        <option value={element} key={index}>
                           {element}
                         </option>
                       );
@@ -102,8 +125,8 @@ function SelectItem() {
                 >
                   <option value="Choose...">Choose...</option>
 
-                  {locationData.length > 0 ? (
-                    locationData[selectLocation].items.map((element, index) => {
+                  {list.length > 0 ? (
+                    list.map((element, index) => {
                       return (
                         <option value={element.item_id} key={index}>
                           {element.name}

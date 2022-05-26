@@ -3,8 +3,7 @@ const router = express.Router();
 const _ = require("lodash");
 const { Item } = require("../models/Item");
 const { Request } = require("../models/request");
-const { User } = require("../models/user");
-const { Location } = require("../models/location");
+
 const { auth } = require("../middleware/auth");
 const sendEmail = require("../service/email");
 router.get("/", async function (req, res) {
@@ -32,6 +31,13 @@ router.post("/add_new_item", async function (req, res) {
       "email",
     ])
   );
+
+  if (req.body.ownership == "Personal") {
+    sendEmail(
+      req.body.email,
+      `Make sure your item in building ${req.body.building} floor ${req.body.floor} room ${req.body.room}`
+    );
+  }
 
   await newItem.save();
 

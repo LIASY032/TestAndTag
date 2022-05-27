@@ -23,9 +23,35 @@ async function notification(req, res, next) {
           );
         }
         item.has_reminded = true;
-        item.next_test_date = "0000-00-00";
-        const request = new Request({ item_id: item._id, date: new Date() });
-        await request.save();
+        d = new Date();
+        d.setDate(0);
+        d.setMonth(0);
+        d.setYear(2000);
+
+        item.next_test_date = d;
+
+        // prevent send a number of request
+        const requests = await Request.find();
+        const today = new Date();
+        let exist = false;
+        for (const i of requests) {
+          if (
+            i.date.toISOString().split("T")[0] ==
+            today.toISOString().split("T")[0]
+          ) {
+            if (i.item_id.equals(item._id)) {
+              exist = true;
+            }
+          }
+        }
+        if (!exist) {
+          const request = new Request({
+            item_id: item._id,
+            date: new Date(),
+          });
+          await request.save();
+        }
+
         await item.save();
       }
     }

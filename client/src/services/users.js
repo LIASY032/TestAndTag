@@ -25,18 +25,6 @@ export async function userRegister({ name, email, password }) {
   } catch (e) {}
 }
 
-export async function notAvailable(value) {
-  try {
-    const response = await axios.put("/users/not-available", {
-      notAvailable: value,
-    });
-    const data = await response.data;
-    return data;
-  } catch (e) {
-    console.log(e.response.data);
-  }
-}
-
 export async function getTodo() {
   try {
     const response = await axios.get("/users/todo");
@@ -44,5 +32,37 @@ export async function getTodo() {
     return data;
   } catch (e) {
     console.log(e.response.data);
+  }
+}
+export async function doThis(id) {
+  try {
+    const response = await axios.get(`/users/do_task/${id}`);
+    const data = await response.data;
+    return data;
+  } catch (e) {
+    console.log(e.response.data);
+  }
+}
+
+export async function deleteAStaff(id) {
+  try {
+    const response = await axios.delete(
+      `/users/delete_staff_in_task_list/${id}`
+    );
+    const data = await response.data;
+    return data;
+  } catch (e) {
+    console.log(e.response.data);
+    return e.response.data;
+  }
+}
+
+export async function checkAStaff(id) {
+  try {
+    const response = await axios.get(`/users/check_in_task_list/${id}`);
+    return true;
+  } catch (e) {
+    console.log(e.response.data);
+    return false;
   }
 }

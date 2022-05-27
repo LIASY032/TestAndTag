@@ -4,8 +4,12 @@ const items = require("../routes/items");
 const express = require("express");
 const error = require("../middleware/error");
 const reports = require("../routes/reports");
+const notification = require("../middleware/notification");
+
 module.exports = function (app) {
   app.use(express.json());
+  app.use(notification);
+
   app.use("/api/locations", locations);
 
   app.use("/api/reports", reports);

@@ -35,3 +35,12 @@ export const updateItem = async (item) => {
     console.log(err.response.data);
   }
 };
+
+export const testOldItem = async (item) => {
+  try {
+    const response = await axios.get(`/items/test_old_item/${item}`);
+    return response.data;
+  } catch (e) {
+    console.log(e.response.data);
+  }
+};

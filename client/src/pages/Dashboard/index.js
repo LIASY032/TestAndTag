@@ -6,8 +6,8 @@ import MyTable from "../../components/MyTable";
 import MyButton from "../../components/MyButton";
 
 import { useSelector, useDispatch } from "react-redux";
-import { taskModified, taskSelected } from "../../store/actions";
-import { updateItem } from "../../services";
+import { getTasks, taskModified, taskSelected } from "../../store/actions";
+import { doThis, updateItem, checkAStaff } from "../../services";
 
 function Dashboard() {
   const dispatch = useDispatch();
@@ -29,14 +29,18 @@ function Dashboard() {
     "Control",
   ];
   const detail = useSelector((state) => state.tasks.lists);
+  React.useEffect(() => {
+    async function fetchData() {
+      // You can await here
+      await getTasks(dispatch);
+    }
+    fetchData();
+  }, []);
 
   if (userData.name) {
     return (
       <>
         <Title>Authorised Person</Title>
-        <MyButton btn="purple-btn" style={{ width: "300px" }} href="/rest-date">
-          Not Available Date
-        </MyButton>
         <Container className="user-dashboard">
           <MyTable header={header} title="TO DO">
             {detail &&
@@ -49,207 +53,232 @@ function Dashboard() {
                   <td>{item.name}</td>
                   <td>{item.email}</td>
 
-                  <td>{item.previous_test_date}</td>
+                  <td>
+                    {item.previous_test_date &&
+                      item.previous_test_date.split("T")[0]}
+                  </td>
                   <td>
                     <MyButton
                       btn="red-btn"
-                      onClick={() => {
-                        setModalShow(true);
-                        setSelect(index);
-                        taskSelected(index, dispatch);
+                      onClick={async () => {
+                        const check = await checkAStaff(item.request);
+                        if (check) {
+                          setModalShow(true);
+                          setSelect(index);
+                          taskSelected(index, dispatch);
 
-                        let count = 0;
-                        for (const location of locationData) {
-                          if (location.building === item.building) {
-                            setSelectLocation(count);
+                          let count = 0;
+                          for (const location of locationData) {
+                            if (location.building === item.building) {
+                              setSelectLocation(count);
+                            }
+                            count += 1;
                           }
-                          count += 1;
                         }
                       }}
                     >
                       view
                     </MyButton>
+
+                    <MyButton
+                      btn="purple-btn"
+                      onClick={async () => {
+                        await doThis(item.request);
+                      }}
+                    >
+                      {" "}
+                      Do this
+                    </MyButton>
                   </td>
                 </tr>
               ))}
           </MyTable>
-          <Modal
-            onHide={() => setModalShow(false)}
-            show={modalShow}
-            aria-labelledby="contained-modal-title-vcenter"
-          >
-            <Modal.Header closeButton style={{ backgroundColor: "#333" }}>
-              <Modal.Title
-                id="contained-modal-title-vcenter"
-                style={{ color: "#fff" }}
-              >
-                Name: {detail[select].name}
-              </Modal.Title>
-            </Modal.Header>
-            <Modal.Body className="show-grid">
-              <Container>
-                <Row className="row-padding">
-                  <Col md={4}>Email: </Col>
-                  <Col md={8}>
-                    <Form.Control
-                      type="email"
-                      defaultValue={detail[select].email}
-                      onChange={(e) => {
-                        detail[select].email = e.target.value;
-                        taskModified(select, detail[select], dispatch);
-                      }}
-                    />
-                  </Col>
-                </Row>
-                <Row className="row-padding">
-                  <Col xs={6} md={4}>
-                    Ownership:
-                  </Col>
-                  <Col xs={12} md={8}>
-                    <Form.Select
-                      defaultValue={detail[select].ownership}
-                      onChange={(e) => {
-                        detail[select].ownership = e.target.value;
-                        taskModified(select, detail[select], dispatch);
-                      }}
-                    >
-                      <option value="Personal">Personal</option>
-                      <option value="UniSA">UniSA</option>
-                    </Form.Select>
-                  </Col>
-                </Row>
-                <Row className="row-padding">
-                  <Form.Group as={Col}>
-                    <Form.Label>Building</Form.Label>
 
-                    <Form.Select
-                      onChange={(e) => {
-                        let count = 0;
-                        for (const location of locationData) {
-                          if (location.building === e.target.value) {
-                            setSelectLocation(count);
+          {detail && detail[select] && (
+            <Modal
+              onHide={() => setModalShow(false)}
+              show={modalShow}
+              aria-labelledby="contained-modal-title-vcenter"
+            >
+              <Modal.Header closeButton style={{ backgroundColor: "#333" }}>
+                <Modal.Title
+                  id="contained-modal-title-vcenter"
+                  style={{ color: "#fff" }}
+                >
+                  Name: {detail[select].name}
+                </Modal.Title>
+              </Modal.Header>
+              <Modal.Body className="show-grid">
+                <Container>
+                  <Row className="row-padding">
+                    <Col md={4}>Email: </Col>
+                    <Col md={8}>
+                      <Form.Control
+                        type="email"
+                        defaultValue={detail[select].email}
+                        onChange={(e) => {
+                          detail[select].email = e.target.value;
+                          taskModified(select, detail[select], dispatch);
+                        }}
+                      />
+                    </Col>
+                  </Row>
+                  <Row className="row-padding">
+                    <Col xs={6} md={4}>
+                      Ownership:
+                    </Col>
+                    <Col xs={12} md={8}>
+                      <Form.Select
+                        defaultValue={detail[select].ownership}
+                        onChange={(e) => {
+                          detail[select].ownership = e.target.value;
+                          taskModified(select, detail[select], dispatch);
+                        }}
+                      >
+                        <option value="Personal">Personal</option>
+                        <option value="UniSA">UniSA</option>
+                      </Form.Select>
+                    </Col>
+                  </Row>
+                  <Row className="row-padding">
+                    <Form.Group as={Col}>
+                      <Form.Label>Building</Form.Label>
+
+                      <Form.Select
+                        onChange={(e) => {
+                          let count = 0;
+                          for (const location of locationData) {
+                            if (location.building === e.target.value) {
+                              setSelectLocation(count);
+                            }
+                            count += 1;
                           }
-                          count += 1;
+                          detail[select].building = e.target.value;
+                          taskModified(select, detail[select], dispatch);
+                        }}
+                        defaultValue={detail[select].building}
+                      >
+                        {locationData.length > 0 ? (
+                          locationData.map((element, index) => {
+                            return (
+                              <option value={element.building} key={index}>
+                                {element.building}
+                              </option>
+                            );
+                          })
+                        ) : (
+                          <option>...</option>
+                        )}
+                      </Form.Select>
+                    </Form.Group>
+                    <Form.Group as={Col}>
+                      <Form.Label>Floor</Form.Label>
+                      <Form.Select
+                        defaultValue={detail[select].floor}
+                        onChange={(e) => {
+                          detail[select].floor = e.target.value;
+                          taskModified(select, detail[select], dispatch);
+                        }}
+                      >
+                        {locationData.length > 0 ? (
+                          locationData[selectLocation].floor.map(
+                            (element, index) => {
+                              return (
+                                <option value={element} key={index}>
+                                  {element}
+                                </option>
+                              );
+                            }
+                          )
+                        ) : (
+                          <option>...</option>
+                        )}
+                      </Form.Select>
+                    </Form.Group>
+                    <Form.Group as={Col}>
+                      <Form.Label>Room</Form.Label>
+                      <Form.Select
+                        defaultValue={detail[select].room}
+                        onChange={(e) => {
+                          detail[select].room = e.target.value;
+                          taskModified(select, detail[select], dispatch);
+                        }}
+                      >
+                        {locationData.length > 0 ? (
+                          locationData[selectLocation].room.map(
+                            (element, index) => {
+                              return (
+                                <option value={element} key={index}>
+                                  {element}
+                                </option>
+                              );
+                            }
+                          )
+                        ) : (
+                          <option>...</option>
+                        )}
+                      </Form.Select>
+                    </Form.Group>
+                  </Row>
+
+                  <Row className="row-padding">
+                    <Col xs={6} md={4}>
+                      Purchased Date:
+                    </Col>
+                    <Col md={8}>
+                      <Form.Control
+                        type="date"
+                        value={detail[select].purchased_date.split("T")[0]}
+                        disabled
+                      ></Form.Control>
+                    </Col>
+                  </Row>
+                  <Row className="row-padding">
+                    <Col md={4}>Previous Tested Date:</Col>
+                    <Col md={8}>
+                      <Form.Control
+                        type="date"
+                        disabled
+                        defaultValue={
+                          detail[select].previous_test_date &&
+                          detail[select].previous_test_date.split("T")[0]
                         }
-                        detail[select].building = e.target.value;
-                        taskModified(select, detail[select], dispatch);
-                      }}
-                      defaultValue={detail[select].building}
-                    >
-                      {locationData.length > 0 ? (
-                        locationData.map((element, index) => {
-                          return (
-                            <option value={element.building} key={index}>
-                              {element.building}
-                            </option>
-                          );
-                        })
-                      ) : (
-                        <option>...</option>
-                      )}
-                    </Form.Select>
-                  </Form.Group>
-                  <Form.Group as={Col}>
-                    <Form.Label>Floor</Form.Label>
-                    <Form.Select
-                      defaultValue={detail[select].floor}
-                      onChange={(e) => {
-                        detail[select].floor = e.target.value;
-                        taskModified(select, detail[select], dispatch);
-                      }}
-                    >
-                      {locationData.length > 0 ? (
-                        locationData[selectLocation].floor.map(
-                          (element, index) => {
-                            return (
-                              <option value={element} key={index}>
-                                {element}
-                              </option>
-                            );
-                          }
-                        )
-                      ) : (
-                        <option>...</option>
-                      )}
-                    </Form.Select>
-                  </Form.Group>
-                  <Form.Group as={Col}>
-                    <Form.Label>Room</Form.Label>
-                    <Form.Select
-                      defaultValue={detail[select].room}
-                      onChange={(e) => {
-                        detail[select].room = e.target.value;
-                        taskModified(select, detail[select], dispatch);
-                      }}
-                    >
-                      {locationData.length > 0 ? (
-                        locationData[selectLocation].room.map(
-                          (element, index) => {
-                            return (
-                              <option value={element} key={index}>
-                                {element}
-                              </option>
-                            );
-                          }
-                        )
-                      ) : (
-                        <option>...</option>
-                      )}
-                    </Form.Select>
-                  </Form.Group>
-                </Row>
+                      ></Form.Control>
+                    </Col>
+                  </Row>
 
-                <Row className="row-padding">
-                  <Col xs={6} md={4}>
-                    Purchased Date:
-                  </Col>
-                  <Col md={8}>
-                    <Form.Control
-                      type="date"
-                      value={detail[select].purchased_date.split("T")[0]}
-                      disabled
-                    ></Form.Control>
-                  </Col>
-                </Row>
-                <Row className="row-padding">
-                  <Col md={4}>Previous Tested Date:</Col>
-                  <Col md={8}>
-                    <Form.Control type="date" disabled></Form.Control>
-                  </Col>
-                </Row>
-
-                <Row className="row-padding">
-                  <Form.Group className="mb-3">
-                    <Form.Label>Description: </Form.Label>
-                    <Form.Control
-                      as="textarea"
-                      rows={3}
-                      defaultValue={detail[select].description}
-                      onChange={(e) => {
-                        detail[select].description = e.target.value;
-                        taskModified(select, detail[select], dispatch);
-                      }}
-                    />
-                  </Form.Group>
-                </Row>
-              </Container>
-            </Modal.Body>
-            <Modal.Footer style={{ backgroundColor: "#333" }}>
-              <MyButton
-                btn="yellow-btn"
-                href="/expire-date"
-                onClick={async (e) => {
-                  console.log(detail[select]);
-                  await updateItem(detail[select]);
-                }}
-              >
-                Pass
-              </MyButton>
-              <MyButton btn="red-btn" href="/report">
-                Fail
-              </MyButton>
-            </Modal.Footer>
-          </Modal>
+                  <Row className="row-padding">
+                    <Form.Group className="mb-3">
+                      <Form.Label>Description: </Form.Label>
+                      <Form.Control
+                        as="textarea"
+                        rows={3}
+                        defaultValue={detail[select].description}
+                        onChange={(e) => {
+                          detail[select].description = e.target.value;
+                          taskModified(select, detail[select], dispatch);
+                        }}
+                      />
+                    </Form.Group>
+                  </Row>
+                </Container>
+              </Modal.Body>
+              <Modal.Footer style={{ backgroundColor: "#333" }}>
+                <MyButton
+                  btn="yellow-btn"
+                  href="/expire-date"
+                  onClick={async (e) => {
+                    await updateItem(detail[select]);
+                  }}
+                >
+                  Pass
+                </MyButton>
+                <MyButton btn="red-btn" href="/report">
+                  Fail
+                </MyButton>
+              </Modal.Footer>
+            </Modal>
+          )}
         </Container>
       </>
     );

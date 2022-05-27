@@ -14,7 +14,6 @@ import "react-calendar/dist/Calendar.css";
 import { useDispatch } from "react-redux";
 import { locationInfo } from "./store/actions";
 import History from "./pages/History";
-import NotAvailableDate from "./pages/NotAvailableDate";
 function App() {
   const dispatch = useDispatch();
 
@@ -40,7 +39,6 @@ function App() {
           <Route path="/forgot" element={<Forgot />} />
           <Route path="/request" element={<Request />} />
           <Route path="/tester" element={<Dashboard />} />
-          <Route path="/rest-date" element={<NotAvailableDate />} />
         </Routes>
       </Router>
     </div>

@@ -2,7 +2,6 @@ const express = require("express");
 const router = express.Router();
 const _ = require("lodash");
 const { User } = require("../models/user");
-const { NotAvailable } = require("../models/notAvailable");
 const { Request } = require("../models/request");
 const { Item } = require("../models/Item");
 const jwt = require("jsonwebtoken");
@@ -10,25 +9,23 @@ const config = require("config");
 const bcrypt = require("bcrypt");
 const { auth } = require("../middleware/auth");
 
+// TODO: remove
 router.get("/", auth, async function (req, res) {
   const user = await User.findById(req.user._id);
 
   const users = await User.find();
   res.send(users);
 });
-
+// get a task list
 router.get("/todo", auth, async function (req, res) {
   const userID = req.user.id;
-  // TODO:
-  // const requests = await Request.find({ authorised_id: userID , is_finished: false});
-
-  const requests = await Request.find({ authorised_id: userID });
+  const requests = await Request.find({ is_finished: false });
   const items = await Item.find();
   const todoList = [];
 
   for (const item of items) {
     for (const request of requests) {
-      if (request.item_id.equals(item._id) && !request.is_finished) {
+      if (request.item_id.equals(item._id)) {
         let value = {
           _id: item._id,
           name: item.name,
@@ -40,6 +37,7 @@ router.get("/todo", auth, async function (req, res) {
           floor: item.floor,
           room: item.room,
           request: request._id,
+          previous_test_date: item.previous_test_date,
         };
         todoList.push(value);
       }
@@ -48,34 +46,54 @@ router.get("/todo", auth, async function (req, res) {
   res.send(todoList);
 });
 
-router.put("/not-available", auth, async function (req, res) {
-  const id = req.user.id;
-  const date = req.body.notAvailable;
-  let notAvailable = await NotAvailable.findOne({
-    date,
-  });
-
-  if (!notAvailable) {
-    notAvailable = new NotAvailable({
-      date,
-      staffs: [{ tester: id }],
-    });
-  } else {
-    const staffs = notAvailable.staffs;
-    let exist = false;
-    staffs.forEach(function (staff) {
-      if (staff.tester == id) {
-        exist = true;
-      }
-    });
-    if (!exist) {
-      notAvailable.staffs.push({ tester: id });
+// user want to do a task
+router.get("/do_task/:requestId", auth, async function (req, res) {
+  const request = await Request.findById(req.params.requestId);
+  let check = false;
+  for (const i of request.staffs) {
+    if ((i.id == req.user, id)) {
+      check = true;
     }
   }
-  await notAvailable.save();
+  if (!check) {
+    request.staffs.push({ id: req.user.id });
+    await request.save();
+  }
   res.send("success");
 });
 
+router.get("/check_in_task_list/:requestId", auth, async function (req, res) {
+  const request = await Request.findById(req.params.requestId);
+  let check = false;
+  for (const i of request.staffs) {
+    if (i.id == req.user.id) {
+      check = true;
+    }
+  }
+  if (check) {
+    res.send("success");
+  } else {
+    res.status(401).send("You haven't selected this task");
+  }
+});
+
+router.delete(
+  "/delete_staff_in_task_list/:requestId",
+  auth,
+  async function (req, res) {
+    const request = await Request.findById(req.params.requestId);
+    let count = 0;
+    for (const i of request.staffs) {
+      if (i.id == req.user.id) {
+        request.staffs.remove(i);
+        await request.save();
+      }
+    }
+    res.send("success");
+  }
+);
+
+// user's registration
 router.post("/", async function (req, res) {
   let user = await User.findOne({ email: req.body.email });
 
@@ -97,6 +115,7 @@ router.post("/", async function (req, res) {
   res.send({ email: user.email, name: user.name });
 });
 
+//user login
 router.put("/:email", async function (req, res) {
   let user = await User.findOne({ email: req.params.email });
 

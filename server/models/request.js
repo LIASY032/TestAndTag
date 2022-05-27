@@ -1,10 +1,18 @@
 const mongoose = require("mongoose");
 
 const requestSchema = mongoose.Schema({
-  authorised_id: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "User",
-    required: true,
+  staffs: {
+    type: [
+      {
+        id: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "User",
+          required: true,
+          unique: true,
+        },
+      },
+    ],
+    default: [],
   },
   item_id: {
     type: mongoose.Schema.Types.ObjectId,

@@ -5,7 +5,6 @@ import Title from "../../components/Title";
 import { report } from "../../services";
 import "./style.scss";
 import { useDispatch } from "react-redux";
-import { getTasks } from "../../store/actions";
 function ExpireDate() {
   const dispatch = useDispatch();
   const [value, onChange] = React.useState(new Date());
@@ -27,7 +26,6 @@ function ExpireDate() {
             next_test_date: value.toISOString().split("T")[0],
           });
 
-          await getTasks(dispatch);
           window.location.href = "/tester";
         }}
       >

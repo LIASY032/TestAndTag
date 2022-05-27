@@ -9,9 +9,9 @@ const reportSchema = mongoose.Schema({
     ref: "Item",
     required: true,
   },
-  authorised_id: {
+  request: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "User",
+    ref: "Request",
     required: true,
   },
 });

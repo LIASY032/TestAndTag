@@ -1,7 +1,7 @@
 import React, {Component} from "react";
-
 import "./menu.css"
 import {Button} from "@mui/material";
+import AddModeratorIcon from '@mui/icons-material/AddModerator';
 
 class Menu extends Component {
     constructor(props) {
@@ -19,8 +19,22 @@ class Menu extends Component {
     render() {
         return (
             <div className="menu">
-                <div className="menu-title" onClick={this.handleTitleClick}>Test & Tag</div>
-                <Button variant="text" color="success" onClick={this.handleSignInClick}>Sign In</Button>
+                <Button
+                    variant="text"
+                    size="large"
+                    sx={{
+                        color: '#000000',
+                    }}
+                    onClick={this.handleTitleClick}
+                    startIcon={<AddModeratorIcon />}
+                >Test & Tag</Button>
+                <Button
+                    variant="text"
+                    sx={{
+                        color: '#000000'
+                    }}
+                    onClick={this.handleSignInClick}
+                >Sign In</Button>
             </div>
         );
     }

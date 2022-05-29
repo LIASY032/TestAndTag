@@ -1,6 +1,7 @@
 import React, {Component, Fragment} from "react";
 import "./menu.css"
-import {Button, FormControl, InputLabel, Menu, MenuItem, Select} from "@mui/material";
+import {Button, Menu, MenuItem} from "@mui/material";
+import AddModeratorIcon from "@mui/icons-material/AddModerator";
 
 class MenuLogin extends Component {
     constructor(props) {
@@ -42,15 +43,20 @@ class MenuLogin extends Component {
         window.location.href = "/dashboard";
     }
 
-    handleCalendarClick() {
-        window.location.href = "/work_calendar";
-    }
-
     render() {
         return (
             <Fragment>
                 <div className="menu">
-                    <div className="menu-title" onClick={this.handleTitleClick}>Test & Tag</div>
+                    {/*<div className="menu-title" onClick={this.handleTitleClick}>Test & Tag</div>*/}
+                    <Button
+                        variant="text"
+                        size="large"
+                        sx={{
+                            color: '#000000',
+                        }}
+                        onClick={this.handleTitleClick}
+                        startIcon={<AddModeratorIcon />}
+                    >Test & Tag</Button>
                     <div className="user-info">
                             <Button
                                 color="success"
@@ -72,7 +78,6 @@ class MenuLogin extends Component {
                                 }}
                             >
                                 <MenuItem onClick={this.handleDashboardClick}>Dashboard</MenuItem>
-                                <MenuItem onClick={this.handleCalendarClick}>Workday Calendar</MenuItem>
                                 <MenuItem onClick={() => this.props.changeIsLogin(false)}>Logout</MenuItem>
                             </Menu>
                     </div>

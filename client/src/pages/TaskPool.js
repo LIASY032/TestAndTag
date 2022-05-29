@@ -1,43 +1,45 @@
-import React, { Component, Fragment } from "react";
-import {Table} from "react-bootstrap";
+import React, { Component } from "react";
+import DetailsIcon from '@mui/icons-material/Details';
+import AddModeratorIcon from '@mui/icons-material/AddModerator';
+import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
+import TaskDetailsDialog from '../components/TaskDetailsDialog';
 import {
-    Button,
-    Paper,
+    Button, Paper,
+    Table,
     TableBody,
     TableCell,
     TableContainer,
     TableFooter,
-    TableHead, TablePagination,
-    TableRow,
-    Tooltip
+    TableHead,
+    TablePagination,
+    TableRow, Tooltip
 } from "@mui/material";
-import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
-import ResultIcon from "../components/ResultIcon";
+import TaskTagDialog from "../components/TaskTagDialog";
 
-class WorkList extends Component {
+class TaskPool extends Component {
     constructor(props) {
         super(props);
         this.state = {
             page: 0,
             detailsDialogShow: false,
-            tagDialogShow: true,
-            headers: ['Ownership', 'Purchased Date', 'Address', 'Name', 'Email', 'Result'],
+            tagDialogShow: false,
+            headers: ['Ownership', 'Purchased Date', 'Address', 'Name', 'Email', 'Test'],
             taskList: [
-                { id: 1, ownership: 'UniSA', purchasedDate: '2022-05-10', address: 'ptest', name: 'Jon', email: 35, result: false },
-                { id: 2, ownership: 'Personal', purchasedDate: '2022-05-09', address: 'ptest', name: 'Alice', email:  42, result: true},
-                { id: 3, ownership: 'Personal', purchasedDate: '2022-05-08', address: 'ptest', name: 'Jay', email:  45 },
+                { id: 1, ownership: 'UniSA', purchasedDate: '2022-05-10', address: 'ptest', name: 'Jon', email: 35, description: 'this is a test' },
+                { id: 2, ownership: 'personal', purchasedDate: '2022-05-09', address: 'ptest', name: 'Alice', email:  42, description: 'hello world' },
+                { id: 3, ownership: 'personal', purchasedDate: '2022-05-08', address: 'ptest', name: 'Jay', email:  45 },
                 { id: 4, ownership: 'UniSA', purchasedDate: '2022-05-11', address: 'ptest', name: 'John', email:  16 },
-                { id: 5, ownership: 'Personal', purchasedDate: '2022-05-07', address: 'ptest', name: 'Bob', email:  436 },
-                { id: 6, ownership: 'Personal', purchasedDate: '2022-05-06', address: 'ptest', name: 'Tom', email:  150 },
+                { id: 5, ownership: 'personal', purchasedDate: '2022-05-07', address: 'ptest', name: 'Bob', email:  436 },
+                { id: 6, ownership: 'personal', purchasedDate: '2022-05-06', address: 'ptest', name: 'Tom', email:  150 },
                 { id: 7, ownership: 'UniSA', purchasedDate: '2022-05-05', address: 'ptest', name: 'Tonny', email:  44 },
-                { id: 8, ownership: 'Personal', purchasedDate: '2022-05-04', address: 'ptest', name: 'Betty', email:  36 },
+                { id: 8, ownership: 'personal', purchasedDate: '2022-05-04', address: 'ptest', name: 'Betty', email:  36 },
                 { id: 9, ownership: 'UniSA', purchasedDate: '2022-05-02', address: 'ptest', name: 'ellen', email:  65 },
                 { id: 10, ownership: 'UniSA', purchasedDate: '2022-05-01', address: 'ptest', name: 'ellen', email:  'frt5@gmail.com' },
             ],
             info: [ {id: 1, ownership: 'UniSA', purchasedDate: '2022-05-10', address: 'ptest', name: 'Jon', email: 35 }]
         }
-        this.changeDetailsDialogShow = this.changeDetailsDialogShow.bind(this);
-        this.handleDetailsClick = this.handleDetailsClick.bind(this);
+        this.closeDetailsDialog = this.closeDetailsDialog.bind(this);
+        this.closeTagDialog = this.closeTagDialog.bind(this);
         this.handleChangePage = this.handleChangePage.bind(this);
     }
 
@@ -45,18 +47,29 @@ class WorkList extends Component {
         window.location.href = "/dashboard";
     }
 
-    changeDetailsDialogShow(flag) {
+    closeDetailsDialog() {
         this.setState({
-            detailsDialogShow: flag
+            detailsDialogShow: false
+        })
+    }
+
+    closeTagDialog() {
+        this.setState({
+            tagDialogShow: false
         })
     }
 
     handleDetailsClick(id) {
         this.setState({
-            detailsDialogShow: true
-        })
-        this.setState({
+            detailsDialogShow: true,
             info: this.state.taskList[id]
+        })
+    }
+
+    handleTagClick(id) {
+        this.setState({
+            info: this.state.taskList[id],
+            tagDialogShow: true
         })
     }
 
@@ -68,7 +81,7 @@ class WorkList extends Component {
 
     render() {
         return (
-            <div>
+            <div className="table-content">
                 <Button
                     size="small"
                     onClick={this.handleBackClick}
@@ -92,7 +105,14 @@ class WorkList extends Component {
                                         <TableCell>{task.address}</TableCell>
                                         <TableCell>{task.name}</TableCell>
                                         <TableCell>{task.email}</TableCell>
-                                        <TableCell><ResultIcon flag={task.result}/></TableCell>
+                                        <TableCell>
+                                            <Tooltip title="View the Details">
+                                                <DetailsIcon onClick={this.handleDetailsClick.bind(this, index)}></DetailsIcon>
+                                            </Tooltip>
+                                            <Tooltip title="Click to Tag">
+                                                <AddModeratorIcon onClick={this.handleTagClick.bind(this, index)}></AddModeratorIcon>
+                                            </Tooltip>
+                                        </TableCell>
                                     </TableRow>
                                 )
                             })}
@@ -119,9 +139,20 @@ class WorkList extends Component {
                         </TableFooter>
                     </Table>
                 </TableContainer>
+
+                <TaskDetailsDialog
+                    open={this.state.detailsDialogShow}
+                    info={this.state.info}
+                    closeDetailsDialog={this.closeDetailsDialog}
+                ></TaskDetailsDialog>
+                <TaskTagDialog
+                    open={this.state.tagDialogShow}
+                    info={this.state.info}
+                    closeTagDialog={this.closeTagDialog}
+                ></TaskTagDialog>
             </div>
         );
     }
 }
 
-export default WorkList;
+export default TaskPool;

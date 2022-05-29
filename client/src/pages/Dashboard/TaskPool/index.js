@@ -15,17 +15,18 @@ import {
   TableRow,
   Tooltip,
 } from "@mui/material";
-
 import { Col, Container, Row, Modal, Form, Alert } from "react-bootstrap";
 // import TaskTagDialog from "../components/TaskTagDialog";
 import { useSelector, useDispatch } from "react-redux";
 import { getTasks, taskModified, taskSelected } from "../../../store/actions";
-import { doThis, updateItem, checkAStaff } from "../../../services";
+import { doThis, updateItem, checkAStaff, report } from "../../../services";
 function TaskPool() {
   const dispatch = useDispatch();
   const userData = useSelector((state) => state.user);
   const locationData = useSelector((state) => state.locations);
-
+  const [result, setResult] = React.useState();
+  const [pass, setPass] = React.useState(false);
+  const [fail, setFail] = React.useState(false);
   const header = [
     "Id",
     "Ownership",
@@ -111,7 +112,7 @@ function TaskPool() {
                             }}
                           ></DetailsIcon>
                         </Tooltip>
-                        <Tooltip title="Click to Tag">
+                        <Tooltip title="To DO This Task">
                           <AddModeratorIcon
                             onClick={async () => {
                               await doThis(task.request);
@@ -317,13 +318,61 @@ function TaskPool() {
                     as="textarea"
                     rows={3}
                     defaultValue={detail[select].description}
-                    onChange={(e) => {
+                    onChange={async (e) => {
                       detail[select].description = e.target.value;
                       taskModified(select, detail[select], dispatch);
                     }}
                   />
                 </Form.Group>
               </Row>
+              <fieldset onChange={(e) => setResult(e.target.value)}>
+                <Form.Group as={Row} className="mb-3">
+                  <Form.Label as="legend" column sm={2}>
+                    Result
+                  </Form.Label>
+                  <Col sm={10}>
+                    <Form.Check
+                      type="radio"
+                      value="pass"
+                      label="PASS"
+                      name="formHorizontalRadios"
+                      id="formHorizontalRadios1"
+                    />
+                    <Form.Check
+                      type="radio"
+                      value="fail"
+                      label="FAIL"
+                      name="formHorizontalRadios"
+                      id="formHorizontalRadios2"
+                    />
+                  </Col>
+                </Form.Group>
+              </fieldset>
+
+              {result === "pass" && (
+                <Form.Group as={Row}>
+                  <Form.Label>Expire Date</Form.Label>
+                  <Form.Control
+                    type="date"
+                    onChange={(e) => {
+                      setFail(false);
+                      setPass(e.target.value);
+                    }}
+                  />
+                </Form.Group>
+              )}
+
+              {result === "fail" && (
+                <Form.Group as={Row}>
+                  <Form.Label> Reason</Form.Label>
+                  <Form.Control
+                    onChange={(e) => {
+                      setPass(false);
+                      setFail(e.target.value);
+                    }}
+                  />
+                </Form.Group>
+              )}
             </Container>
           </Modal.Body>
           <Modal.Footer
@@ -337,6 +386,29 @@ function TaskPool() {
               variant="contained"
               color="success"
               className="details-btn btn-tag"
+              onClick={async () => {
+                // const tasks = JSON.parse(localStorage.getItem("tasks"));
+                const item = detail[select];
+                if (fail) {
+                  await report({
+                    item_id: item._id,
+                    request_id: item.request,
+                    condition: result,
+                    reason: fail,
+                  });
+                  setModalShow(false);
+                }
+
+                if (pass) {
+                  await report({
+                    item_id: item._id,
+                    request_id: item.request,
+                    condition: result,
+                    next_test_date: pass,
+                  });
+                  setModalShow(false);
+                }
+              }}
             >
               TAG
             </Button>

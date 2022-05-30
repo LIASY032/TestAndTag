@@ -11,6 +11,16 @@ export async function userLogin({ email, password }) {
   }
 }
 
+export async function userLogout() {
+  try {
+    const response = await axios.get(`/users/logout`);
+    const data = await response.data;
+    return data;
+  } catch (e) {
+    console.log(e.response.data);
+  }
+}
+
 export async function userRegister({ name, email, password }) {
   try {
     const response = await axios.post(`/users`, {
@@ -61,6 +71,16 @@ export async function checkAStaff(id) {
   try {
     const response = await axios.get(`/users/check_in_task_list/${id}`);
     return true;
+  } catch (e) {
+    console.log(e.response.data);
+    return false;
+  }
+}
+
+export async function finished_task() {
+  try {
+    const response = await axios.get(`/users/finished_task`);
+    return await response.data;
   } catch (e) {
     console.log(e.response.data);
     return false;

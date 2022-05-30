@@ -2,8 +2,11 @@ import React, { Component, Fragment } from "react";
 import "./menu.css";
 import { Button, Menu, MenuItem } from "@mui/material";
 import AddModeratorIcon from "@mui/icons-material/AddModerator";
+import { logout } from "../store/actions";
 
+import { useDispatch } from "react-redux";
 function MenuLogin({ name }) {
+  const dispatch = useDispatch();
   const [show, setShow] = React.useState(false);
   const ref = React.useRef();
   return (
@@ -48,7 +51,14 @@ function MenuLogin({ name }) {
             >
               Dashboard
             </MenuItem>
-            <MenuItem>Logout</MenuItem>
+            <MenuItem
+              onClick={async () => {
+                await logout(dispatch);
+                window.location.href = "/";
+              }}
+            >
+              Logout
+            </MenuItem>
           </Menu>
         </div>
       ) : (

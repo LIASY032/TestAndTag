@@ -4,6 +4,7 @@ const _ = require("lodash");
 const { User } = require("../models/user");
 const { Request } = require("../models/request");
 const { Item } = require("../models/Item");
+const { Report } = require("../models/report");
 const jwt = require("jsonwebtoken");
 const config = require("config");
 const bcrypt = require("bcrypt");
@@ -18,7 +19,6 @@ router.get("/", auth, async function (req, res) {
 });
 // get a task list
 router.get("/todo", auth, async function (req, res) {
-  const userID = req.user.id;
   const requests = await Request.find({ is_finished: false });
   const items = await Item.find();
   const todoList = [];
@@ -46,6 +46,34 @@ router.get("/todo", auth, async function (req, res) {
   res.send(todoList);
 });
 
+router.get("/finished_task", auth, async (req, res) => {
+  const requests = await Report.find();
+  const items = await Item.find();
+  const finishedTasks = [];
+
+  for (const item of items) {
+    for (const request of requests) {
+      if (request.item_id.equals(item._id)) {
+        let value = {
+          _id: item._id,
+          name: item.name,
+          email: item.email,
+          ownership: item.ownership,
+          purchased_date: item.purchased_date,
+          description: item.description,
+          building: item.building,
+          floor: item.floor,
+          room: item.room,
+          condition: request.condition,
+          previous_test_date: item.previous_test_date,
+        };
+        finishedTasks.push(value);
+      }
+    }
+  }
+  res.send(finishedTasks);
+});
+
 // user want to do a task
 router.get("/do_task/:requestId", auth, async function (req, res) {
   const request = await Request.findById(req.params.requestId);
@@ -60,6 +88,17 @@ router.get("/do_task/:requestId", auth, async function (req, res) {
     await request.save();
   }
   res.send("success");
+});
+
+// user logout
+router.get("/logout", auth, async function (req, res) {
+  req.cookies["x-auth-token"] = "";
+  res.cookie("x-auth-token", "", {
+    secure: process.env.NODE_ENV !== "development",
+    httpOnly: true,
+  });
+
+  res.send("logout");
 });
 
 router.get("/check_in_task_list/:requestId", auth, async function (req, res) {

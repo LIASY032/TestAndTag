@@ -1,5 +1,5 @@
-import { userLogin } from "../../services";
-import { LOGIN } from "../constants";
+import { userLogin, userLogout } from "../../services";
+import { LOGIN, LOGOUT } from "../constants";
 
 export const login = async (user, dispatch) => {
   const data = await userLogin(user);
@@ -24,4 +24,15 @@ export const login = async (user, dispatch) => {
     });
     return false;
   }
+};
+
+export const logout = async (dispatch) => {
+  const data = await userLogout();
+  localStorage.setItem("user", "{}");
+
+  console.log(data);
+  dispatch({
+    type: LOGOUT,
+    payload: {},
+  });
 };

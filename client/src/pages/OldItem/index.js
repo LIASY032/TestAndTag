@@ -145,6 +145,7 @@ function OldItem() {
                 onClick={async () => {
                   if (itemId) {
                     await testOldItem(itemId);
+                    window.location.href = "/submit_success";
                   }
                 }}
               >

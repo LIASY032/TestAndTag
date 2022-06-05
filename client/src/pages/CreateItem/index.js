@@ -41,66 +41,75 @@ function CreateItem() {
           <Button href="/old">Testing an Existing Equipment? Click Here</Button>
         </div>
         <FormGroup>
-          <FormLabel>Your Name</FormLabel>
+          <FormLabel>Name</FormLabel>
           <Form.Control placeholder="Name" ref={nameRef} />
           <FormLabel sx={{ marginTop: "10px" }}>Email Address</FormLabel>
           <Form.Control placeholder="Email" ref={emailRef} type="email" />
-          <FormLabel sx={{ marginTop: "10px" }}>Building</FormLabel>
-          <Form.Select
-            ref={buildingRef}
-            defaultValue="Choose..."
-            onChange={(e) => {
-              if (e.target.value != "Choose...") {
-                setSelectLocation(parseInt(e.target.value));
-              }
-            }}
-          >
-            <option value="Choose...">Choose...</option>
 
-            {locationData.length > 0 ? (
-              locationData.map((element, index) => {
-                return (
-                  <option value={index} key={index}>
-                    {element.building}
-                  </option>
-                );
-              })
-            ) : (
-              <option>...</option>
-            )}
-          </Form.Select>
-          Floor
-          <Form.Select ref={floorRef} defaultValue="Choose...">
-            <option value="Choose...">Choose...</option>
+          <Row>
+            <Form.Group as={Col} controlId="formGridState">
+              <Form.Label>Building</Form.Label>
+              <Form.Select
+                ref={buildingRef}
+                defaultValue="Choose..."
+                onChange={(e) => {
+                  if (e.target.value != "Choose...") {
+                    setSelectLocation(parseInt(e.target.value));
+                  }
+                }}
+              >
+                <option value="Choose...">Choose...</option>
 
-            {locationData.length > 0 ? (
-              locationData[selectLocation].floor.map((element, index) => {
-                return (
-                  <option value={element} key={index}>
-                    {element}
-                  </option>
-                );
-              })
-            ) : (
-              <option>...</option>
-            )}
-          </Form.Select>
-          Room
-          <Form.Select defaultValue="Choose..." ref={roomRef}>
-            <option value="Choose...">Choose...</option>
+                {locationData.length > 0 ? (
+                  locationData.map((element, index) => {
+                    return (
+                      <option value={index} key={index}>
+                        {element.building}
+                      </option>
+                    );
+                  })
+                ) : (
+                  <option>...</option>
+                )}
+              </Form.Select>
+            </Form.Group>
+            <Form.Group as={Col} controlId="formGridState">
+              <Form.Label>Floor</Form.Label>
+              <Form.Select ref={floorRef} defaultValue="Choose...">
+                <option value="Choose...">Choose...</option>
 
-            {locationData.length > 0 ? (
-              locationData[selectLocation].room.map((element, index) => {
-                return (
-                  <option value={element} key={index}>
-                    {element}
-                  </option>
-                );
-              })
-            ) : (
-              <option>...</option>
-            )}
-          </Form.Select>
+                {locationData.length > 0 ? (
+                  locationData[selectLocation].floor.map((element, index) => {
+                    return (
+                      <option value={element} key={index}>
+                        {element}
+                      </option>
+                    );
+                  })
+                ) : (
+                  <option>...</option>
+                )}
+              </Form.Select>
+            </Form.Group>
+            <Form.Group as={Col} controlId="formGridState">
+              <Form.Label>Room</Form.Label>
+              <Form.Select defaultValue="Choose..." ref={roomRef}>
+                <option value="Choose...">Choose...</option>
+
+                {locationData.length > 0 ? (
+                  locationData[selectLocation].room.map((element, index) => {
+                    return (
+                      <option value={element} key={index}>
+                        {element}
+                      </option>
+                    );
+                  })
+                ) : (
+                  <option>...</option>
+                )}
+              </Form.Select>
+            </Form.Group>
+          </Row>
           <FormLabel sx={{ marginTop: "10px" }}>Ownership</FormLabel>
           <Form.Select ref={ownershipRef} defaultValue="Choose...">
             <option value="Choose...">Choose...</option>
@@ -137,6 +146,7 @@ function CreateItem() {
                               purchased_date: purchased_dateRef.current.value,
                               description: descriptionRef.current.value,
                             });
+                            window.location.href = "/submit_success";
                           } else {
                             purchased_dateRef.current.focus();
                           }

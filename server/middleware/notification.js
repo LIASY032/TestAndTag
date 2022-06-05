@@ -9,19 +9,14 @@ async function notification(req, res, next) {
   const today = new Date();
   const date = today.toISOString().split("T")[0];
   const items = await Item.find();
+  let message = "";
   for (const item of items) {
     const test_date = item.next_test_date;
 
     if (test_date && !item.has_reminded) {
       if (test_date.toISOString().split("T")[0] === date) {
-        const users = await User.find();
-        // notify all users
-        for (const user of users) {
-          sendEmail(
-            user.email,
-            `An Item (${item.name}) needs to be tested in building ${item.building} floor ${item.floor} room ${item.room} `
-          );
-        }
+        message += `An Item (${item.name}) needs to be tested in building ${item.building} floor ${item.floor} room ${item.room} \n`;
+
         item.has_reminded = true;
         d = new Date();
         d.setDate(0);
@@ -57,6 +52,13 @@ async function notification(req, res, next) {
     }
   }
 
+  // notify all users
+  if (message != "") {
+    const users = await User.find();
+    for (const user of users) {
+      sendEmail(user.email, message);
+    }
+  }
   next();
 }
 

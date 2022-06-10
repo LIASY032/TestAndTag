@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from "react";
+import React from "react";
 import { Table } from "react-bootstrap";
 import {
   Button,
@@ -6,14 +6,11 @@ import {
   TableBody,
   TableCell,
   TableContainer,
-  TableFooter,
   TableHead,
-  TablePagination,
   TableRow,
   Tooltip,
 } from "@mui/material";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
-import ResultIcon from "../../../components/ResultIcon";
 import { finished_task } from "../../../services";
 
 function WorkList() {

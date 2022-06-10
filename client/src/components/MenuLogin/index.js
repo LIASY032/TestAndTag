@@ -1,12 +1,13 @@
-import React, { Component, Fragment } from "react";
+import React from "react";
 import "./menu.css";
 import { Button, Menu, MenuItem } from "@mui/material";
 import AddModeratorIcon from "@mui/icons-material/AddModerator";
-import { logout } from "../store/actions";
+import { logout } from "../../store/actions";
 
 import { useDispatch } from "react-redux";
 function MenuLogin({ name }) {
   const dispatch = useDispatch();
+  // show the menu bar
   const [show, setShow] = React.useState(false);
   const ref = React.useRef();
   return (
@@ -22,6 +23,7 @@ function MenuLogin({ name }) {
       >
         Test & Tag
       </Button>
+      {/* if the name has presented */}
       {name ? (
         <div className="user-info">
           <Button

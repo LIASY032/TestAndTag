@@ -1,5 +1,4 @@
 import React from "react";
-// import Menu from "./components/Menu";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
 import MenuLogin from "./components/MenuLogin";
@@ -15,7 +14,6 @@ import OldItem from "./pages/OldItem";
 function Home() {
   const dispatch = useDispatch();
   const userData = useSelector((state) => state.user);
-  const [task, setTask] = React.useState();
 
   React.useEffect(() => {
     //Once the App running, fetch data
@@ -25,7 +23,6 @@ function Home() {
 
   return (
     <Router>
-      {/* {menu} */}
       <MenuLogin name={userData.name} />
       <Routes>
         <Route path="/" element={<HomePage />} />
@@ -35,18 +32,7 @@ function Home() {
         <Route path="/old" element={<OldItem />} />
         <Route path="/submit_success" element={<SubmitSuccess />} />
         <Route path="/work_list" element={<WorkList />} />
-        {/* <Route
-          path="/work_details"
-          element={
-            <TaskDetails
-              task={task}
-              select={select}
-              setSelectLocation={setSelectLocation}
-              setSelect={setSelect}
-              selectLocation={selectLocation}
-            />
-          }
-        /> */}
+
         <Route path="/task_pool" element={<TaskPools />} />
       </Routes>
     </Router>

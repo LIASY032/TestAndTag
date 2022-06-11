@@ -10,17 +10,11 @@ const config = require("config");
 const bcrypt = require("bcrypt");
 const { auth } = require("../middleware/auth");
 
-// TODO: remove
-router.get("/", auth, async function (req, res) {
-  const user = await User.findById(req.user._id);
-
-  const users = await User.find();
-  res.send(users);
-});
 // get a task list
 router.get("/todo", auth, async function (req, res) {
   const requests = await Request.find({ is_finished: false });
   const items = await Item.find();
+
   const todoList = [];
 
   for (const item of items) {
@@ -46,6 +40,7 @@ router.get("/todo", auth, async function (req, res) {
   res.send(todoList);
 });
 
+// get all the requests are completed
 router.get("/finished_task", auth, async (req, res) => {
   const requests = await Report.find();
   const items = await Item.find();
@@ -78,6 +73,8 @@ router.get("/finished_task", auth, async (req, res) => {
 router.get("/do_task/:requestId", auth, async function (req, res) {
   const request = await Request.findById(req.params.requestId);
   let check = false;
+
+  // check the user exists in request
   for (const i of request.staffs) {
     if ((i.id == req.user, id)) {
       check = true;
@@ -92,6 +89,7 @@ router.get("/do_task/:requestId", auth, async function (req, res) {
 
 // user logout
 router.get("/logout", auth, async function (req, res) {
+  // clean all cookies
   req.cookies["x-auth-token"] = "";
   res.cookie("x-auth-token", "", {
     secure: process.env.NODE_ENV !== "development",
@@ -101,6 +99,7 @@ router.get("/logout", auth, async function (req, res) {
   res.send("logout");
 });
 
+// check the user exists in the request
 router.get("/check_in_task_list/:requestId", auth, async function (req, res) {
   const request = await Request.findById(req.params.requestId);
   let check = false;
@@ -116,6 +115,7 @@ router.get("/check_in_task_list/:requestId", auth, async function (req, res) {
   }
 });
 
+// the user does not want to do this task
 router.delete(
   "/delete_staff_in_task_list/:requestId",
   auth,
@@ -141,12 +141,17 @@ router.post("/", async function (req, res) {
 
   const salt = await bcrypt.genSalt(10);
 
+  // encrypt the password
   user.password = await bcrypt.hash(user.password, salt);
   await user.save();
+
+  // set the jwt token
   const token = jwt.sign(
     { id: user._id, email: user.email },
     config.get("key")
   );
+
+  // set the cookie to the browser
   res.cookie("x-auth-token", token, {
     secure: process.env.NODE_ENV !== "development",
     httpOnly: true,
@@ -158,14 +163,17 @@ router.post("/", async function (req, res) {
 router.put("/:email", async function (req, res) {
   let user = await User.findOne({ email: req.params.email });
 
+  // if the user does not exist
   if (!user) return res.status(404).send("User Not Found");
 
+  // decrypt the password
   bcrypt.compare(
     req.body.password,
     user.password,
     async function (error, result) {
       if (result) {
         const token = jwt.sign({ id: user._id }, config.get("key"));
+        // set the cookie to the browser
         res.cookie("x-auth-token", token, {
           secure: process.env.NODE_ENV !== "development",
           httpOnly: true,

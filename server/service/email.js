@@ -7,6 +7,7 @@ module.exports = function (
   text,
   subject = "Test And Tag notification"
 ) {
+  // login the gmail
   var transporter = nodemailer.createTransport({
     service: "gmail",
     auth: {
@@ -15,6 +16,7 @@ module.exports = function (
     },
   });
 
+  // send the email
   var mailOptions = {
     from: config.get("emailAuth").email,
     to: userEmail,
@@ -22,6 +24,7 @@ module.exports = function (
     text,
   };
 
+  // once it has a problem uncaughtExceptions.log recorded
   transporter.sendMail(mailOptions, function (error, info) {
     if (error) {
       winston.error("Email Error", error);

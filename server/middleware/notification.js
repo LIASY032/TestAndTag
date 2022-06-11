@@ -13,16 +13,20 @@ async function notification(req, res, next) {
   for (const item of items) {
     const test_date = item.next_test_date;
 
+    // find the item has next_test_date
     if (test_date && !item.has_reminded) {
+      // if the test date is today
       if (test_date.toISOString().split("T")[0] === date) {
         message += `An Item (${item.name}) needs to be tested in building ${item.building} floor ${item.floor} room ${item.room} \n`;
 
+        // has remind the user
         item.has_reminded = true;
         d = new Date();
         d.setDate(0);
         d.setMonth(0);
         d.setYear(2000);
 
+        // set the next_test_date to 2000 year
         item.next_test_date = d;
 
         // prevent send a number of request
@@ -39,6 +43,8 @@ async function notification(req, res, next) {
             }
           }
         }
+
+        // the item does not exist in requests
         if (!exist) {
           const request = new Request({
             item_id: item._id,

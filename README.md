@@ -9,7 +9,6 @@ Template for full stack development using passport and mongodb for user authenti
 1. [Description](##Description)
 2. [Installation](##Installation)
    - [Software](###Software)
-   - [Visual Studio Plugins](###Plugins)
 3. [Start Running Server Locally](##Run)
 4. [Retrieve Code](##Retrieve)
 5. [Contributor](##Contributor)
@@ -37,11 +36,25 @@ You may retrieve the code on Github.com at this [Repository](https://github.com/
 
 Make sure you are in the right folder path when following these steps
 
-1. Before starting server make sure you start the mongodb server using the following command insed your gitbash
+1. Before starting server make sure you start the mongodb server using the following command in your gitbash
 
    > mongod
 
-2. Install dependencies using the following command
+2. Create a file called default.json in server/config
+
+```
+{
+    "key": "your key for encryption",
+    "db":"your mongodb link",
+    "emailAuth":{
+         "email": "your gmail",
+         "password": "your password"
+     }
+
+}
+```
+
+3. Install dependencies using the following command
 
    &nbsp; &nbsp; &nbsp; navigate to client folder
 
@@ -53,7 +66,7 @@ Make sure you are in the right folder path when following these steps
    > cd server<br />
    > npm install<br />
 
-3. Start the server using either of these commands
+4. Start the server using either of these commands
 
    > cd server<br />
    > npm start<br />
@@ -62,12 +75,12 @@ Make sure you are in the right folder path when following these steps
 
    > node server.js
 
-4. Start the frontend using these commands
+5. Start the frontend using these commands
 
    > cd client<br />
    > npm start
 
-5. Open local host and add/remove anything you please
+6. Open local host and add/remove anything you please
 
 ## Contributor
 

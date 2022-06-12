@@ -42,13 +42,14 @@ Make sure you are in the right folder path when following these steps
    > mongod
 
 2. Install dependencies using the following command
-
+   &nbsp; &nbsp; &nbsp; navigate to client folder
    > cd client<br />
    > npm install<br />
 
-   > cd server<br />
+&nbsp; &nbsp; &nbsp; navigate to server folder
 
-   > npm install
+> cd server<br />
+> npm install
 
 3. Start the server using either of these commands
 
@@ -59,7 +60,12 @@ Make sure you are in the right folder path when following these steps
 
    > node server.js
 
-4. Open local host and add/remove anything you please
+4. Start the frontend using these commands
+
+   > cd client<br />
+   > npm start
+
+5. Open local host and add/remove anything you please
 
 ## Contributor
 

@@ -4,7 +4,7 @@
 
 Test And Tag App for UniSA.
 The user can request an equipment to be tested.
-THe authorised person will receive the request then test the equipment.
+The authorised person will receive the request then test the equipment.
 
 ## Table Of Contents
 

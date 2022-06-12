@@ -13,8 +13,7 @@ Template for full stack development using passport and mongodb for user authenti
 3. [Start Running Server Locally](##Run)
 4. [Retrieve Code](##Retrieve)
 5. [Contributor](##Contributor)
-6. [Questions](##Questions)
-7. [Technolgies Used](##Technologies)
+6. [Technolgies Used](##Technologies)
 
 ## Installation
 
@@ -32,21 +31,26 @@ After software has been downloaded and set up you can download the repository
 
 ## Retrieve
 
-You may retrieve the code on Github.com at this [Repository](https://github.com/ikemous/full-stack-template)
+You may retrieve the code on Github.com at this [Repository](https://github.com/LIASY032/TestAndTag)
 
 ## Run
 
 Make sure you are in the right folder path when following these steps
 
 1. Before starting server make sure you start the mongodb server using the following command insed your gitbash
+
    > mongod
-2. After starting mongodb server you can start you'll want to open another bash window
-3. Install dependencies using the following command
+
+2. Install dependencies using the following command
 
    > cd client<br />
+   > npm install<br />
+
+   > cd server<br />
+
    > npm install
 
-4. Start the server using either of these commands
+3. Start the server using either of these commands
 
    > cd server<br />
    > npm start<br />
@@ -55,7 +59,7 @@ Make sure you are in the right folder path when following these steps
 
    > node server.js
 
-5. Open local host and add/remove anything you please
+4. Open local host and add/remove anything you please
 
 ## Contributor
 

@@ -68,19 +68,31 @@ Make sure you are in the right folder path when following these steps
    > cd server<br />
    > npm install<br />
 
+   &nbsp; &nbsp; &nbsp; if you change server port number, you need change the file in client/package.json
+
+   > ```
+   >  {
+   > "name": "testandtag",
+   > "proxy": "http://localhost:6001/api/", // change to your port number
+   > "version": "0.1.0",
+   > "private": true,
+   > ```
+
+```
+
 4. Start the server using either of these commands
 
-   > cd server<br />
-   > npm start<br />
+ > cd server<br />
+ > npm start<br />
 
-   &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;or
+ &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;or
 
-   > node server.js
+ > node server.js
 
 5. Start the frontend using these commands
 
-   > cd client<br />
-   > npm start
+ > cd client<br />
+ > npm start
 
 6. Open local host and add/remove anything you please
 
@@ -96,3 +108,4 @@ You may contribute by following [Shiwei](https://github.com/LIASY032) and [Li](h
 [![Using Javascript](https://img.shields.io/badge/Using-Javascript-yellow)](${https://www.javascript.com/})
 [![Using Node](https://img.shields.io/badge/Using-Node-brightgreen)](${https://nodejs.org/en/})
 [![Using Express](https://img.shields.io/badge/Using-Express-lightgreen)](${https://nodejs.org/en/})
+```

@@ -42,14 +42,16 @@ Make sure you are in the right folder path when following these steps
    > mongod
 
 2. Install dependencies using the following command
+
    &nbsp; &nbsp; &nbsp; navigate to client folder
+
    > cd client<br />
    > npm install<br />
 
-&nbsp; &nbsp; &nbsp; navigate to server folder
+   &nbsp; &nbsp; &nbsp; navigate to server folder
 
-> cd server<br />
-> npm install
+   > cd server<br />
+   > npm install<br />
 
 3. Start the server using either of these commands
 
@@ -69,7 +71,7 @@ Make sure you are in the right folder path when following these steps
 
 ## Contributor
 
-You may contribute by following [Ikemous](https://github.com/ikemous) on github.com!
+You may contribute by following [Shiwei](https://github.com/LIASY032) and [Li](https://github.com/Li-Ke-001) on github.com!
 
 ## Technologies
 

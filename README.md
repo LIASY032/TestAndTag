@@ -1,8 +1,10 @@
-# full-stack-template
+# Test And Tag
 
 ## Description
 
-Template for full stack development using passport and mongodb for user authentication
+Test And Tag App for UniSA.
+The user can request an equipment to be tested.
+THe authorised person will receive the request then test the equipment.
 
 ## Table Of Contents
 

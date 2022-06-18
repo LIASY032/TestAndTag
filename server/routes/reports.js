@@ -28,9 +28,11 @@ router.put("/:condition/:itemId/:requestId", auth, async function (req, res) {
   const location = await Location.findOne({ building: item.building });
   let exist = false;
 
-  // check the item exists in locations
-  for (const i of location.items) {
-    if (i.item_id == item._id) exist = true;
+  // check the item exists in locations only pass condition can be inputted in location
+  if (req.body.next_test_date) {
+    for (const i of location.items) {
+      if (i.item_id == item._id) exist = true;
+    }
   }
 
   // if the item does not exist, the location will be recorded
@@ -40,6 +42,7 @@ router.put("/:condition/:itemId/:requestId", auth, async function (req, res) {
       item_id: item._id,
       floor: item.floor,
       room: item.room,
+      expire_date: req.body.next_test_date,
     });
   }
   await location.save();
@@ -56,7 +59,9 @@ router.put("/:condition/:itemId/:requestId", auth, async function (req, res) {
     item_id: req.params.itemId,
     date: new Date(),
     request: req.params.requestId,
+    feedback: req.body.feedback,
   });
+
   await report.save();
   res.send(report);
 });

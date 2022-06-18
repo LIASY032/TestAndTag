@@ -13,13 +13,7 @@ import {
 import { Col, Container, Row, Modal, Form, Alert } from "react-bootstrap";
 import { useSelector, useDispatch } from "react-redux";
 import { getTasks, taskModified, taskSelected } from "../../../store/actions";
-import {
-  doThis,
-  checkAStaff,
-  report,
-  deleteAStaff,
-  updateItem,
-} from "../../../services";
+import { doThis, checkAStaff, report, deleteAStaff } from "../../../services";
 import MyButton from "../../../components/MyButton";
 function TaskPool() {
   const dispatch = useDispatch();
@@ -168,23 +162,23 @@ function TaskPool() {
                     <Form.Control
                       type="email"
                       defaultValue={detail[select].email}
-                      onChange={(e) => {
+                      onChange={async (e) => {
                         detail[select].email = e.target.value;
-                        taskModified(select, detail[select], dispatch);
+                        await taskModified(select, detail[select], dispatch);
                       }}
                     />
                   </Col>
                 </Row>
-                <Row className="row-padding">
+                <Row style={{ marginTop: "10px" }} className="row-padding">
                   <Col xs={6} md={4}>
                     Ownership:
                   </Col>
                   <Col xs={12} md={8}>
                     <Form.Select
                       defaultValue={detail[select].ownership}
-                      onChange={(e) => {
+                      onChange={async (e) => {
                         detail[select].ownership = e.target.value;
-                        taskModified(select, detail[select], dispatch);
+                        await taskModified(select, detail[select], dispatch);
                       }}
                     >
                       <option value="Personal">Personal</option>
@@ -192,12 +186,12 @@ function TaskPool() {
                     </Form.Select>
                   </Col>
                 </Row>
-                <Row className="row-padding">
+                <Row style={{ marginTop: "10px" }} className="row-padding">
                   <Form.Group as={Col}>
                     <Form.Label>Building</Form.Label>
 
                     <Form.Select
-                      onChange={(e) => {
+                      onChange={async (e) => {
                         let count = 0;
                         for (const location of locationData) {
                           if (location.building === e.target.value) {
@@ -206,7 +200,7 @@ function TaskPool() {
                           count += 1;
                         }
                         detail[select].building = e.target.value;
-                        taskModified(select, detail[select], dispatch);
+                        await taskModified(select, detail[select], dispatch);
                       }}
                       defaultValue={detail[select].building}
                     >
@@ -227,9 +221,9 @@ function TaskPool() {
                     <Form.Label>Floor</Form.Label>
                     <Form.Select
                       defaultValue={detail[select].floor}
-                      onChange={(e) => {
+                      onChange={async (e) => {
                         detail[select].floor = e.target.value;
-                        taskModified(select, detail[select], dispatch);
+                        await taskModified(select, detail[select], dispatch);
                       }}
                     >
                       {locationData.length > 0 ? (
@@ -251,9 +245,9 @@ function TaskPool() {
                     <Form.Label>Room</Form.Label>
                     <Form.Select
                       defaultValue={detail[select].room}
-                      onChange={(e) => {
+                      onChange={async (e) => {
                         detail[select].room = e.target.value;
-                        taskModified(select, detail[select], dispatch);
+                        await taskModified(select, detail[select], dispatch);
                       }}
                     >
                       {locationData.length > 0 ? (
@@ -273,7 +267,7 @@ function TaskPool() {
                   </Form.Group>
                 </Row>
 
-                <Row className="row-padding">
+                <Row style={{ marginTop: "10px" }} className="row-padding">
                   <Col xs={6} md={4}>
                     Purchased Date:
                   </Col>
@@ -285,7 +279,7 @@ function TaskPool() {
                     ></Form.Control>
                   </Col>
                 </Row>
-                <Row className="row-padding">
+                <Row style={{ marginTop: "10px" }} className="row-padding">
                   <Col md={4}>Previous Tested Date:</Col>
                   <Col md={8}>
                     <Form.Control
@@ -299,7 +293,7 @@ function TaskPool() {
                   </Col>
                 </Row>
 
-                <Row className="row-padding">
+                <Row style={{ marginTop: "10px" }} className="row-padding">
                   <Form.Group className="mb-3">
                     <Form.Label>Description: </Form.Label>
                     <Form.Control
@@ -308,7 +302,7 @@ function TaskPool() {
                       defaultValue={detail[select].description}
                       onChange={async (e) => {
                         detail[select].description = e.target.value;
-                        taskModified(select, detail[select], dispatch);
+                        await taskModified(select, detail[select], dispatch);
                       }}
                     />
                   </Form.Group>
@@ -338,29 +332,45 @@ function TaskPool() {
                 </fieldset>
 
                 {result === "pass" && (
-                  <Form.Group as={Row}>
-                    <Form.Label>Expire Date</Form.Label>
-                    <Form.Control
-                      type="date"
-                      onChange={(e) => {
-                        setFail(false);
-                        setPass(e.target.value);
-                      }}
-                    />
-                  </Form.Group>
+                  <Row className="row-padding">
+                    <Form.Group>
+                      <Form.Label>Expire Date</Form.Label>
+                      <Form.Control
+                        type="date"
+                        onChange={(e) => {
+                          setFail(false);
+                          setPass(e.target.value);
+                        }}
+                      />
+                    </Form.Group>
+                  </Row>
                 )}
 
                 {result === "fail" && (
-                  <Form.Group as={Row}>
-                    <Form.Label> Reason</Form.Label>
+                  <Row className="row-padding">
+                    <Form.Group>
+                      <Form.Label> Reason</Form.Label>
+                      <Form.Control
+                        onChange={(e) => {
+                          setPass(false);
+                          setFail(e.target.value);
+                        }}
+                      />
+                    </Form.Group>
+                  </Row>
+                )}
+                <Row style={{ marginTop: "10px" }} className="row-padding">
+                  <Form.Group className="mb-3">
+                    <Form.Label>Feedback: </Form.Label>
                     <Form.Control
-                      onChange={(e) => {
-                        setPass(false);
-                        setFail(e.target.value);
+                      as="textarea"
+                      rows={3}
+                      onChange={async (e) => {
+                        detail[select].feedback = e.target.value;
                       }}
                     />
                   </Form.Group>
-                )}
+                </Row>
               </Container>
             </Modal.Body>
             <Modal.Footer
@@ -370,48 +380,53 @@ function TaskPool() {
                 justifyContent: "space-around",
               }}
             >
-              <Button
-                variant="contained"
-                color="success"
-                className="details-btn btn-tag"
-                onClick={async () => {
-                  const item = detail[select];
-                  if (fail) {
-                    await report({
-                      item_id: item._id,
-                      request_id: item.request,
-                      condition: result,
-                      reason: fail,
-                    });
-                    setModalShow(false);
-                  }
+              <Row>
+                <Button
+                  variant="contained"
+                  color="success"
+                  className="details-btn btn-tag"
+                  onClick={async () => {
+                    const item = detail[select];
+                    if (fail) {
+                      await report({
+                        item_id: item._id,
+                        request_id: item.request,
+                        feedback: item.feedback,
+                        condition: result,
+                        reason: fail,
+                      });
+                      setModalShow(false);
+                    }
 
-                  if (pass) {
-                    await report({
-                      item_id: item._id,
-                      request_id: item.request,
-                      condition: result,
-                      next_test_date: pass,
-                    });
-                    setModalShow(false);
+                    if (pass) {
+                      await report({
+                        item_id: item._id,
+                        request_id: item.request,
 
-                    window.location.href = "/task_pool";
-                  }
+                        feedback: item.feedback,
+                        condition: result,
+                        next_test_date: pass,
+                      });
+                      setModalShow(false);
 
-                  await updateItem(item);
-                }}
-              >
-                TAG
-              </Button>
-              <Button
-                variant="contained"
-                className="details-btn btn-back"
-                onClick={() => setModalShow(false)}
-              >
-                BACK
-              </Button>
+                      window.location.href = "/task_pool";
+                    }
+                  }}
+                >
+                  TAG
+                </Button>
+                <Button
+                  variant="contained"
+                  className="details-btn btn-back"
+                  style={{ marginTop: "10px" }}
+                  onClick={() => setModalShow(false)}
+                >
+                  BACK
+                </Button>
+              </Row>
 
               <MyButton
+                btn="yellow-btn"
                 onClick={async () => {
                   // delete the user from the staff list of the request
                   await deleteAStaff(detail[select].request);

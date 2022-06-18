@@ -134,11 +134,14 @@ function OldItem() {
             >
               <option value="Choose...">Choose...</option>
 
+              {/* if there is the exact location of the item */}
               {list.length > 0 ? (
                 list.map((element, index) => {
                   return (
                     <option value={element.item_id} key={index}>
-                      {element.name}
+                      {element.name +
+                        " date: " +
+                        element.expire_date.split("T")[0]}
                     </option>
                   );
                 })

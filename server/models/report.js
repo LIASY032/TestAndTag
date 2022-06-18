@@ -14,6 +14,10 @@ const reportSchema = mongoose.Schema({
     ref: "Request",
     required: true,
   },
+  feedback: {
+    type: String,
+    required: false,
+  },
 });
 
 const Report = mongoose.model("Report", reportSchema);

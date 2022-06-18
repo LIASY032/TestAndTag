@@ -16,6 +16,7 @@ const locationSchema = mongoose.Schema({
         },
         floor: { type: Number, required: true },
         room: { type: Number, required: true },
+        expire_date: { type: Date, required: false },
       },
     ],
     required: true,

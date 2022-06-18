@@ -1,4 +1,4 @@
-import { getTodo } from "../../services";
+import { getTodo, updateItem } from "../../services";
 import { TASKS, TASK_MODIFIED, TASK_SELECTED } from "../constants";
 export const getTasks = async (dispatch) => {
   const data = await getTodo();
@@ -28,6 +28,7 @@ export const getTasks = async (dispatch) => {
 };
 
 export const taskModified = async (num, task, dispatch) => {
+  await updateItem(task);
   dispatch({
     type: TASK_MODIFIED,
     payload: { num, task },

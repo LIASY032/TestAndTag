@@ -58,7 +58,7 @@ function WorkList() {
                     <TableCell>{index} </TableCell>
 
                     <TableCell>{task.ownership}</TableCell>
-                    <TableCell>{task.purchased_date}</TableCell>
+                    <TableCell>{task.purchased_date.split("T")[0]}</TableCell>
 
                     <TableCell>{`building: ${task.building} floor: ${task.floor} room: ${task.room}`}</TableCell>
                     <TableCell>{task.name}</TableCell>

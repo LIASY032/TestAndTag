@@ -48,7 +48,13 @@ function MenuLogin({ name }) {
               "aria-labelledby": "basic-button",
             }}
           >
-            <MenuItem href="/dashboard">Dashboard</MenuItem>
+            <MenuItem
+              onClick={() => {
+                window.location.href = "/dashboard";
+              }}
+            >
+              Dashboard
+            </MenuItem>
             <MenuItem
               onClick={async () => {
                 await logout(dispatch);

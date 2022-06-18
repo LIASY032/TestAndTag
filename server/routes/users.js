@@ -14,7 +14,6 @@ const { auth } = require("../middleware/auth");
 router.get("/todo", auth, async function (req, res) {
   const requests = await Request.find({ is_finished: false });
   const items = await Item.find();
-
   const todoList = [];
 
   for (const item of items) {
@@ -37,6 +36,7 @@ router.get("/todo", auth, async function (req, res) {
       }
     }
   }
+
   res.send(todoList);
 });
 

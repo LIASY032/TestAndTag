@@ -12,7 +12,6 @@ router.get("/", async function (req, res) {
 });
 
 router.get("/test_old_item/:id", async function (req, res) {
-  // TODO: improve this
   const request = new Request({ item_id: req.params.id, date: new Date() });
   await request.save();
   res.send("success");
@@ -20,7 +19,7 @@ router.get("/test_old_item/:id", async function (req, res) {
 
 // the user requests a new item to be tested
 router.post("/add_new_item", async function (req, res) {
-  let newItem = await Item(
+  let newItem = new Item(
     _.pick(req.body, [
       "name",
       "ownership",
@@ -33,21 +32,31 @@ router.post("/add_new_item", async function (req, res) {
     ])
   );
 
-  // if the item is personal, an email should be sent to the the users to remind them
-  // the item is still in the location
-  if (req.body.ownership == "Personal") {
-    sendEmail(
-      req.body.email,
-      `Make sure your item in building ${req.body.building} floor ${req.body.floor} room ${req.body.room}`
-    );
-  }
+  // a new request is created
+  let request = new Request({ item_id: newItem.id, date: new Date() });
 
   await newItem.save();
-
-  // a new request is created
-
-  const request = new Request({ item_id: newItem.id, date: new Date() });
   await request.save();
+
+  // if the item is personal, an email should be sent to the the users to remind them
+  // the item is still in the location
+  /** TODO: Less secure apps & your Google Account
+To help keep your account secure, from May 30, 2022, ​​Google no longer supports the use of third-party apps or devices which ask you to sign in to your Google Account using only your username and password.
+
+Important: This deadline does not apply to Google Workspace or Google Cloud Identity customers. The enforcement date for these customers will be announced on the Workspace blog at a later date.
+
+For more information, continue to read.
+
+
+TODO: Need another way to notify the user 
+
+*/
+  // if (req.body.ownership == "Personal") {
+  //   sendEmail(
+  //     req.body.email,
+  //     `Make sure your item in building ${req.body.building} floor ${req.body.floor} room ${req.body.room}`
+  //   );
+  // }
 
   res.send("success");
 });

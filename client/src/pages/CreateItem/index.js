@@ -36,9 +36,9 @@ function CreateItem() {
           <FormLabel sx={{ marginTop: "10px" }}>Email Address</FormLabel>
           <Form.Control placeholder="Email" ref={emailRef} type="email" />
 
-          <Row>
+          <Row style={{ marginTop: "10px" }}>
             <Form.Group as={Col} controlId="formGridState">
-              <Form.Label>Building</Form.Label>
+              <FormLabel>Building</FormLabel>
               <Form.Select
                 ref={buildingRef}
                 defaultValue="Choose..."
@@ -64,7 +64,7 @@ function CreateItem() {
               </Form.Select>
             </Form.Group>
             <Form.Group as={Col} controlId="formGridState">
-              <Form.Label>Floor</Form.Label>
+              <FormLabel>Floor</FormLabel>
               <Form.Select ref={floorRef} defaultValue="Choose...">
                 <option value="Choose...">Choose...</option>
 
@@ -82,7 +82,7 @@ function CreateItem() {
               </Form.Select>
             </Form.Group>
             <Form.Group as={Col} controlId="formGridState">
-              <Form.Label>Room</Form.Label>
+              <FormLabel>Room</FormLabel>
               <Form.Select defaultValue="Choose..." ref={roomRef}>
                 <option value="Choose...">Choose...</option>
 
@@ -100,16 +100,27 @@ function CreateItem() {
               </Form.Select>
             </Form.Group>
           </Row>
-          <FormLabel sx={{ marginTop: "10px" }}>Ownership</FormLabel>
-          <Form.Select ref={ownershipRef} defaultValue="Choose...">
-            <option value="Choose...">Choose...</option>
-            <option value="Personal">Personal</option>
-            <option value="UniSA">UniSA</option>
-          </Form.Select>
-          <FormLabel sx={{ marginTop: "10px" }}>Purchase Date</FormLabel>
-          <LocalizationProvider dateAdapter={AdapterDateFns}>
-            <Form.Control type="date" ref={purchased_dateRef}></Form.Control>
-          </LocalizationProvider>
+          <Row style={{ marginTop: "10px" }}>
+            <Form.Group as={Col}>
+              <FormLabel>Ownership</FormLabel>
+              <Form.Select ref={ownershipRef} defaultValue="Choose...">
+                <option value="Choose...">Choose...</option>
+                <option value="Personal">Personal</option>
+                <option value="UniSA">UniSA</option>
+              </Form.Select>
+            </Form.Group>
+
+            <Form.Group as={Col}>
+              <FormLabel>Purchase Date</FormLabel>
+              <LocalizationProvider dateAdapter={AdapterDateFns}>
+                <Form.Control
+                  type="date"
+                  ref={purchased_dateRef}
+                ></Form.Control>
+              </LocalizationProvider>
+            </Form.Group>
+          </Row>
+
           <FormLabel sx={{ marginTop: "10px" }}>Description</FormLabel>
           <Form.Control ref={descriptionRef} as="textarea" rows={3} />
           <Button

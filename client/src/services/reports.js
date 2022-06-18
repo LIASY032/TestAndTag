@@ -5,6 +5,7 @@ export async function report({
   item_id,
   request_id,
   next_test_date,
+  feedback,
 }) {
   try {
     const response = await axios.put(
@@ -12,6 +13,7 @@ export async function report({
       {
         next_test_date,
         reason,
+        feedback,
       }
     );
     const data = await response.data;

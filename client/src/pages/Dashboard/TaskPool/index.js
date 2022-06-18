@@ -1,6 +1,4 @@
-import React, { Component } from "react";
-import DetailsIcon from "@mui/icons-material/Details";
-import AddModeratorIcon from "@mui/icons-material/AddModerator";
+import React from "react";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import {
   Button,
@@ -9,22 +7,28 @@ import {
   TableBody,
   TableCell,
   TableContainer,
-  TableFooter,
   TableHead,
-  TablePagination,
   TableRow,
-  Tooltip,
 } from "@mui/material";
 import { Col, Container, Row, Modal, Form, Alert } from "react-bootstrap";
-// import TaskTagDialog from "../components/TaskTagDialog";
 import { useSelector, useDispatch } from "react-redux";
 import { getTasks, taskModified, taskSelected } from "../../../store/actions";
-import { doThis, updateItem, checkAStaff, report } from "../../../services";
+import {
+  doThis,
+  checkAStaff,
+  report,
+  deleteAStaff,
+  updateItem,
+} from "../../../services";
 import MyButton from "../../../components/MyButton";
 function TaskPool() {
   const dispatch = useDispatch();
+
+  // get user and location data from redux
   const userData = useSelector((state) => state.user);
   const locationData = useSelector((state) => state.locations);
+
+  // these states for the result tag
   const [result, setResult] = React.useState();
   const [pass, setPass] = React.useState(false);
   const [fail, setFail] = React.useState(false);
@@ -39,11 +43,17 @@ function TaskPool() {
     "Control",
   ];
 
+  // select for the selection of task list
   const [select, setSelect] = React.useState(0);
+
+  // model show
   const [modalShow, setModalShow] = React.useState(false);
   const [alterShow, setAlterShow] = React.useState(false);
 
+  // selection for the location
   const [selectLocation, setSelectLocation] = React.useState(0);
+
+  // get task list
   const detail = useSelector((state) => state.tasks.lists);
   React.useEffect(() => {
     async function fetchData() {
@@ -55,7 +65,8 @@ function TaskPool() {
   if (userData.name) {
     return (
       <>
-        <Alert variant="danger" show={alterShow}>
+        {/* alter for having select the task */}
+        <Alert id="alter" variant="danger" show={alterShow}>
           <Alert.Heading>You need to select to do this task</Alert.Heading>
         </Alert>
         <div className="table-content">
@@ -93,81 +104,47 @@ function TaskPool() {
                             task.previous_test_date.split("T")[0]}
                         </TableCell>
                         <TableCell>
-                          <Tooltip title="View the Details">
-                            <MyButton
-                              btn="red-btn"
-                              onClick={async () => {
-                                const check = await checkAStaff(task.request);
-                                if (check) {
-                                  setModalShow(true);
-                                  setSelect(index);
-                                  taskSelected(index, dispatch);
+                          <MyButton
+                            btn="red-btn"
+                            onClick={async () => {
+                              const check = await checkAStaff(task.request);
+                              if (check) {
+                                setModalShow(true);
+                                setSelect(index);
+                                taskSelected(index, dispatch);
 
-                                  let count = 0;
-                                  for (const location of locationData) {
-                                    if (location.building === task.building) {
-                                      setSelectLocation(count);
-                                    }
-                                    count += 1;
+                                let count = 0;
+                                for (const location of locationData) {
+                                  if (location.building === task.building) {
+                                    setSelectLocation(count);
                                   }
-                                } else {
-                                  setAlterShow(true);
+                                  count += 1;
                                 }
-                              }}
-                            >
-                              view
-                            </MyButton>
-                          </Tooltip>
-                          <Tooltip title="To DO This Task">
-                            <MyButton
-                              btn="purple-btn"
-                              onClick={async () => {
-                                await doThis(task.request);
-                                setAlterShow(false);
-                              }}
-                            >
-                              {" "}
-                              Do this
-                            </MyButton>
-                          </Tooltip>
+                              } else {
+                                setAlterShow(true);
+                                window.location.href = "/task_pool/#alter";
+                              }
+                            }}
+                          >
+                            view
+                          </MyButton>
+                          <MyButton
+                            btn="purple-btn"
+                            onClick={async () => {
+                              await doThis(task.request);
+                              setAlterShow(false);
+                            }}
+                          >
+                            {" "}
+                            Do this
+                          </MyButton>
                         </TableCell>
                       </TableRow>
                     );
                   })}
               </TableBody>
-              {/* <TableFooter>
-            <TableRow>
-              <TablePagination
-                rowsPerPageOptions={[]}
-                // colSpan={12}
-                count={this.state.taskList.length}
-                rowsPerPage={10}
-                page={this.state.page}
-                // SelectProps={{
-                //     inputProps: {
-                //         'aria-label': 'rows per page',
-                //     },
-                //     native: true,
-                // }}
-                onPageChange={this.handleChangePage}
-                // onRowsPerPageChange={handleChangeRowsPerPage}
-                // ActionsComponent={TablePaginationActions}
-              />
-            </TableRow>
-          </TableFooter> */}
             </Table>
           </TableContainer>
-
-          {/* <TaskDetailsDialog
-        open={this.state.detailsDialogShow}
-        info={this.state.info}
-        closeDetailsDialog={this.closeDetailsDialog}
-      ></TaskDetailsDialog>
-      <TaskTagDialog
-        open={this.state.tagDialogShow}
-        info={this.state.info}
-        closeTagDialog={this.closeTagDialog}
-      ></TaskTagDialog> */}
         </div>
         {detail && detail[select] && (
           <Modal
@@ -398,7 +375,6 @@ function TaskPool() {
                 color="success"
                 className="details-btn btn-tag"
                 onClick={async () => {
-                  // const tasks = JSON.parse(localStorage.getItem("tasks"));
                   const item = detail[select];
                   if (fail) {
                     await report({
@@ -418,8 +394,11 @@ function TaskPool() {
                       next_test_date: pass,
                     });
                     setModalShow(false);
+
                     window.location.href = "/task_pool";
                   }
+
+                  await updateItem(item);
                 }}
               >
                 TAG
@@ -431,6 +410,17 @@ function TaskPool() {
               >
                 BACK
               </Button>
+
+              <MyButton
+                onClick={async () => {
+                  // delete the user from the staff list of the request
+                  await deleteAStaff(detail[select].request);
+                  // back to dashboard
+                  setModalShow(false);
+                }}
+              >
+                Delete This Task
+              </MyButton>
             </Modal.Footer>
           </Modal>
         )}
@@ -449,144 +439,3 @@ function TaskPool() {
 }
 
 export default TaskPool;
-
-// class TaskPool extends Component {
-//     constructor(props) {
-//         super(props);
-//         this.state = {
-//             page: 0,
-//             detailsDialogShow: false,
-//             tagDialogShow: false,
-//             headers: ['Ownership', 'Purchased Date', 'Address', 'Name', 'Email', 'Test'],
-//             taskList: [
-//                 { id: 1, ownership: 'UniSA', purchasedDate: '2022-05-10', address: 'ptest', name: 'Jon', email: 35, description: 'this is a test' },
-//                 { id: 2, ownership: 'personal', purchasedDate: '2022-05-09', address: 'ptest', name: 'Alice', email:  42, description: 'hello world' },
-//                 { id: 3, ownership: 'personal', purchasedDate: '2022-05-08', address: 'ptest', name: 'Jay', email:  45 },
-//                 { id: 4, ownership: 'UniSA', purchasedDate: '2022-05-11', address: 'ptest', name: 'John', email:  16 },
-//                 { id: 5, ownership: 'personal', purchasedDate: '2022-05-07', address: 'ptest', name: 'Bob', email:  436 },
-//                 { id: 6, ownership: 'personal', purchasedDate: '2022-05-06', address: 'ptest', name: 'Tom', email:  150 },
-//                 { id: 7, ownership: 'UniSA', purchasedDate: '2022-05-05', address: 'ptest', name: 'Tonny', email:  44 },
-//                 { id: 8, ownership: 'personal', purchasedDate: '2022-05-04', address: 'ptest', name: 'Betty', email:  36 },
-//                 { id: 9, ownership: 'UniSA', purchasedDate: '2022-05-02', address: 'ptest', name: 'ellen', email:  65 },
-//                 { id: 10, ownership: 'UniSA', purchasedDate: '2022-05-01', address: 'ptest', name: 'ellen', email:  'frt5@gmail.com' },
-//             ],
-//             info: [ {id: 1, ownership: 'UniSA', purchasedDate: '2022-05-10', address: 'ptest', name: 'Jon', email: 35 }]
-//         }
-//         this.closeDetailsDialog = this.closeDetailsDialog.bind(this);
-//         this.closeTagDialog = this.closeTagDialog.bind(this);
-//         this.handleChangePage = this.handleChangePage.bind(this);
-//     }
-
-//     handleBackClick() {
-//         window.location.href = "/dashboard";
-//     }
-
-//     closeDetailsDialog() {
-//         this.setState({
-//             detailsDialogShow: false
-//         })
-//     }
-
-//     closeTagDialog() {
-//         this.setState({
-//             tagDialogShow: false
-//         })
-//     }
-
-//     handleDetailsClick(id) {
-//         this.setState({
-//             detailsDialogShow: true,
-//             info: this.state.taskList[id]
-//         })
-//     }
-
-//     handleTagClick(id) {
-//         this.setState({
-//             info: this.state.taskList[id],
-//             tagDialogShow: true
-//         })
-//     }
-
-//     handleChangePage(event, newPage) {
-//         this.setState({
-//             page: newPage
-//         });
-//     };
-
-//     render() {
-//         return (
-//             <div className="table-content">
-//                 <Button
-//                     size="small"
-//                     onClick={this.handleBackClick}
-//                     startIcon={<ArrowBackIosNewIcon />}
-//                 >Back to Dashboard</Button>
-//                 <TableContainer component={Paper}>
-//                     <Table>
-//                         <TableHead>
-//                             <TableRow>
-//                                 {this.state.headers.map((title, index) => {
-//                                     return <TableCell key={index}>{title}</TableCell>
-//                                 })}
-//                             </TableRow>
-//                         </TableHead>
-//                         <TableBody>
-//                             {this.state.taskList.map((task, index) => {
-//                                 return (
-//                                     <TableRow key={index}>
-//                                         <TableCell>{task.ownership}</TableCell>
-//                                         <TableCell>{task.purchasedDate}</TableCell>
-//                                         <TableCell>{task.address}</TableCell>
-//                                         <TableCell>{task.name}</TableCell>
-//                                         <TableCell>{task.email}</TableCell>
-//                                         <TableCell>
-//                                             <Tooltip title="View the Details">
-//                                                 <DetailsIcon onClick={this.handleDetailsClick.bind(this, index)}></DetailsIcon>
-//                                             </Tooltip>
-//                                             <Tooltip title="Click to Tag">
-//                                                 <AddModeratorIcon onClick={this.handleTagClick.bind(this, index)}></AddModeratorIcon>
-//                                             </Tooltip>
-//                                         </TableCell>
-//                                     </TableRow>
-//                                 )
-//                             })}
-//                         </TableBody>
-//                         <TableFooter>
-//                             <TableRow>
-//                                 <TablePagination
-//                                     rowsPerPageOptions={[]}
-//                                     // colSpan={12}
-//                                     count={this.state.taskList.length}
-//                                     rowsPerPage={10}
-//                                     page={this.state.page}
-//                                     // SelectProps={{
-//                                     //     inputProps: {
-//                                     //         'aria-label': 'rows per page',
-//                                     //     },
-//                                     //     native: true,
-//                                     // }}
-//                                     onPageChange={this.handleChangePage}
-//                                     // onRowsPerPageChange={handleChangeRowsPerPage}
-//                                     // ActionsComponent={TablePaginationActions}
-//                                 />
-//                             </TableRow>
-//                         </TableFooter>
-//                     </Table>
-//                 </TableContainer>
-
-//                 <TaskDetailsDialog
-//                     open={this.state.detailsDialogShow}
-//                     info={this.state.info}
-//                     closeDetailsDialog={this.closeDetailsDialog}
-//                 ></TaskDetailsDialog>
-//                 <TaskTagDialog
-//                     open={this.state.tagDialogShow}
-//                     info={this.state.info}
-//                     closeTagDialog={this.closeTagDialog}
-//                 ></TaskTagDialog>
-//             </div>
-//         );
-//     }
-// }
-
-// export default TaskPool;

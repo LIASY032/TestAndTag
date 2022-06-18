@@ -3,30 +3,20 @@ import "./createItem.css";
 import itemPic from "../../static/images/new-item.jpg";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import {
-  Button,
-  FormControlLabel,
-  FormGroup,
-  FormLabel,
-  Input,
-  Radio,
-  RadioGroup,
-  TextareaAutosize,
-  TextField,
-  Select,
-  MenuItem,
-} from "@mui/material";
-import { Form, Col, Row, Modal } from "react-bootstrap";
+import { Button, FormGroup, FormLabel } from "@mui/material";
+import { Form, Col, Row } from "react-bootstrap";
 import { useSelector } from "react-redux";
 import { addNewItem } from "../../services";
 function CreateItem() {
   const locationData = useSelector((state) => state.locations);
 
+  // get the location data from the redux
   const [selectLocation, setSelectLocation] = React.useState(0);
+
+  // input references
   const emailRef = React.useRef();
   const ownershipRef = React.useRef();
   const nameRef = React.useRef();
-
   const buildingRef = React.useRef();
   const floorRef = React.useRef();
   const roomRef = React.useRef();
@@ -34,7 +24,7 @@ function CreateItem() {
   const descriptionRef = React.useRef();
   return (
     <div className="new-item-container">
-      <img className="new-item-pic" src={itemPic} alt="image" />
+      <img className="new-item-pic" src={itemPic} alt="a" />
       <div className="new-item-form">
         <div className="new-item-title">Request a Test from Test & Tag</div>
         <div className="new-item-tips">
@@ -53,7 +43,7 @@ function CreateItem() {
                 ref={buildingRef}
                 defaultValue="Choose..."
                 onChange={(e) => {
-                  if (e.target.value != "Choose...") {
+                  if (e.target.value !== "Choose...") {
                     setSelectLocation(parseInt(e.target.value));
                   }
                 }}
@@ -129,6 +119,7 @@ function CreateItem() {
             }}
             color="success"
             onClick={async () => {
+              // check all inputs are valid and filled
               if (emailRef.current.value) {
                 if (ownershipRef.current.value != "Choose...") {
                   if (nameRef.current.value) {
@@ -146,6 +137,8 @@ function CreateItem() {
                               purchased_date: purchased_dateRef.current.value,
                               description: descriptionRef.current.value,
                             });
+
+                            // go to submit success page
                             window.location.href = "/submit_success";
                           } else {
                             purchased_dateRef.current.focus();
@@ -179,116 +172,3 @@ function CreateItem() {
 }
 
 export default CreateItem;
-
-// const picURL = itemPic;
-// class CreateItem extends Component {
-//     constructor(props) {
-//         super(props);
-//         this.state = {
-//             name: '',
-//             email: '',
-//             address: '',
-//             ownership: '',
-//             date: null,
-//             description: ''
-//         }
-//         this.handleItemChange = this.handleItemChange.bind(this);
-//     }
-
-//     handleTipClick() {
-//         window.location.href = "/old";
-//     }
-
-//     handleBtnClick() {
-//         window.location.href = "/submit_success";
-//     }
-
-//     handleItemChange(event) {
-//         const target = event.target;
-//         const name = target.name;
-//         this.setState({
-//             [name]: target.value
-//         })
-//     }
-
-//     render() {
-//         return (
-//             <div className="new-item-container">
-//                 <img className="new-item-pic" src={picURL} />
-//                 <div className="new-item-form">
-//                     <div className="new-item-title">Request a Test from Test & Tag</div>
-//                     <div className="new-item-tips">
-//                         <Button onClick={this.handleTipClick}>Testing an Existing Equipment? Click Here</Button>
-//                     </div>
-//                     <FormGroup>
-//                         <FormLabel>Your Name</FormLabel>
-//                         <Input
-//                             name="name"
-//                             value={this.state.name}
-//                             onChange={this.handleItemChange}
-//                         />
-
-//                         <FormLabel sx={{marginTop: '10px'}}>Email Address</FormLabel>
-//                         <Input
-//                             name="email"
-//                             value={this.state.email}
-//                             onChange={this.handleItemChange}
-//                         />
-
-//                         <FormLabel sx={{marginTop: '10px'}}>Address ( Building / Floor / Room )</FormLabel>
-//                         <Input
-//                             name="address"
-//                             value={this.state.address}
-//                             onChange={this.handleItemChange}
-//                         />
-
-//                         <FormLabel sx={{marginTop: '10px'}}>Ownership</FormLabel>
-//                         <RadioGroup
-//                             row
-//                             name="ownership"
-//                             value={this.state.ownership}
-//                             onChange={this.handleItemChange}
-//                         >
-//                             <FormControlLabel value="personal" control={<Radio size="small" />} label="Personal" />
-//                             <FormControlLabel value="UniSA" control={<Radio size="small" />} label="UniSA" />
-//                         </RadioGroup>
-
-//                         <FormLabel sx={{marginTop: '10px'}}>Purchase Date</FormLabel>
-//                         <LocalizationProvider dateAdapter={AdapterDateFns}>
-//                             <DatePicker
-//                                 onChange={(newDate) => {
-//                                     this.setState({
-//                                         date: newDate
-//                                     });
-//                                 }}
-//                                 value={this.state.date}
-//                                 renderInput={(params) => <TextField {...params} />}
-//                                 // lable="Purchase Date"
-//                             />
-//                         </LocalizationProvider>
-
-//                         <FormLabel sx={{marginTop: '10px'}}>Description</FormLabel>
-//                         <TextareaAutosize
-//                             minRows={5}
-//                             name="description"
-//                             value={this.state.description}
-//                             onChange={this.handleItemChange}
-//                         />
-
-//                         <Button
-//                             variant="contained"
-//                             sx={{
-//                                 marginTop: '20px'
-//                             }}
-//                             color="success"
-//                             onClick={this.handleBtnClick}
-//                         >SUBMIT</Button>
-//                     </FormGroup>
-//                 </div>
-//             </div>
-
-//         );
-//     }
-// }
-
-// export default CreateItem;

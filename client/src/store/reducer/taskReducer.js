@@ -2,7 +2,7 @@ import { TASKS, TASK_SELECTED, TASK_MODIFIED } from "../constants";
 
 export const taskReducer = (
   state = JSON.parse(
-    localStorage.getItem("tasks") || `{"lists":[], "selected":0}`
+    localStorage.getItem("tasks") || `{"lists":[], "selected": 0}`
   ),
 
   action

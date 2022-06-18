@@ -1,18 +1,25 @@
 import React from "react";
 import "./oldItem.css";
 import itemPic from "../../static/images/new-item.jpg";
-import { Button, TextField } from "@mui/material";
+import { Button } from "@mui/material";
 import { useSelector } from "react-redux";
 import { testOldItem } from "../../services";
 import { Col, Row, Form } from "react-bootstrap";
 function OldItem() {
+  // location data from redux
   const locationData = useSelector((state) => state.locations);
+
+  // this state help to select the building's rooms and floors
   const [selectLocation, setSelectLocation] = React.useState(0);
 
+  // item id from the location data
   const [itemId, setItemId] = React.useState();
+
+  // references for controlling the room and floor input
   const floorRef = React.useRef();
   const roomRef = React.useRef();
 
+  // use for item list from location data
   const [list, setList] = React.useState([]);
   function handleSelectItems() {
     const items = [];
@@ -27,7 +34,7 @@ function OldItem() {
   }
   return (
     <div className="old-item-container">
-      <img className="old-item-pic" src={itemPic} />
+      <img className="old-item-pic" src={itemPic} alt="a" />
       <div className="old-item-form">
         <div className="old-item-title">Request an Existing Equipment Test</div>
         <div className="old-item-tips">
@@ -87,6 +94,7 @@ function OldItem() {
                   );
                 })
               ) : (
+                // if there is no floor data
                 <option>...</option>
               )}
             </Form.Select>
@@ -109,6 +117,7 @@ function OldItem() {
                   );
                 })
               ) : (
+                // if there is no room data
                 <option>...</option>
               )}
             </Form.Select>
@@ -154,52 +163,9 @@ function OldItem() {
             </Col>
           </Row>
         </Form>
-        {/* <div className="item-order">
-          <div className="order-input">
-            <TextField
-              fullWidth
-              size="small"
-              label="Your Service Order NO."
-              variant="standard"
-            />
-          </div>
-          <Button variant="contained" color="success">
-            QUERY
-          </Button>
-        </div> */}
       </div>
     </div>
   );
 }
 
 export default OldItem;
-
-// const picURL = itemPic;
-// class OldItem extends Component {
-//     handleTipClick() {
-//         window.location.href = "/new";
-//     }
-//     render() {
-//         return (
-//             <div className="old-item-container">
-//                 <img className="old-item-pic" src={picURL} />
-//                 <div className="old-item-form">
-//                     <div className="old-item-title">Request an Existing Equipment Test</div>
-//                     <div className="old-item-tips">
-//                         <Button onClick={this.handleTipClick}>Testing a New Equipment? Click Here</Button>
-//                     </div>
-//                     <div className="item-order">
-//                         {/*<input className="order-input" placeholder={"Your Service Order No."}/>*/}
-//                         <div className="order-input">
-//                             <TextField fullWidth size="small" label="Your Service Order NO." variant="standard"/>
-//                         </div>
-//                         <Button variant="contained" color="success">QUERY</Button>
-//                     </div>
-//                 </div>
-//             </div>
-
-//         );
-//     }
-// }
-
-// export default OldItem;

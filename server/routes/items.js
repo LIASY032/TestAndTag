@@ -40,23 +40,13 @@ router.post("/add_new_item", async function (req, res) {
 
   // if the item is personal, an email should be sent to the the users to remind them
   // the item is still in the location
-  /** TODO: Less secure apps & your Google Account
-To help keep your account secure, from May 30, 2022, ​​Google no longer supports the use of third-party apps or devices which ask you to sign in to your Google Account using only your username and password.
 
-Important: This deadline does not apply to Google Workspace or Google Cloud Identity customers. The enforcement date for these customers will be announced on the Workspace blog at a later date.
-
-For more information, continue to read.
-
-
-TODO: Need another way to notify the user 
-
-*/
-  // if (req.body.ownership == "Personal") {
-  //   sendEmail(
-  //     req.body.email,
-  //     `Make sure your item in building ${req.body.building} floor ${req.body.floor} room ${req.body.room}`
-  //   );
-  // }
+  if (req.body.ownership == "Personal") {
+    sendEmail(
+      req.body.email,
+      `Make sure your item in building ${req.body.building} floor ${req.body.floor} room ${req.body.room}`
+    );
+  }
 
   res.send("success");
 });
